@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_aypatech_mail_root" name="Aypatech Mail" sequence="25"
+                  web_icon="aypatech_mail,static/description/icon.png"/>
+
+        <menuitem id="menu_mail_inbox" name="Inbox" parent="menu_aypatech_mail_root" sequence="10"
+                  action="action_mail_message_inbox"/>
+
+        <menuitem id="menu_mail_starred" name="Starred" parent="menu_aypatech_mail_root" sequence="11"
+                  action="action_mail_message_starred"/>
+
+        <menuitem id="menu_mail_sent" name="Sent" parent="menu_aypatech_mail_root" sequence="12"
+                  action="action_mail_message_sent"/>
+
+        <menuitem id="menu_mail_drafts" name="Drafts" parent="menu_aypatech_mail_root" sequence="13"
+                  action="action_mail_message_drafts"/>
+
+        <menuitem id="menu_mail_labels" name="Labels" parent="menu_aypatech_mail_root" sequence="15"
+                  action="action_mail_label" groups="group_mail_user"/>
+
+        <menuitem id="menu_mail_tags" name="Tags" parent="menu_aypatech_mail_root" sequence="16"
+                  action="action_mail_tag" groups="group_mail_user"/>
+
+        <menuitem id="menu_mail_accounts" name="Accounts" parent="menu_aypatech_mail_root" sequence="20"
+                  action="action_mail_account" groups="group_mail_user"/>
+
+        <menuitem id="menu_mail_settings_root" name="Settings" parent="menu_aypatech_mail_root" sequence="90"
+                  groups="group_mail_manager"/>
+        <menuitem id="menu_mail_servers" name="Servers" parent="menu_mail_settings_root" sequence="10"
+                  action="action_mail_server" groups="group_mail_administrator"/>
+        <menuitem id="menu_mail_domains" name="Domains" parent="menu_mail_settings_root" sequence="20"
+                  action="action_mail_domain" groups="group_mail_manager"/>
+        <menuitem id="menu_mail_aliases" name="Aliases" parent="menu_mail_settings_root" sequence="30"
+                  action="action_mail_alias" groups="group_mail_manager"/>
+
+    </data>
+</odoo>
