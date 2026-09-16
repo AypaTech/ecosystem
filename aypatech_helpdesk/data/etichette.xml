@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="etichetta_sale_reso" model="crm.tag">
+            <field name="name">Reso</field>
+        </record>
+
+        <record id="etichetta_sale_cambio_merce" model="crm.tag">
+            <field name="name">Cambio merce</field>
+        </record>
+    </data>
+</odoo>

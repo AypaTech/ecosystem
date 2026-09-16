@@ -1,0 +1,23 @@
+<odoo>
+    <record id="wizard_seleziona_etichetta_reso_form" model="ir.ui.view">
+        <field name="name">wizard_seleziona_etichetta_reso_form</field>
+        <field name="model">seleziona.etichetta.reso</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Sono disponibili più etichette di reso per questo ticket.">
+                        <group string="Selezionane una da inviare al cliente:">
+                            <field name="picking_id" nolabel="1" options="{'no_open': True, 'no_create': True,'no_create_edit': True}"/>
+                        </group>
+                        <group/>
+                    </group>
+
+                    <footer>
+                        <button string="Invia mail" name="button_send_mail" type="object" class="btn-primary"/>
+                        <button string="Annulla" class="btn-default" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
