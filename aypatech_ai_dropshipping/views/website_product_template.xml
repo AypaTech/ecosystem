@@ -1,0 +1,11 @@
+<odoo>
+    <template id="product_page_move_description_top" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='product_details']" position="inside">
+            <div class="mt-3 ai-product-top-description">
+                <t t-if="product.website_description">
+                    <div t-field="product.website_description"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

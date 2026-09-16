@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dropshipping_import_job,dropshipping.import.job,model_dropshipping_import_job,base.group_user,1,1,1,1
+access_dropshipping_import_job_image_user,dropshipping.import.job.image.user,model_dropshipping_import_job_image,base.group_user,1,1,1,1

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_dropshipping_import_job_form" model="ir.ui.view">
+        <field name="name">dropshipping.import.job.form</field>
+        <field name="model">dropshipping.import.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_fetch_product" string="Fetch Product" type="object" class="btn-primary"/>
+                    <button name="action_ai_extract" string="AI Extract Data" type="object" class="btn-secondary"/>
+                    <button name="action_download_manual_image" string="Download Manual Image" type="object" class="btn-secondary"/>
+                    <button name="action_confirm_price" string="Confirm Supplier Price" type="object" class="btn-secondary"/>
+                    <button name="action_compute_selling_price" string="Compute Selling Price" type="object" class="btn-secondary"/>
+                    <button name="action_reset_confirmation" string="Reset Confirmation" type="object" class="btn-secondary"/>
+                    <button name="action_create_product"
+                            string="Create Product"
+                            type="object"
+                            class="btn-primary"
+                            invisible="not is_price_confirmed or product_created"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="url"/>
+                            <field name="image_url"/>
+                            <field name="manual_image_url"/>
+                            <field name="state"/>
+                            <field name="product_tmpl_id"/>
+                            <field name="product_created"/>
+                        </group>
+
+                        <group>
+                            <field name="image_preview" widget="image"/>
+
+                            <field name="price_status" widget="badge"
+                                   decoration-success="price_status == 'green'"
+                                   decoration-warning="price_status == 'yellow'"
+                                   decoration-danger="price_status == 'red'"/>
+
+                            <field name="price_confidence" widget="badge"
+                                   decoration-success="price_confidence in ('high', 'medium')"
+                                   decoration-warning="price_confidence == 'low'"
+                                   decoration-danger="price_confidence == 'failed'"/>
+
+                            <field name="is_price_confirmed"/>
+                            <field name="ai_used"/>
+                            <field name="ai_confidence" widget="badge"/>
+                        </group>
+                    </group>
+
+                    <group string="Supplier Price">
+                        <field name="raw_price"/>
+                        <field name="estimated_price"/>
+                        <field name="confirmed_price"/>
+                        <field name="raw_currency"/>
+                    </group>
+
+                    <group string="Selling Price">
+                        <field name="margin_percent"/>
+                        <field name="selling_price"/>
+                    </group>
+
+                    <group string="AI">
+                        <field name="ai_raw_response" nolabel="1"/>
+                    </group>
+
+                    <group string="Error / Notes">
+                        <field name="error_message" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dropshipping_import_job_list" model="ir.ui.view">
+        <field name="name">dropshipping.import.job.list</field>
+        <field name="model">dropshipping.import.job</field>
+        <field name="arch" type="xml">
+            <list decoration-success="price_status == 'green'"
+                  decoration-warning="price_status == 'yellow'"
+                  decoration-danger="price_status == 'red'">
+                <field name="image_preview" widget="image"/>
+                <field name="name"/>
+                <field name="url"/>
+                <field name="raw_price"/>
+                <field name="confirmed_price"/>
+                <field name="margin_percent"/>
+                <field name="selling_price"/>
+                <field name="raw_currency"/>
+                <field name="price_status" widget="badge"/>
+                <field name="price_confidence" widget="badge"/>
+                <field name="ai_used"/>
+                <field name="ai_confidence" widget="badge"/>
+                <field name="is_price_confirmed"/>
+                <field name="product_created"/>
+                <field name="product_tmpl_id"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_dropshipping_import_job" model="ir.actions.act_window">
+        <field name="name">Import Jobs</field>
+        <field name="res_model">dropshipping.import.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
