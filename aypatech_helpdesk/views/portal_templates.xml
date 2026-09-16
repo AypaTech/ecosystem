@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_tickets_list" name="My Tickets">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_breadcrumbs">
+                <li class="breadcrumb-item active">Tickets</li>
+            </t>
+            <div class="o_portal_my_doc_table">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <a t-attf-class="btn btn-sm #{'btn-primary' if status == 'open' else 'btn-outline-primary'} me-1"
+                           href="/my/tickets?status=open">Open (<t t-esc="open_count"/>)</a>
+                        <a t-attf-class="btn btn-sm #{'btn-primary' if status == 'closed' else 'btn-outline-primary'}"
+                           href="/my/tickets?status=closed">Closed (<t t-esc="closed_count"/>)</a>
+                    </div>
+                    <a class="btn btn-primary" href="/my/tickets/new">New Ticket</a>
+                </div>
+                <table class="table table-hover o_portal_my_doc_table" t-if="tickets">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Subject</th>
+                            <th>Stage</th>
+                            <th>Priority</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="tickets" t-as="ticket">
+                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-esc="ticket.number"/></a></td>
+                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-esc="ticket.name"/></a></td>
+                            <td><t t-esc="ticket.stage_id.name"/></td>
+                            <td><t t-esc="dict(ticket._fields['priority'].selection).get(ticket.priority)"/></td>
+                            <td><t t-esc="ticket.create_date.strftime('%d %b %Y')"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="not tickets" class="text-muted">No tickets here yet.</p>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_ticket_new" name="New Ticket">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_breadcrumbs">
+                <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
+                <li class="breadcrumb-item active">New</li>
+            </t>
+            <div t-if="error" class="alert alert-danger" t-esc="error"/>
+            <form action="/my/tickets/new" method="post" class="o_portal_ticket_form">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="mb-3">
+                    <label class="form-label">Subject</label>
+                    <input type="text" name="subject" class="form-control" required="required"/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select name="category_id" class="form-select">
+                        <option value="">-</option>
+                        <option t-foreach="categories" t-as="category" t-att-value="category.id" t-esc="category.name"/>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Priority</label>
+                    <select name="priority" class="form-select">
+                        <option value="0">Low</option>
+                        <option value="1">Medium</option>
+                        <option value="2">High</option>
+                        <option value="3">Urgent</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="5"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Ticket</button>
+            </form>
+        </t>
+    </template>
+
+    <template id="portal_ticket_detail" name="Ticket Detail">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_breadcrumbs">
+                <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
+                <li class="breadcrumb-item active" t-esc="ticket.number"/>
+            </t>
+            <div t-if="success" class="alert alert-success">Done.</div>
+            <h3><t t-esc="ticket.name"/></h3>
+            <p class="text-muted">
+                <t t-esc="ticket.stage_id.name"/> ·
+                <t t-esc="dict(ticket._fields['priority'].selection).get(ticket.priority)"/>
+            </p>
+            <div t-field="ticket.description"/>
+
+            <form t-if="closing_stages and not ticket.stage_id.closed"
+                  t-attf-action="/my/tickets/#{ticket.id}/close" method="post" class="mb-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <select name="stage_id" class="form-select d-inline-block w-auto">
+                    <option t-foreach="closing_stages" t-as="stage" t-att-value="stage.id" t-esc="stage.name"/>
+                </select>
+                <button type="submit" class="btn btn-outline-secondary">Close Ticket</button>
+            </form>
+
+            <hr/>
+            <h5>Conversation</h5>
+            <div t-foreach="messages" t-as="message" class="mb-3 p-2 border-start border-3">
+                <div class="text-muted small">
+                    <t t-esc="message.author_id.name or message.email_from"/> ·
+                    <t t-esc="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
+                </div>
+                <div t-raw="message.body"/>
+            </div>
+
+            <form t-if="not ticket.stage_id.closed" t-attf-action="/my/tickets/#{ticket.id}/reply" method="post">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <textarea name="body" class="form-control mb-2" rows="3" placeholder="Write a reply..." required="required"/>
+                <button type="submit" class="btn btn-primary">Reply</button>
+            </form>
+            <p t-else="" class="text-muted">This ticket is closed.</p>
+        </t>
+    </template>
+</odoo>
