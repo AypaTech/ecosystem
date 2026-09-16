@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    SECONDO ME NON SERVE -->
+    <data noupdate="0">
+        <record id="stage_attesa_ricezione" model="helpdesk.stage">
+            <field name="name">Ricezione merce</field>
+        </record>
+    </data>
+</odoo>

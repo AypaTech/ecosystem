@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wizard_cambio_form_view" model="ir.ui.view">
+            <field name="name">wizard_cambio.form</field>
+            <field name="model">wizard.cambio</field>
+            <field name="arch" type="xml">
+                <form string="Cambio Merce">
+                    <sheet>
+<!--                        <group>-->
+                            <field name="line_ids" string="Prodotti">
+                                <list editable="bottom">
+                                    <field name="product_id" string="Prodotto"/>
+                                    <field name="qty"/>
+                                </list>
+                        </field>
+<!--                        </group>-->
+                        <footer>
+                            <button string="conferma" name="confirm" type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-default" special="cancel"/>
+                        </footer>
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

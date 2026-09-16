@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_create,perm_unlink,perm_write,perm_read
+access_wizard_cambio,access.wizard.cambio,model_wizard_cambio,,1,1,1,1
+access_wizard_cambio_line,access.wizard.cambio.line,model_wizard_cambio_line,,1,1,1,1
+access_wizard_seleziona_etichetta_reso,access.wizard.seleziona.etichetta.reso,model_seleziona_etichetta_reso,,1,1,1,1
