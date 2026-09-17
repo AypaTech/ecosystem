@@ -1,6 +1,7 @@
 // Preset color-theme gallery (Settings > Theme & Branding)
 
 .apt_theme_preset_card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +18,24 @@
         box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
         transform: translateY(-1px);
     }
+
+    &:has(.apt_theme_preset_active_badge) {
+        border-color: var(--o-brand-primary, #5D8DA8);
+        border-width: 2px;
+        box-shadow: 0 0 0 0.15rem rgba(93, 141, 168, 0.25);
+    }
+}
+
+.apt_theme_preset_active_badge {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    display: flex;
+    color: var(--o-brand-primary, #5D8DA8);
+    background-color: var(--o-view-background-color, #fff);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    line-height: 1;
 }
 
 .apt_theme_preset_swatch {

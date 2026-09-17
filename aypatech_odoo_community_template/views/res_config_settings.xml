@@ -12,6 +12,7 @@
 	    			<setting string="Color Theme" help="Pick a full preset color scheme, or fine-tune colors manually below">
 	    			    <div class="apt_theme_preset_gallery d-flex flex-wrap gap-3">
 	    			        <button type="object" name="action_apply_color_theme" context="{'theme_key': 'odoo_classic'}" class="apt_theme_preset_card btn-link p-0">
+	    			            <span class="apt_theme_preset_active_badge" invisible="active_theme_key != 'odoo_classic'"><i class="fa fa-check-circle"/></span>
 	    			            <div class="apt_theme_preset_swatch">
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#243742;"/>
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#5D8DA8;"/>
@@ -22,6 +23,7 @@
 	    			            <span class="apt_theme_preset_label">Odoo Classic</span>
 	    			        </button>
 	    			        <button type="object" name="action_apply_color_theme" context="{'theme_key': 'ocean_blue'}" class="apt_theme_preset_card btn-link p-0">
+	    			            <span class="apt_theme_preset_active_badge" invisible="active_theme_key != 'ocean_blue'"><i class="fa fa-check-circle"/></span>
 	    			            <div class="apt_theme_preset_swatch">
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#0B3D5C;"/>
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#1E88C7;"/>
@@ -32,6 +34,7 @@
 	    			            <span class="apt_theme_preset_label">Ocean Blue</span>
 	    			        </button>
 	    			        <button type="object" name="action_apply_color_theme" context="{'theme_key': 'forest_green'}" class="apt_theme_preset_card btn-link p-0">
+	    			            <span class="apt_theme_preset_active_badge" invisible="active_theme_key != 'forest_green'"><i class="fa fa-check-circle"/></span>
 	    			            <div class="apt_theme_preset_swatch">
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#1F3D2B;"/>
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#3E8E5C;"/>
@@ -42,6 +45,7 @@
 	    			            <span class="apt_theme_preset_label">Forest Green</span>
 	    			        </button>
 	    			        <button type="object" name="action_apply_color_theme" context="{'theme_key': 'sunset_orange'}" class="apt_theme_preset_card btn-link p-0">
+	    			            <span class="apt_theme_preset_active_badge" invisible="active_theme_key != 'sunset_orange'"><i class="fa fa-check-circle"/></span>
 	    			            <div class="apt_theme_preset_swatch">
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#4A2A1F;"/>
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#E0703A;"/>
@@ -52,6 +56,7 @@
 	    			            <span class="apt_theme_preset_label">Sunset Orange</span>
 	    			        </button>
 	    			        <button type="object" name="action_apply_color_theme" context="{'theme_key': 'slate_gray'}" class="apt_theme_preset_card btn-link p-0">
+	    			            <span class="apt_theme_preset_active_badge" invisible="active_theme_key != 'slate_gray'"><i class="fa fa-check-circle"/></span>
 	    			            <div class="apt_theme_preset_swatch">
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#1E2328;"/>
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#5C6773;"/>
@@ -62,6 +67,7 @@
 	    			            <span class="apt_theme_preset_label">Slate Gray</span>
 	    			        </button>
 	    			        <button type="object" name="action_apply_color_theme" context="{'theme_key': 'royal_purple'}" class="apt_theme_preset_card btn-link p-0">
+	    			            <span class="apt_theme_preset_active_badge" invisible="active_theme_key != 'royal_purple'"><i class="fa fa-check-circle"/></span>
 	    			            <div class="apt_theme_preset_swatch">
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#2E1F45;"/>
 	    			                <span class="apt_theme_preset_swatch_dot" style="background-color:#7C4DBF;"/>

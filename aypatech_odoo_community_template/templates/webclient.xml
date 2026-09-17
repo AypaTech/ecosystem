@@ -4,7 +4,7 @@
 
 	<template id="webclient_bootstrap" name="Web Client" inherit_id="web.webclient_bootstrap">
         <xpath expr="//t[@t-call='web.layout']" position="attributes">
-            <attribute name="body_classname.f">o_web_client apt_sidebar_type_{{ request.env.user.sidebar_type or 'large' }}</attribute>
+            <attribute name="body_classname.f">o_web_client apt_sidebar_type_{{ request.env.user.sidebar_type or 'large' }} apt_appsbar_theme_{{ request.env.user.appsbar_theme or 'company_default' }}</attribute>
         </xpath>
         <xpath expr="//meta[@name='theme-color']" position="replace">
             <meta name="theme-color" content="#242733"/>

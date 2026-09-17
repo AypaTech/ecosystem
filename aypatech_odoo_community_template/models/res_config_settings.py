@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResConfigSettingsAppsBar(models.TransientModel):
@@ -438,6 +438,45 @@ class ResConfigSettingsColorPresets(models.TransientModel):
     """Offer one-click preset color themes covering base and AppsBar colors."""
 
     _inherit = 'res.config.settings'
+
+    active_theme_key = fields.Char(compute='_compute_active_theme_key')
+
+    @api.depends(
+        'color_brand_light', 'color_primary_light', 'color_success_light',
+        'color_info_light', 'color_warning_light', 'color_danger_light',
+        'color_brand_dark', 'color_primary_dark', 'color_success_dark',
+        'color_info_dark', 'color_warning_dark', 'color_danger_dark',
+        'theme_color_appsmenu_text_light', 'theme_color_appbar_text_light',
+        'theme_color_appbar_active_light', 'theme_color_appbar_background_light',
+        'theme_color_appsmenu_text_dark', 'theme_color_appbar_text_dark',
+        'theme_color_appbar_active_dark', 'theme_color_appbar_background_dark',
+    )
+    def _compute_active_theme_key(self) -> None:
+        """Detect which preset (if any) matches the record's current colors."""
+        for record in self:
+            record.active_theme_key = next(
+                (
+                    key
+                    for key, preset in record.THEME_PRESETS.items()
+                    if all(
+                        record[f'{field}_light'] == value
+                        for field, value in preset['light'].items()
+                    )
+                    and all(
+                        record[f'{field}_dark'] == value
+                        for field, value in preset['dark'].items()
+                    )
+                    and all(
+                        record[f'theme_{field}_light'] == value
+                        for field, value in preset['theme_light'].items()
+                    )
+                    and all(
+                        record[f'theme_{field}_dark'] == value
+                        for field, value in preset['theme_dark'].items()
+                    )
+                ),
+                False,
+            )
 
     @property
     def THEME_PRESETS(self) -> dict:

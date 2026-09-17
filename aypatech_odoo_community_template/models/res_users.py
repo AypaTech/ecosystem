@@ -19,6 +19,7 @@ class ResUsers(models.Model):
             'sidebar_type',
             'chatter_position',
             'dialog_size',
+            'appsbar_theme',
         ]
 
     @property
@@ -28,6 +29,7 @@ class ResUsers(models.Model):
             'sidebar_type',
             'chatter_position',
             'dialog_size',
+            'appsbar_theme',
         ]
 
     # ----------------------------------------------------------
@@ -62,5 +64,22 @@ class ResUsers(models.Model):
         ],
         string='Dialog Size',
         default='minimize',
+        required=True,
+    )
+
+    appsbar_theme = fields.Selection(
+        # Keep the preset keys/labels in sync with THEME_PRESETS in
+        # models/res_config_settings.py.
+        selection=[
+            ('company_default', 'Company Default'),
+            ('odoo_classic', 'Odoo Classic'),
+            ('ocean_blue', 'Ocean Blue'),
+            ('forest_green', 'Forest Green'),
+            ('sunset_orange', 'Sunset Orange'),
+            ('slate_gray', 'Slate Gray'),
+            ('royal_purple', 'Royal Purple'),
+        ],
+        string='Sidebar Color Theme',
+        default='company_default',
         required=True,
     )
