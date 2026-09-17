@@ -20,7 +20,7 @@ patch(FormCompiler.prototype, {
             return res;
         }
         setAttributes(chatterContainerHookXml, {
-            't-ref': 'chatterContainer',
+            't-ref': '__comp__.chatterContainer',
         });
         if (session.chatter_position === 'bottom') {
             const formSheetBgXml = res.querySelector('.o_form_sheet_bg');

@@ -10,7 +10,7 @@
 		<xpath expr="//Dropdown" position="replace">
 			<AppsMenu menuClass="'apt_app_menu'">
 				<button data-hotkey="h" title="Home Menu">
-					<i class="oi oi-apps" />
+					<i class="oi" data-icon="apps" />
 				</button>
           		<t t-set-slot="content">
 					<DropdownItem
