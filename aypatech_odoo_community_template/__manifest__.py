@@ -35,7 +35,7 @@ deployment the same everyday comfort features:
     'website': 'https://www.aypatech.com',
     'license': 'LGPL-3',
     'category': 'Tools/UI',
-    'version': '19.0.1.0.0',
+    'version': '20.0.1.0.0',
     'depends': [
         'base_setup',
         'web',
@@ -139,7 +139,7 @@ deployment the same everyday comfort features:
             'aypatech_odoo_community_template/static/src/chatter/chatter.xml',
             (
                 'after',
-                'mail/static/src/chatter/web_portal/chatter.js',
+                'mail/static/src/chatter/web_portal_project/chatter.js',
                 'aypatech_odoo_community_template/static/src/chatter/chatter.js',
             ),
             (

@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_aypatech_helpdesk_ticket_user,access.aypatech.helpdesk.ticket.user,aypatech.helpdesk.ticket,aypatech_helpdesk.group_helpdesk_user,crud,
+access_aypatech_helpdesk_ticket_internal,access.aypatech.helpdesk.ticket.internal,aypatech.helpdesk.ticket,base.group_user,cr,
+ticket_rule_portal_own_only,Portal users: only their own tickets,aypatech.helpdesk.ticket,base.group_portal,cru,"[('partner_id', '=', user.partner_id.id)]"
+access_aypatech_helpdesk_team_user,access.aypatech.helpdesk.team.user,aypatech.helpdesk.team,aypatech_helpdesk.group_helpdesk_user,r,
+access_aypatech_helpdesk_team_manager,access.aypatech.helpdesk.team.manager,aypatech.helpdesk.team,aypatech_helpdesk.group_helpdesk_manager,crud,
+access_aypatech_helpdesk_stage_user,access.aypatech.helpdesk.stage.user,aypatech.helpdesk.stage,aypatech_helpdesk.group_helpdesk_user,r,
+access_aypatech_helpdesk_stage_manager,access.aypatech.helpdesk.stage.manager,aypatech.helpdesk.stage,aypatech_helpdesk.group_helpdesk_manager,crud,
+access_aypatech_helpdesk_category_user,access.aypatech.helpdesk.category.user,aypatech.helpdesk.category,aypatech_helpdesk.group_helpdesk_user,r,
+access_aypatech_helpdesk_category_manager,access.aypatech.helpdesk.category.manager,aypatech.helpdesk.category,aypatech_helpdesk.group_helpdesk_manager,crud,
+access_aypatech_helpdesk_category_portal,access.aypatech.helpdesk.category.portal,aypatech.helpdesk.category,base.group_portal,r,

@@ -6,7 +6,7 @@
         <div class="p-2" style="max-height: 280px; overflow: auto;">
             <t t-foreach="props.recipients" t-as="r" t-key="r.id">
                 <div class="text-nowrap">
-                    <t t-esc="r.partner_id.email || r.partner_id.name"/>
+                    <t t-out="r.partner_id.email || r.partner_id.name"/>
                 </div>
             </t>
         </div>

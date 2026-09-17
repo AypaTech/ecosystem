@@ -87,11 +87,11 @@ class ColorAssetsEditor(models.AbstractModel):
         """Persist customized color content as an attachment and ``ir.asset``."""
         custom_url = self._get_custom_colors_url(url, bundle)
         asset_url = url[1:] if url.startswith(('/', '\\')) else url
-        datas = base64.b64encode((content or '\n').encode('utf-8'))
+        datas = base64.b64encode((content or '\n').encode('utf-8')).decode()
         custom_attachment = self._get_colors_attachment(custom_url)
         if custom_attachment:
             custom_attachment.write({'datas': datas})
-            self.env.registry.clear_cache('assets')
+            self.env.transaction.invalidate_ormcache('assets')
         else:
             attachment_values = {
                 'name': url.rsplit('/', maxsplit=1)[-1],

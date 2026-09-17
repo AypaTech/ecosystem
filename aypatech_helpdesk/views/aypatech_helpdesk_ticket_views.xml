@@ -83,7 +83,7 @@
                         <div class="d-flex align-items-center gap-1 mb-1">
                             <span t-if="record.urgency_score.raw_value"
                                   t-attf-class="badge {{ record.urgency_score.raw_value &gt;= 6 ? 'text-bg-danger' : (record.urgency_score.raw_value &gt;= 4 ? 'text-bg-warning' : 'text-bg-success') }}">
-                                <i class="fa fa-bolt me-1"/><t t-esc="record.urgency_score.raw_value"/>
+                                <i class="fa fa-bolt me-1"/><t t-out="record.urgency_score.raw_value"/>
                             </span>
                             <span t-if="record.awaiting_agent_since.raw_value" class="badge text-bg-danger">
                                 <i class="fa fa-reply me-1"/>Awaiting our reply
