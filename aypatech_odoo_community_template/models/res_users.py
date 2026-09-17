@@ -83,3 +83,18 @@ class ResUsers(models.Model):
         default='company_default',
         required=True,
     )
+
+    # ----------------------------------------------------------
+    # Action
+    # ----------------------------------------------------------
+
+    def action_set_appsbar_theme(self) -> dict:
+        """Set the sidebar color theme named in context['theme_key'] and reload."""
+        self.ensure_one()
+        theme_key = self.env.context.get('theme_key')
+        if theme_key in dict(self._fields['appsbar_theme'].selection):
+            self.appsbar_theme = theme_key
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
