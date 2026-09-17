@@ -180,7 +180,7 @@ class DropshippingImportJob(models.Model):
             try:
                 rec.url = rec._normalize_product_url(rec.url)
 
-                ai_enabled = self.env["ir.config_parameter"].sudo().get_param(
+                ai_enabled = self.env["ir.config_parameter"].sudo().get_str(
                     "ai_dropshipping_assistant.ai_enabled"
                 )
 
@@ -309,7 +309,7 @@ RAW HTML:
     def action_generate_ai_content(self):
         for rec in self:
             try:
-                ai_enabled = self.env["ir.config_parameter"].sudo().get_param(
+                ai_enabled = self.env["ir.config_parameter"].sudo().get_str(
                     "ai_dropshipping_assistant.ai_enabled"
                 )
 
@@ -359,7 +359,7 @@ RAW HTML:
         if self.ai_generated_description:
             return
 
-        ai_enabled = self.env["ir.config_parameter"].sudo().get_param(
+        ai_enabled = self.env["ir.config_parameter"].sudo().get_str(
             "ai_dropshipping_assistant.ai_enabled"
         )
 
@@ -494,7 +494,7 @@ RAW HTML:
 
             rec._generate_ai_content_if_missing()
 
-            publish_after_create = self.env["ir.config_parameter"].sudo().get_param(
+            publish_after_create = self.env["ir.config_parameter"].sudo().get_str(
                 "ai_dropshipping_assistant.publish_after_create"
             )
 

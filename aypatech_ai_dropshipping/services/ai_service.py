@@ -3,7 +3,7 @@ import requests
 
 
 def _get_param(env, key, default=False):
-    return env["ir.config_parameter"].sudo().get_param(
+    return env["ir.config_parameter"].sudo().get_str(
         "ai_dropshipping_assistant.%s" % key,
         default,
     )
