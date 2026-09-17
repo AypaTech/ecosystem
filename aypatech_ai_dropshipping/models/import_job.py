@@ -968,7 +968,7 @@ RAW HTML:
             ):
                 return False
 
-            return base64.b64encode(response.content)
+            return base64.b64encode(response.content).decode()
 
         except Exception:
             return False

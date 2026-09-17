@@ -14,9 +14,9 @@ def _setup_module(env: Environment) -> None:
     if not main_company:
         return
     with file_open('base/static/img/res_company_logo.png', 'rb') as file:
-        main_company.appbar_image = base64.b64encode(file.read())
+        main_company.appbar_image = base64.b64encode(file.read()).decode()
     with file_open('web/static/img/favicon.ico', 'rb') as file:
-        main_company.favicon = base64.b64encode(file.read())
+        main_company.favicon = base64.b64encode(file.read()).decode()
 
 
 def _uninstall_cleanup(env: Environment) -> None:

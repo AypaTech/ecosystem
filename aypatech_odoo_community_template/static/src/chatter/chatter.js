@@ -1,7 +1,7 @@
 import { patch } from '@web/core/utils/patch';
 import { browser } from '@web/core/browser/browser';
 
-import { Chatter } from '@mail/chatter/web_portal/chatter';
+import { Chatter } from '@mail/chatter/web_portal_project/chatter';
 import { RecipientsList } from '@aypatech_odoo_community_template/core/recipients_list/recipients_list';
 
 /** Restore the notification-message toggle from local storage and persist it. */

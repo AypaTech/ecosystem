@@ -1,0 +1,39 @@
+id,name,model_id,group_id/id,operation,domain
+access_aypatech_mail_server_manager,aypatech.mail.server.manager,aypatech.mail.server,aypatech_mail.group_mail_manager,r,
+access_aypatech_mail_server_admin,aypatech.mail.server.admin,aypatech.mail.server,aypatech_mail.group_mail_administrator,crud,
+rule_mail_account_personal,Mail Account: own or shared mailboxes only,aypatech.mail.account,aypatech_mail.group_mail_user,ru,"['|', ('user_id', '=', user.id), ('shared_user_ids', 'in', user.id)]"
+rule_mail_account_personal_1,Mail Account: own or shared mailboxes only,aypatech.mail.account,aypatech_mail.group_mail_manager,cru,"['|', ('user_id', '=', user.id), ('shared_user_ids', 'in', user.id)]"
+rule_mail_account_administrator,Mail Account: administrator sees all,aypatech.mail.account,aypatech_mail.group_mail_administrator,crud,
+rule_mail_folder_personal,Mail Folder: own or shared mailboxes only,aypatech.mail.folder,aypatech_mail.group_mail_user,r,"
+                ['|', ('account_id.user_id', '=', user.id), ('account_id.shared_user_ids', 'in', user.id)]
+            "
+rule_mail_folder_personal_1,Mail Folder: own or shared mailboxes only,aypatech.mail.folder,aypatech_mail.group_mail_manager,crud,"
+                ['|', ('account_id.user_id', '=', user.id), ('account_id.shared_user_ids', 'in', user.id)]
+            "
+rule_mail_folder_administrator,Mail Folder: administrator sees all,aypatech.mail.folder,aypatech_mail.group_mail_administrator,crud,
+rule_mail_message_personal,Mail Message: own or shared mailboxes only,aypatech.mail.message,aypatech_mail.group_mail_user,crud,"
+                ['|', ('account_id.user_id', '=', user.id), ('account_id.shared_user_ids', 'in', user.id)]
+            "
+rule_mail_message_administrator,Mail Message: administrator sees all,aypatech.mail.message,aypatech_mail.group_mail_administrator,crud,
+rule_mail_thread_personal,Mail Thread: own or shared mailboxes only,aypatech.mail.thread,aypatech_mail.group_mail_user,cru,"
+                ['|', ('account_id.user_id', '=', user.id), ('account_id.shared_user_ids', 'in', user.id)]
+            "
+rule_mail_thread_personal_1,Mail Thread: own or shared mailboxes only,aypatech.mail.thread,aypatech_mail.group_mail_manager,crud,"
+                ['|', ('account_id.user_id', '=', user.id), ('account_id.shared_user_ids', 'in', user.id)]
+            "
+rule_mail_thread_administrator,Mail Thread: administrator sees all,aypatech.mail.thread,aypatech_mail.group_mail_administrator,crud,
+access_aypatech_mail_thread_link_user,aypatech.mail.thread.link.user,aypatech.mail.thread.link,aypatech_mail.group_mail_user,crud,
+access_aypatech_mail_sync_state_user,aypatech.mail.sync.state.user,aypatech.mail.sync.state,aypatech_mail.group_mail_user,r,
+access_aypatech_mail_sync_state_admin,aypatech.mail.sync.state.admin,aypatech.mail.sync.state,aypatech_mail.group_mail_administrator,crud,
+access_aypatech_mail_domain_manager,aypatech.mail.domain.manager,aypatech.mail.domain,aypatech_mail.group_mail_manager,r,
+access_aypatech_mail_domain_admin,aypatech.mail.domain.admin,aypatech.mail.domain,aypatech_mail.group_mail_administrator,crud,
+access_aypatech_mail_alias_manager,aypatech.mail.alias.manager,aypatech.mail.alias,aypatech_mail.group_mail_manager,r,
+access_aypatech_mail_alias_admin,aypatech.mail.alias.admin,aypatech.mail.alias,aypatech_mail.group_mail_administrator,crud,
+rule_mail_label_personal,Mail Label: own or shared mailboxes only,aypatech.mail.label,aypatech_mail.group_mail_user,crud,"
+                ['|', ('account_id.user_id', '=', user.id), ('account_id.shared_user_ids', 'in', user.id)]
+            "
+rule_mail_label_administrator,Mail Label: administrator sees all,aypatech.mail.label,aypatech_mail.group_mail_administrator,crud,
+rule_mail_tag_personal,Mail Tag: own or shared mailboxes only,aypatech.mail.tag,aypatech_mail.group_mail_user,crud,"
+                ['|', ('account_id.user_id', '=', user.id), ('account_id.shared_user_ids', 'in', user.id)]
+            "
+rule_mail_tag_administrator,Mail Tag: administrator sees all,aypatech.mail.tag,aypatech_mail.group_mail_administrator,crud,

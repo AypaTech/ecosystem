@@ -112,11 +112,11 @@
                                 </div>
                                 <div t-attf-class="flex-grow-1 #{!record.is_read.raw_value ? 'fw-bold' : ''}">
                                     <div class="d-flex justify-content-between">
-                                        <span t-esc="record.direction.raw_value == 'incoming' ? record.email_from.value : record.email_to.value"/>
+                                        <span t-out="record.direction.raw_value == 'incoming' ? record.email_from.value : record.email_to.value"/>
                                         <i t-attf-class="fa #{record.is_starred.raw_value ? 'fa-star text-warning' : 'fa-star-o text-muted'}"/>
                                     </div>
-                                    <div t-esc="record.subject.value"/>
-                                    <div class="text-muted small" t-esc="record.date.value"/>
+                                    <div t-out="record.subject.value"/>
+                                    <div class="text-muted small" t-out="record.date.value"/>
                                     <field name="label_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                                     <field name="tag_ids" widget="many2many_tags"/>
                                 </div>

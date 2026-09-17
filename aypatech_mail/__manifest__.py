@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Aypatech Mail",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Discuss",
     "summary": "Business Email Client & Communication Layer for Odoo, backed by Mailcow",
     "description": """
@@ -35,7 +35,6 @@ Pargar "simple mode" integration built on top of it.
     },
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
         "views/mail_server_views.xml",
         "views/mail_account_views.xml",
         "views/mail_folder_views.xml",
@@ -46,6 +45,7 @@ Pargar "simple mode" integration built on top of it.
         "views/mail_alias_views.xml",
         "views/mail_menu.xml",
         "data/cron.xml",
+        'security/ir.access.csv',
     ],
     "installable": True,
     "application": True,
