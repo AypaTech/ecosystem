@@ -1,5 +1,6 @@
 import { patch } from '@web/core/utils/patch';
 import { browser } from '@web/core/browser/browser';
+import { useService } from '@web/core/utils/hooks';
 
 import { Chatter } from '@mail/chatter/web_portal_project/chatter';
 import { RecipientsList } from '@aypatech_odoo_community_template/core/recipients_list/recipients_list';
@@ -8,6 +9,7 @@ import { RecipientsList } from '@aypatech_odoo_community_template/core/recipient
 patch(Chatter.prototype, {
     setup() {
         super.setup(...arguments);
+        this.uiService = useService('ui');
         const showNotificationMessages = browser.localStorage.getItem(
             'aypatech_odoo_community_template.notifications',
         );
