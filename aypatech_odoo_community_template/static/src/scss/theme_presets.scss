@@ -63,23 +63,23 @@
 // Preferences" dialog, which is much tighter than the Settings page.
 .apt_theme_preset_gallery_compact {
     .apt_theme_preset_card {
-        gap: 0.2rem;
-        padding: 0.4rem !important;
+        gap: 0.3rem;
+        padding: 0.6rem !important;
     }
 
     .apt_theme_preset_swatch {
-        gap: 0.15rem;
+        gap: 0.2rem;
     }
 
     .apt_theme_preset_swatch_dot {
-        width: 0.65rem;
-        height: 0.65rem;
+        width: 0.9rem;
+        height: 0.9rem;
     }
 
     .apt_theme_preset_label {
-        font-size: 0.65rem;
+        font-size: 0.72rem;
         white-space: normal;
         text-align: center;
-        max-width: 4.5rem;
+        max-width: 5.5rem;
     }
 }
