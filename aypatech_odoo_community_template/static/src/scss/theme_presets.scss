@@ -1,0 +1,41 @@
+// Preset color-theme gallery (Settings > Theme & Branding)
+
+.apt_theme_preset_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75rem !important;
+    border: 1px solid var(--border-color, #dee2e6);
+    border-radius: 0.5rem;
+    background-color: var(--o-view-background-color, #fff);
+    text-decoration: none !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, transform 0.1s ease-in-out;
+
+    &:hover, &:focus {
+        border-color: var(--o-brand-primary, #5D8DA8);
+        box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+    }
+}
+
+.apt_theme_preset_swatch {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.apt_theme_preset_swatch_dot {
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.apt_theme_preset_label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--o-main-text-color, inherit);
+    white-space: nowrap;
+}

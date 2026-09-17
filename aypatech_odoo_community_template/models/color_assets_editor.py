@@ -59,7 +59,7 @@ class ColorAssetsEditor(models.AbstractModel):
         if url_info['customized']:
             attachment = self._get_colors_attachment(custom_url)
             if attachment:
-                return base64.b64decode(attachment.datas)
+                return bytes(attachment.raw)
         with misc.file_open(url.strip('/'), 'rb', filter_ext=EXTENSIONS) as f:
             return f.read()
 
@@ -90,14 +90,14 @@ class ColorAssetsEditor(models.AbstractModel):
         datas = base64.b64encode((content or '\n').encode('utf-8')).decode()
         custom_attachment = self._get_colors_attachment(custom_url)
         if custom_attachment:
-            custom_attachment.write({'datas': datas})
+            custom_attachment.write({'raw': datas})
             self.env.transaction.invalidate_ormcache('assets')
         else:
             attachment_values = {
                 'name': url.rsplit('/', maxsplit=1)[-1],
                 'type': 'binary',
                 'mimetype': 'text/scss',
-                'datas': datas,
+                'raw': datas,
                 'url': custom_url,
             }
             asset_values = {
