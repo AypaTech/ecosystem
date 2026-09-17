@@ -21,34 +21,31 @@ export class AppsMenu extends Dropdown {
                   id: user.activeCompany.id,
               })
             : null;
-        useEffect(
-            (isOpen) => {
-                if (isOpen) {
-                    const openMainPalette = (ev) => {
-                        if (
-                            !this.commandPaletteOpen &&
-                            ev.key.length === 1 &&
-                            !ev.ctrlKey &&
-                            !ev.altKey
-                        ) {
-                            this.commandService.openMainPalette(
-                                { searchValue: `/${ev.key}` },
-                                () => {
-                                    this.commandPaletteOpen = false;
-                                },
-                            );
-                            this.commandPaletteOpen = true;
-                        }
-                    };
-                    window.addEventListener('keydown', openMainPalette);
-                    return () => {
-                        window.removeEventListener('keydown', openMainPalette);
-                        this.commandPaletteOpen = false;
-                    };
-                }
-            },
-            () => [this.state.isOpen],
-        );
+        useEffect(() => {
+            if (this.state.isOpen) {
+                const openMainPalette = (ev) => {
+                    if (
+                        !this.commandPaletteOpen &&
+                        ev.key.length === 1 &&
+                        !ev.ctrlKey &&
+                        !ev.altKey
+                    ) {
+                        this.commandService.openMainPalette(
+                            { searchValue: `/${ev.key}` },
+                            () => {
+                                this.commandPaletteOpen = false;
+                            },
+                        );
+                        this.commandPaletteOpen = true;
+                    }
+                };
+                window.addEventListener('keydown', openMainPalette);
+                return () => {
+                    window.removeEventListener('keydown', openMainPalette);
+                    this.commandPaletteOpen = false;
+                };
+            }
+        });
         useBus(this.env.bus, 'ACTION_MANAGER:UI-UPDATED', () => {
             if (this.state.isOpen) {
                 this.state.close();
@@ -57,8 +54,8 @@ export class AppsMenu extends Dropdown {
     }
     onOpened() {
         super.onOpened();
-        if (this.imageUrl && this.menuRef && this.menuRef.el) {
-            this.menuRef.el.style.backgroundImage = `url('${this.imageUrl}')`;
+        if (this.imageUrl && this.menuRef && this.menuRef()) {
+            this.menuRef().style.backgroundImage = `url('${this.imageUrl}')`;
         }
     }
 }

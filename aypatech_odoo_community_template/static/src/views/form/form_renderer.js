@@ -1,4 +1,4 @@
-import { proxy, useRef } from '@odoo/owl';
+import { proxy, signal } from '@odoo/owl';
 import { patch } from '@web/core/utils/patch';
 import { browser } from '@web/core/browser/browser';
 
@@ -13,14 +13,14 @@ patch(FormRenderer.prototype, {
                 'aypatech_odoo_community_template.chatter_width',
             ),
         });
-        this.chatterContainer = useRef('chatterContainer');
+        this.chatterContainer = signal.ref();
     },
     onStartChatterResize(ev) {
         if (ev.button !== 0) {
             return;
         }
         const initialX = ev.pageX;
-        const chatterElement = this.chatterContainer.el;
+        const chatterElement = this.chatterContainer();
         const initialWidth = chatterElement.offsetWidth;
         const resizeStoppingEvents = ['keydown', 'mousedown', 'mouseup'];
         const resizePanel = (ev) => {
