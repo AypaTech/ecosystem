@@ -432,3 +432,223 @@ class ResConfigSettingsTheme(models.TransientModel):
         if self._detect_dark_theme_color_change():
             self._replace_dark_theme_color_values()
         return res
+
+
+class ResConfigSettingsColorPresets(models.TransientModel):
+    """Offer one-click preset color themes covering base and AppsBar colors."""
+
+    _inherit = 'res.config.settings'
+
+    @property
+    def THEME_PRESETS(self) -> dict:
+        """Return the available preset color themes, keyed by theme key."""
+        return {
+            'odoo_classic': {
+                'label': 'Odoo Classic',
+                'light': {
+                    'color_brand': '#243742',
+                    'color_primary': '#5D8DA8',
+                    'color_success': '#28A745',
+                    'color_info': '#17A2B8',
+                    'color_warning': '#FFAC00',
+                    'color_danger': '#DC3545',
+                },
+                'dark': {
+                    'color_brand': '#243742',
+                    'color_primary': '#5D8DA8',
+                    'color_success': '#1DC959',
+                    'color_info': '#6AB5FB',
+                    'color_warning': '#FBB56A',
+                    'color_danger': '#FF5757',
+                },
+                'theme_light': {
+                    'color_appsmenu_text': '#F8F9FA',
+                    'color_appbar_text': '#DEE2E6',
+                    'color_appbar_active': '#5D8DA8',
+                    'color_appbar_background': '#111827',
+                },
+                'theme_dark': {
+                    'color_appsmenu_text': '#F8F9FA',
+                    'color_appbar_text': '#E4E4E4',
+                    'color_appbar_active': '#5D8DA8',
+                    'color_appbar_background': '#3C3E4B',
+                },
+            },
+            'ocean_blue': {
+                'label': 'Ocean Blue',
+                'light': {
+                    'color_brand': '#0B3D5C',
+                    'color_primary': '#1E88C7',
+                    'color_success': '#1FA37B',
+                    'color_info': '#17A2B8',
+                    'color_warning': '#F2A93C',
+                    'color_danger': '#E24C4C',
+                },
+                'dark': {
+                    'color_brand': '#0B3D5C',
+                    'color_primary': '#4FB0E8',
+                    'color_success': '#34D399',
+                    'color_info': '#4FD5E0',
+                    'color_warning': '#FBBF6A',
+                    'color_danger': '#FF6B6B',
+                },
+                'theme_light': {
+                    'color_appsmenu_text': '#F5FAFD',
+                    'color_appbar_text': '#DCEFFA',
+                    'color_appbar_active': '#1E88C7',
+                    'color_appbar_background': '#0B2A3D',
+                },
+                'theme_dark': {
+                    'color_appsmenu_text': '#F5FAFD',
+                    'color_appbar_text': '#D7ECF7',
+                    'color_appbar_active': '#4FB0E8',
+                    'color_appbar_background': '#13324A',
+                },
+            },
+            'forest_green': {
+                'label': 'Forest Green',
+                'light': {
+                    'color_brand': '#1F3D2B',
+                    'color_primary': '#3E8E5C',
+                    'color_success': '#4CAF50',
+                    'color_info': '#2E9A9A',
+                    'color_warning': '#D99A2B',
+                    'color_danger': '#C0392B',
+                },
+                'dark': {
+                    'color_brand': '#1F3D2B',
+                    'color_primary': '#63B37F',
+                    'color_success': '#6FCB79',
+                    'color_info': '#58C4C4',
+                    'color_warning': '#E8B04F',
+                    'color_danger': '#E06456',
+                },
+                'theme_light': {
+                    'color_appsmenu_text': '#F3F8F4',
+                    'color_appbar_text': '#DDEBE0',
+                    'color_appbar_active': '#3E8E5C',
+                    'color_appbar_background': '#14261B',
+                },
+                'theme_dark': {
+                    'color_appsmenu_text': '#F3F8F4',
+                    'color_appbar_text': '#DCEBDF',
+                    'color_appbar_active': '#63B37F',
+                    'color_appbar_background': '#22392A',
+                },
+            },
+            'sunset_orange': {
+                'label': 'Sunset Orange',
+                'light': {
+                    'color_brand': '#4A2A1F',
+                    'color_primary': '#E0703A',
+                    'color_success': '#4C9A6A',
+                    'color_info': '#3A9BB5',
+                    'color_warning': '#F2A33C',
+                    'color_danger': '#D9483A',
+                },
+                'dark': {
+                    'color_brand': '#4A2A1F',
+                    'color_primary': '#F08F5C',
+                    'color_success': '#6FC98D',
+                    'color_info': '#6FC4DA',
+                    'color_warning': '#FBBE72',
+                    'color_danger': '#FF6E5E',
+                },
+                'theme_light': {
+                    'color_appsmenu_text': '#FBF1EA',
+                    'color_appbar_text': '#F7E1D3',
+                    'color_appbar_active': '#E0703A',
+                    'color_appbar_background': '#2E1B14',
+                },
+                'theme_dark': {
+                    'color_appsmenu_text': '#FBF1EA',
+                    'color_appbar_text': '#F5DED0',
+                    'color_appbar_active': '#F08F5C',
+                    'color_appbar_background': '#3D2419',
+                },
+            },
+            'slate_gray': {
+                'label': 'Slate Gray',
+                'light': {
+                    'color_brand': '#1E2328',
+                    'color_primary': '#5C6773',
+                    'color_success': '#4C9A6A',
+                    'color_info': '#4A90A4',
+                    'color_warning': '#D9A441',
+                    'color_danger': '#C0524A',
+                },
+                'dark': {
+                    'color_brand': '#1E2328',
+                    'color_primary': '#8A97A3',
+                    'color_success': '#6FC98D',
+                    'color_info': '#7BB8CB',
+                    'color_warning': '#E8BE72',
+                    'color_danger': '#E27C73',
+                },
+                'theme_light': {
+                    'color_appsmenu_text': '#F5F6F7',
+                    'color_appbar_text': '#E2E5E8',
+                    'color_appbar_active': '#5C6773',
+                    'color_appbar_background': '#14171A',
+                },
+                'theme_dark': {
+                    'color_appsmenu_text': '#F5F6F7',
+                    'color_appbar_text': '#E2E5E8',
+                    'color_appbar_active': '#8A97A3',
+                    'color_appbar_background': '#22262B',
+                },
+            },
+            'royal_purple': {
+                'label': 'Royal Purple',
+                'light': {
+                    'color_brand': '#2E1F45',
+                    'color_primary': '#7C4DBF',
+                    'color_success': '#4C9A6A',
+                    'color_info': '#4A7FC1',
+                    'color_warning': '#D9A441',
+                    'color_danger': '#C0524A',
+                },
+                'dark': {
+                    'color_brand': '#2E1F45',
+                    'color_primary': '#A47CDB',
+                    'color_success': '#6FC98D',
+                    'color_info': '#7DA6DA',
+                    'color_warning': '#E8BE72',
+                    'color_danger': '#E27C73',
+                },
+                'theme_light': {
+                    'color_appsmenu_text': '#F6F2FA',
+                    'color_appbar_text': '#E7DFF2',
+                    'color_appbar_active': '#7C4DBF',
+                    'color_appbar_background': '#1D1430',
+                },
+                'theme_dark': {
+                    'color_appsmenu_text': '#F6F2FA',
+                    'color_appbar_text': '#E7DFF2',
+                    'color_appbar_active': '#A47CDB',
+                    'color_appbar_background': '#2A1F42',
+                },
+            },
+        }
+
+    def action_apply_color_theme(self) -> dict:
+        """Apply the preset named in context['theme_key'] and reload the client."""
+        self.ensure_one()
+        preset = self.THEME_PRESETS.get(self.env.context.get('theme_key'))
+        if preset:
+            for field, value in preset['light'].items():
+                self[f'{field}_light'] = value
+            for field, value in preset['dark'].items():
+                self[f'{field}_dark'] = value
+            for field, value in preset['theme_light'].items():
+                self[f'theme_{field}_light'] = value
+            for field, value in preset['theme_dark'].items():
+                self[f'theme_{field}_dark'] = value
+            self._replace_light_color_values()
+            self._replace_dark_color_values()
+            self._replace_light_theme_color_values()
+            self._replace_dark_theme_color_values()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }

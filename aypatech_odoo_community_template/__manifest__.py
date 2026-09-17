@@ -190,6 +190,7 @@ deployment the same everyday comfort features:
             ),
             'aypatech_odoo_community_template/static/src/services/refresh_service.js',
             'aypatech_odoo_community_template/static/src/views/form/form.scss',
+            'aypatech_odoo_community_template/static/src/scss/theme_presets.scss',
         ],
     },
     'installable': True,
