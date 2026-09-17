@@ -53,12 +53,12 @@ class IrHttpRefresh(models.AbstractModel):
     def session_info(self) -> dict:
         """Add the pager auto-load interval to the session information."""
         result = super().session_info()
-        result['pager_autoload_interval'] = int(
+        result['pager_autoload_interval'] = (
             self.env['ir.config_parameter']
             .sudo()
-            .get_param(
+            .get_int(
                 'aypatech_odoo_community_template.pager_autoload_interval',
-                default=30000,
+                30000,
             )
         )
         return result
