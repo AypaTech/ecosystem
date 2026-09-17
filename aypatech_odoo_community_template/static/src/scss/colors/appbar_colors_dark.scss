@@ -1,0 +1,13 @@
+// Colors
+
+$apt_color_appsmenu_text: #F8F9FA;
+$apt_color_appbar_text: #E4E4E4;
+$apt_color_appbar_active: #5D8DA8;
+$apt_color_appbar_background: #3C3E4B;
+
+// Override
+
+$apt-appsmenu-color: $apt_color_appsmenu_text;
+$apt-appbar-color: $apt_color_appbar_text;
+$apt-appbar-active: $apt_color_appbar_active;
+$apt-appbar-background: $apt_color_appbar_background;

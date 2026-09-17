@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_root"
-              name="Aypatech Helpdesk"
+              name="Helpdesk"
               web_icon="aypatech_helpdesk,static/description/icon.png"
               sequence="60"/>
 

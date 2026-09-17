@@ -1,0 +1,95 @@
+.apt_apps_sidebar_panel {
+    @include apt-disable-scrollbar();
+    background-color: $apt-appbar-background;
+    width: var(--apt-sidebar-width, 0);
+    overflow-y: auto;
+    .apt_apps_sidebar {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+	    white-space: nowrap;
+	    .apt_apps_sidebar_menu {
+	    	padding: 0;
+		    > li > a {
+		        cursor: pointer;
+	            font-size: 13px;
+	            font-weight: 300;
+	            overflow: hidden;
+	            padding: 8px 11px;
+	            text-decoration: none;
+	            color: $apt-appbar-color;
+	            text-overflow: ellipsis;
+	            .apt_apps_sidebar_icon {
+				    width: 22px;
+				    height: 22px;
+	    			margin-right: 5px;
+				}
+		    }
+	        > li.active > a {
+			    background: $apt-appbar-active;
+	        }
+	        > li:hover > a {
+			    background: $apt-appbar-active;
+	        }
+	    }
+	}
+}
+
+.apt_sidebar_type_large {
+	--apt-sidebar-width: #{$apt-sidebar-large-width};
+}
+
+.apt_sidebar_type_small {
+	--apt-sidebar-width: #{$apt-sidebar-small-width};
+	.apt_apps_sidebar_name {
+		display: none;
+	}
+	.apt_apps_sidebar_icon {
+		margin-right: 0 !important;
+	}
+   	.apt_apps_sidebar_logo {
+		display: none;
+	}
+}
+
+.apt_sidebar_type_invisible {
+	--apt-sidebar-width: 0;
+}
+
+.editor_has_snippets_hide_backend_navbar,
+.o_home_menu_background,
+.o_fullscreen {
+	--apt-sidebar-width: 0;
+}
+
+.editor_has_snippets_hide_backend_navbar .apt_apps_sidebar_panel {
+    transition: width 300ms;
+}
+
+@include media-breakpoint-only(md) {
+	.apt_sidebar_type_large {
+		--apt-sidebar-width: #{$apt-sidebar-small-width};
+		.apt_apps_sidebar_name {
+			display: none;
+		}
+		.apt_apps_sidebar_icon {
+			margin-right: 0 !important;
+		}
+	   	.apt_apps_sidebar_logo {
+			display: none;
+		}
+	}
+}
+
+@include media-breakpoint-down(md) {
+	.apt_sidebar_type_large, .apt_sidebar_type_small {
+		--apt-sidebar-width: 0;
+	}
+}
+
+@media print {
+	.apt_sidebar_type_large, .apt_sidebar_type_small {
+		--apt-sidebar-width: 0;
+	}
+}
