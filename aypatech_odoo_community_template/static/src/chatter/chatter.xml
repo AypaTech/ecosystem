@@ -21,7 +21,7 @@
                 data-hotkey="m"
                 t-on-click="() => (this.toggleComposer('message'), state.notifyInternalFollowers = false)"
             >
-                <i t-if="env.isSmall" class="fa fa-envelope me-sm-1" />
+                <i t-if="this.uiService.isSmall" class="fa fa-envelope me-sm-1" />
                 <span class="d-none d-sm-inline">External</span>
             </button>
             <button
@@ -36,7 +36,7 @@
                 t-att-disabled="!state.thread.hasWriteAccess and !(state.thread.hasReadAccess and state.thread.canPostOnReadonly) and props.threadId"
                 t-on-click="() => (this.toggleComposer('note', { force: !state.notifyInternalFollowers }), state.notifyInternalFollowers = true)"
             >
-                <i t-if="env.isSmall" class="fa fa-envelope me-sm-1" />
+                <i t-if="this.uiService.isSmall" class="fa fa-envelope me-sm-1" />
                 <span class="d-none d-sm-inline">Internal</span>
             </button>
         </xpath>
@@ -53,7 +53,7 @@
                 data-hotkey="shift+m"
                 t-on-click="() => (this.toggleComposer('note', { force: state.notifyInternalFollowers }), state.notifyInternalFollowers = false)"
             >
-                <i t-if="env.isSmall" class="fa fa-sticky-note me-sm-1" />
+                <i t-if="this.uiService.isSmall" class="fa fa-sticky-note me-sm-1" />
                 <span class="d-none d-sm-inline">Note</span>
             </button>
         </xpath>
@@ -72,7 +72,7 @@
             </t>
         </xpath>
         <xpath expr="//button[hasclass('o-mail-Chatter-activity')]/span" position="before">
-        	<i t-if="env.isSmall" class="fa fa-clock-o me-sm-1"/>
+        	<i t-if="this.uiService.isSmall" class="fa fa-clock-o me-sm-1"/>
         </xpath>
         <xpath expr="//button[hasclass('o-mail-Chatter-activity')]/span" position="attributes">
             <attribute name="class" add="d-none d-sm-inline" separator=" " />
