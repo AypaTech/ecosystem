@@ -9,7 +9,7 @@ patch(Thread.prototype, {
             this.props.order === 'asc'
                 ? this.props.thread.nonEmptyMessages
                 : [...this.props.thread.nonEmptyMessages].reverse();
-        if (!this.props.showNotificationMessages) {
+        if (this.props.showNotificationMessages === false) {
             messages = messages.filter(
                 (msg) =>
                     !['user_notification', 'notification'].includes(msg.message_type),
@@ -18,9 +18,3 @@ patch(Thread.prototype, {
         return messages;
     },
 });
-
-Thread.props = [...Thread.props, 'showNotificationMessages?'];
-Thread.defaultProps = {
-    ...Thread.defaultProps,
-    showNotificationMessages: true,
-};
