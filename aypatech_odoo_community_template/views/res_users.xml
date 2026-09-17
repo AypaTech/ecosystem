@@ -16,7 +16,7 @@
             <xpath expr="//group[@name='other_preferences']" position="after">
                 <div colspan="2" class="mt-2 mb-3">
                 <span class="fw-bold d-block mb-2">Sidebar Color Theme</span>
-                <div class="apt_theme_preset_gallery d-flex flex-wrap gap-2">
+                <div class="apt_theme_preset_gallery apt_theme_preset_gallery_compact d-flex flex-wrap gap-1">
                     <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'company_default'}" class="apt_theme_preset_card btn-link p-0">
                         <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'company_default'"><i class="fa fa-check-circle"/></span>
                         <div class="apt_theme_preset_swatch">

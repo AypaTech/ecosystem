@@ -58,3 +58,28 @@
     color: var(--o-main-text-color, inherit);
     white-space: nowrap;
 }
+
+// Narrower variant so all 7 cards fit on one row in the "Change My
+// Preferences" dialog, which is much tighter than the Settings page.
+.apt_theme_preset_gallery_compact {
+    .apt_theme_preset_card {
+        gap: 0.2rem;
+        padding: 0.4rem !important;
+    }
+
+    .apt_theme_preset_swatch {
+        gap: 0.15rem;
+    }
+
+    .apt_theme_preset_swatch_dot {
+        width: 0.65rem;
+        height: 0.65rem;
+    }
+
+    .apt_theme_preset_label {
+        font-size: 0.65rem;
+        white-space: normal;
+        text-align: center;
+        max-width: 4.5rem;
+    }
+}
