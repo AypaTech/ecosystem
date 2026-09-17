@@ -57,7 +57,7 @@
 			.apt_app_name {
 				margin-top: 12px;
 				font-size: 1.3em;
-				color: $apt-appsmenu-color;
+				color: var(--apt-appsmenu-color, #{$apt-appsmenu-color});
 			}
 	   	}
 	    &:hover {

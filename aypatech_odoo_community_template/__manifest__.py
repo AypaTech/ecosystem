@@ -68,6 +68,7 @@ deployment the same everyday comfort features:
                 'aypatech_odoo_community_template/static/src/scss/colors/colors.scss',
                 'aypatech_odoo_community_template/static/src/scss/colors/appbar_colors_light.scss',
             ),
+            'aypatech_odoo_community_template/static/src/scss/colors/appbar_theme_overrides_light.scss',
             (
                 'after',
                 'web/static/src/scss/primary_variables.scss',
@@ -98,6 +99,7 @@ deployment the same everyday comfort features:
                 'aypatech_odoo_community_template/static/src/scss/colors/colors.scss',
                 'aypatech_odoo_community_template/static/src/scss/colors/appbar_colors_dark.scss',
             ),
+            'aypatech_odoo_community_template/static/src/scss/colors/appbar_theme_overrides_dark.scss',
             'aypatech_odoo_community_template/static/src/views/form/form.dark.scss',
         ],
         'web.assets_backend': [
