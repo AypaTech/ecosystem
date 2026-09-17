@@ -7,7 +7,7 @@ import { ControlPanel } from '@web/search/control_panel/control_panel';
 import { getAutoLoadInterval } from '@aypatech_odoo_community_template/core/refresh/utils';
 import { REFRESH_VIEW_EVENT } from '@aypatech_odoo_community_template/services/refresh_service';
 
-import { useState, onWillDestroy, useEffect, useExternalListener } from '@odoo/owl';
+import { proxy, onWillDestroy, useEffect, useListener } from '@odoo/owl';
 
 /**
  * Provide a callback that briefly flashes the refresh animation on the content.
@@ -57,16 +57,16 @@ patch(ControlPanel.prototype, {
         useBus(this.env.bus, REFRESH_VIEW_EVENT, () => {
             this.refreshView();
         });
-        this.autoLoadState = useState({
+        this.autoLoadState = proxy({
             active:
                 this.checkAutoLoadAvailability() && !!this.getAutoLoadStorageValue(),
             counter: 0,
         });
         this._refreshInFlight = false;
-        this.visibilityState = useState({
+        this.visibilityState = proxy({
             hidden: document.hidden,
         });
-        useExternalListener(document, 'visibilitychange', () => {
+        useListener(document, 'visibilitychange', () => {
             this.visibilityState.hidden = document.hidden;
         });
         onWillDestroy(() => {
@@ -74,30 +74,27 @@ patch(ControlPanel.prototype, {
                 clearTimeout(this._clickTimeout);
             }
         });
-        useEffect(
-            () => {
-                if (!this.autoLoadState.active || this.visibilityState.hidden) {
-                    return;
-                }
-                this.autoLoadState.counter = this.getAutoLoadRefreshInterval();
-                const interval = browser.setInterval(() => {
-                    this.autoLoadState.counter = this.autoLoadState.counter
-                        ? this.autoLoadState.counter - 1
-                        : this.getAutoLoadRefreshInterval();
-                    if (this.autoLoadState.counter <= 0) {
-                        this.autoLoadState.counter = this.getAutoLoadRefreshInterval();
-                        if (!this._refreshInFlight) {
-                            this._refreshInFlight = true;
-                            this.refreshView().finally(() => {
-                                this._refreshInFlight = false;
-                            });
-                        }
+        useEffect(() => {
+            if (!this.autoLoadState.active || this.visibilityState.hidden) {
+                return;
+            }
+            this.autoLoadState.counter = this.getAutoLoadRefreshInterval();
+            const interval = browser.setInterval(() => {
+                this.autoLoadState.counter = this.autoLoadState.counter
+                    ? this.autoLoadState.counter - 1
+                    : this.getAutoLoadRefreshInterval();
+                if (this.autoLoadState.counter <= 0) {
+                    this.autoLoadState.counter = this.getAutoLoadRefreshInterval();
+                    if (!this._refreshInFlight) {
+                        this._refreshInFlight = true;
+                        this.refreshView().finally(() => {
+                            this._refreshInFlight = false;
+                        });
                     }
-                }, 1000);
-                return () => browser.clearInterval(interval);
-            },
-            () => [this.autoLoadState.active, this.visibilityState.hidden],
-        );
+                }
+            }, 1000);
+            return () => browser.clearInterval(interval);
+        });
     },
     checkAutoLoadAvailability() {
         return ['kanban', 'list'].includes(this.env.config.viewType);

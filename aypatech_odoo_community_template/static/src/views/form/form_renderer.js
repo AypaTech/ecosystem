@@ -1,4 +1,4 @@
-import { useState, useRef } from '@odoo/owl';
+import { proxy, useRef } from '@odoo/owl';
 import { patch } from '@web/core/utils/patch';
 import { browser } from '@web/core/browser/browser';
 
@@ -8,7 +8,7 @@ import { FormRenderer } from '@web/views/form/form_renderer';
 patch(FormRenderer.prototype, {
     setup() {
         super.setup();
-        this.chatterState = useState({
+        this.chatterState = proxy({
             width: browser.localStorage.getItem(
                 'aypatech_odoo_community_template.chatter_width',
             ),
