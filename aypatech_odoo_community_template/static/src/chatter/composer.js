@@ -36,5 +36,3 @@ patch(Composer.prototype, {
         return context;
     },
 });
-
-Composer.props = [...Composer.props, 'notifyInternalFollowers?'];
