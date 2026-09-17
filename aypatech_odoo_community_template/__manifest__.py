@@ -134,7 +134,6 @@ deployment the same everyday comfort features:
             'aypatech_odoo_community_template/static/src/core/recipients_popover/recipients_popover.js',
             'aypatech_odoo_community_template/static/src/core/recipients_popover/recipients_popover.xml',
             'aypatech_odoo_community_template/static/src/core/thread/thread.js',
-            'aypatech_odoo_community_template/static/src/core/thread/thread.xml',
             'aypatech_odoo_community_template/static/src/chatter/chatter.scss',
             'aypatech_odoo_community_template/static/src/chatter/chatter.xml',
             (
@@ -172,11 +171,6 @@ deployment the same everyday comfort features:
                 'after',
                 'web/static/src/core/dialog/dialog.xml',
                 'aypatech_odoo_community_template/static/src/core/dialog/dialog.xml',
-            ),
-            (
-                'after',
-                'web/static/src/views/view_dialogs/select_create_dialog.js',
-                'aypatech_odoo_community_template/static/src/views/view_dialogs/select_create_dialog.js',
             ),
             'aypatech_odoo_community_template/static/src/search/collapse_all/collapse_all.js',
             'aypatech_odoo_community_template/static/src/search/collapse_all/collapse_all.xml',
