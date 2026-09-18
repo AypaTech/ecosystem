@@ -12,12 +12,31 @@
                 </div>
                 <span class="apt_appsmenu_widget_label">Today</span>
             </div>
-            <div class="apt_appsmenu_widget" t-on-click="() => this.onClickActivities()">
-                <div class="apt_appsmenu_widget_icon">
+            <div class="apt_appsmenu_widget apt_appsmenu_widget_todo" t-on-click="() => this.onClickTodoApp()">
+                <div class="apt_appsmenu_widget_todo_header">
                     <i class="fa fa-clock-o"/>
+                    <span class="apt_appsmenu_widget_label">Due Today</span>
+                    <span class="apt_appsmenu_widget_todo_count"><t t-out="this.todosToday().length"/></span>
                 </div>
-                <span class="apt_appsmenu_widget_value"><t t-out="this.activitiesDueCount"/></span>
-                <span class="apt_appsmenu_widget_label">Due Today</span>
+                <div class="apt_appsmenu_widget_todo_list">
+                    <div
+                        t-if="!this.todosToday().length"
+                        class="apt_appsmenu_widget_todo_empty"
+                    >
+                        Nothing due today
+                    </div>
+                    <t t-foreach="this.todosToday().slice(0, 3)" t-as="task" t-key="task.id">
+                        <div
+                            class="apt_appsmenu_widget_todo_item"
+                            t-on-click.stop="() => this.onClickTodoItem(task.id)"
+                        >
+                            <t t-out="task.name"/>
+                        </div>
+                    </t>
+                    <div t-if="this.todosToday().length > 3" class="apt_appsmenu_widget_todo_more">
+                        +<t t-out="this.todosToday().length - 3"/> more
+                    </div>
+                </div>
             </div>
             <div class="apt_appsmenu_widget" t-on-click="() => this.onClickMessages()">
                 <div class="apt_appsmenu_widget_icon">
