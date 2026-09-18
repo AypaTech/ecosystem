@@ -25,16 +25,19 @@ export class AppsMenuWidgets extends Component {
     setup() {
         this.store = useService('mail.store');
         this.appMenuService = useService('app_menu');
+        this.menuService = useService('menu');
         this.actionService = useService('action');
         this.orm = useService('orm');
 
-        this.calendarApp =
-            this.appMenuService
-                .getAppsMenuItems()
-                .find((app) => app.href === '/odoo/calendar') || null;
-        this.todoApp =
-            this.appMenuService.getAppsMenuItems().find((app) => app.href === '/odoo/to-do') ||
-            null;
+        const apps = this.appMenuService.getAppsMenuItems();
+        this.calendarApp = apps.find((app) => app.href === '/odoo/calendar') || null;
+        this.todoApp = apps.find((app) => app.href === '/odoo/to-do') || null;
+        // Helpdesk's own menu carries no clean actionPath (its href is a
+        // numeric "/odoo/action-<id>", which isn't stable across databases),
+        // so match on the app label instead - "Helpdesk" is the name this
+        // module's own module renamed it to.
+        this.helpdeskApp = apps.find((app) => app.label === 'Helpdesk') || null;
+        this.discussApp = apps.find((app) => app.href === '/odoo/discuss') || null;
 
         this.today = new Date();
 
@@ -125,12 +128,30 @@ export class AppsMenuWidgets extends Component {
                 target: 'main',
                 context: { form_view_ref: 'project_todo.project_task_view_todo_form' },
             },
-            { clearBreadcrumbs: true },
+            {
+                clearBreadcrumbs: true,
+                // doAction() never touches the navbar's "current app" on its
+                // own (that's only ever set by menu.selectMenu()), so without
+                // this the navbar/sidebar would keep showing whatever app was
+                // last selected through an app icon instead of To-Do.
+                onActionReady: () => {
+                    if (this.todoApp) {
+                        this.menuService.setCurrentMenu(this.todoApp);
+                    }
+                },
+            },
         );
     }
 
     onClickMessages() {
-        this.actionService.doAction('mail.action_discuss', { clearBreadcrumbs: true });
+        this.actionService.doAction('mail.action_discuss', {
+            clearBreadcrumbs: true,
+            onActionReady: () => {
+                if (this.discussApp) {
+                    this.menuService.setCurrentMenu(this.discussApp);
+                }
+            },
+        });
     }
 
     async onClickTickets() {
@@ -145,6 +166,13 @@ export class AppsMenuWidgets extends Component {
         // otherwise lack even while having access to tickets themselves.
         action.views = [[false, 'list'], ...action.views.filter(([, type]) => type !== 'list')];
         action.view_mode = 'list';
-        this.actionService.doAction(action, { clearBreadcrumbs: true });
+        this.actionService.doAction(action, {
+            clearBreadcrumbs: true,
+            onActionReady: () => {
+                if (this.helpdeskApp) {
+                    this.menuService.setCurrentMenu(this.helpdeskApp);
+                }
+            },
+        });
     }
 }
