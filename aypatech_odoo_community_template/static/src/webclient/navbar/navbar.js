@@ -6,6 +6,7 @@ import { useService } from '@web/core/utils/hooks';
 
 import { NavBar } from '@web/webclient/navbar/navbar';
 import { AppsMenu } from '@aypatech_odoo_community_template/webclient/appsmenu/appsmenu';
+import { AppsMenuWidgets } from '@aypatech_odoo_community_template/webclient/appsmenu/widgets/appsmenu_widgets';
 
 patch(NavBar.prototype, {
     /**
@@ -38,10 +39,11 @@ patch(NavBar.prototype, {
     },
 });
 
-/** Register the full-screen AppsMenu as a navbar component. */
+/** Register the full-screen AppsMenu and its widget row as navbar components. */
 patch(NavBar, {
     components: {
         ...NavBar.components,
         AppsMenu,
+        AppsMenuWidgets,
     },
 });

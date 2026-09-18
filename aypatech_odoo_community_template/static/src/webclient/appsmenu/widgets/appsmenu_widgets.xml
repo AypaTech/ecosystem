@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_odoo_community_template.AppsMenuWidgets">
+        <div class="apt_appsmenu_widgets">
+            <div class="apt_appsmenu_widget apt_appsmenu_widget_date" t-on-click="() => this.onClickDate()">
+                <div class="apt_appsmenu_widget_date_box">
+                    <span class="apt_appsmenu_widget_date_weekday"><t t-out="this.weekdayLabel"/></span>
+                    <span class="apt_appsmenu_widget_date_day"><t t-out="this.dayNumber"/></span>
+                    <span class="apt_appsmenu_widget_date_month"><t t-out="this.monthLabel"/></span>
+                </div>
+                <span class="apt_appsmenu_widget_label">Today</span>
+            </div>
+            <div class="apt_appsmenu_widget" t-on-click="() => this.onClickActivities()">
+                <div class="apt_appsmenu_widget_icon">
+                    <i class="fa fa-clock-o"/>
+                </div>
+                <span class="apt_appsmenu_widget_value"><t t-out="this.activitiesDueCount"/></span>
+                <span class="apt_appsmenu_widget_label">Due Today</span>
+            </div>
+            <div class="apt_appsmenu_widget" t-on-click="() => this.onClickMessages()">
+                <div class="apt_appsmenu_widget_icon">
+                    <i class="fa fa-envelope"/>
+                </div>
+                <span class="apt_appsmenu_widget_value"><t t-out="this.store.messagingMenu.globalCounter"/></span>
+                <span class="apt_appsmenu_widget_label">Unread</span>
+            </div>
+            <div
+                t-if="this.ticketsCount() !== false"
+                class="apt_appsmenu_widget"
+                t-on-click="() => this.onClickTickets()"
+            >
+                <div class="apt_appsmenu_widget_icon">
+                    <i class="fa fa-life-ring"/>
+                </div>
+                <span class="apt_appsmenu_widget_value"><t t-out="this.ticketsCount() ?? '…'"/></span>
+                <span class="apt_appsmenu_widget_label">My Tickets</span>
+            </div>
+        </div>
+    </t>
+
+</templates>

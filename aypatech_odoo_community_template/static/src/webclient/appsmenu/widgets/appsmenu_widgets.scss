@@ -1,0 +1,75 @@
+.apt_appsmenu_widgets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 8px;
+}
+
+.apt_appsmenu_widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 120px;
+    padding: 16px 20px;
+    border-radius: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--apt-appsmenu-color, #{$apt-appsmenu-color});
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+}
+
+.apt_appsmenu_widget_icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.apt_appsmenu_widget_value {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.apt_appsmenu_widget_label {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.apt_appsmenu_widget_date_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+}
+
+.apt_appsmenu_widget_date_weekday {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.apt_appsmenu_widget_date_day {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.apt_appsmenu_widget_date_month {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
