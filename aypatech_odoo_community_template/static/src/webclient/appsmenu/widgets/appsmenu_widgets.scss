@@ -73,3 +73,69 @@
     font-size: 0.8rem;
     opacity: 0.9;
 }
+
+.apt_appsmenu_widget_todo {
+    align-items: stretch;
+    justify-content: flex-start;
+    min-width: 220px;
+    max-width: 260px;
+    gap: 8px;
+}
+
+.apt_appsmenu_widget_todo_header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .apt_appsmenu_widget_label {
+        flex: 1 1 auto;
+        text-align: left;
+    }
+}
+
+.apt_appsmenu_widget_todo_count {
+    font-weight: 700;
+    font-size: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.35rem;
+}
+
+.apt_appsmenu_widget_todo_list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.apt_appsmenu_widget_todo_item {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 0.4rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color 0.15s ease-in-out;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.28);
+    }
+}
+
+.apt_appsmenu_widget_todo_empty {
+    font-size: 0.8rem;
+    opacity: 0.75;
+    padding: 4px 10px;
+}
+
+.apt_appsmenu_widget_todo_more {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    padding: 0 10px;
+    text-align: right;
+}
