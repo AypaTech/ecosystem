@@ -115,19 +115,22 @@ export class AppsMenuWidgets extends Component {
     }
 
     onClickTodoItem(taskId) {
-        this.actionService.doAction({
-            type: 'ir.actions.act_window',
-            res_model: TODO_TASK_MODEL,
-            res_id: taskId,
-            views: [[false, 'form']],
-            view_mode: 'form',
-            target: 'current',
-            context: { form_view_ref: 'project_todo.project_task_view_todo_form' },
-        });
+        this.actionService.doAction(
+            {
+                type: 'ir.actions.act_window',
+                res_model: TODO_TASK_MODEL,
+                res_id: taskId,
+                views: [[false, 'form']],
+                view_mode: 'form',
+                target: 'main',
+                context: { form_view_ref: 'project_todo.project_task_view_todo_form' },
+            },
+            { clearBreadcrumbs: true },
+        );
     }
 
     onClickMessages() {
-        this.actionService.doAction('mail.action_discuss');
+        this.actionService.doAction('mail.action_discuss', { clearBreadcrumbs: true });
     }
 
     async onClickTickets() {
@@ -136,6 +139,12 @@ export class AppsMenuWidgets extends Component {
             ['user_id', '=', user.userId],
             ['closed', '=', false],
         ];
-        this.actionService.doAction(action);
+        action.target = 'main';
+        // Force the list view: the kanban view groups by stage_id, which
+        // requires read access to the Helpdesk Stage model that a user can
+        // otherwise lack even while having access to tickets themselves.
+        action.views = [[false, 'list'], ...action.views.filter(([, type]) => type !== 'list')];
+        action.view_mode = 'list';
+        this.actionService.doAction(action, { clearBreadcrumbs: true });
     }
 }
