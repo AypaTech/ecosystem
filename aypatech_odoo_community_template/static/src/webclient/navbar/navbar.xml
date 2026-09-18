@@ -13,6 +13,7 @@
 					<i class="oi" data-icon="apps" />
 				</button>
           		<t t-set-slot="content">
+					<AppsMenuWidgets/>
 					<DropdownItem
 						t-foreach="this.appMenuService.getAppsMenuItems()"
 						t-as="app"
