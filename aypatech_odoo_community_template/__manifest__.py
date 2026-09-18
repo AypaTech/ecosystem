@@ -42,6 +42,7 @@ deployment the same everyday comfort features:
         'mail',
         'bus',
         'base_automation',
+        'project_todo',
     ],
     'data': [
         'views/res_config_settings.xml',
