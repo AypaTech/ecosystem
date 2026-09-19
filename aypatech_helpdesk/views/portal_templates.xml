@@ -9,9 +9,9 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <a t-attf-class="btn btn-sm #{'btn-primary' if status == 'open' else 'btn-outline-primary'} me-1"
-                           href="/my/tickets?status=open">Open (<t t-esc="open_count"/>)</a>
+                           href="/my/tickets?status=open">Open (<t t-out="open_count"/>)</a>
                         <a t-attf-class="btn btn-sm #{'btn-primary' if status == 'closed' else 'btn-outline-primary'}"
-                           href="/my/tickets?status=closed">Closed (<t t-esc="closed_count"/>)</a>
+                           href="/my/tickets?status=closed">Closed (<t t-out="closed_count"/>)</a>
                     </div>
                     <a class="btn btn-primary" href="/my/tickets/new">New Ticket</a>
                 </div>
@@ -27,11 +27,11 @@
                     </thead>
                     <tbody>
                         <tr t-foreach="tickets" t-as="ticket">
-                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-esc="ticket.number"/></a></td>
-                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-esc="ticket.name"/></a></td>
-                            <td><t t-esc="ticket.stage_id.name"/></td>
-                            <td><t t-esc="dict(ticket._fields['priority'].selection).get(ticket.priority)"/></td>
-                            <td><t t-esc="ticket.create_date.strftime('%d %b %Y')"/></td>
+                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-out="ticket.number"/></a></td>
+                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-out="ticket.name"/></a></td>
+                            <td><t t-out="ticket.stage_id.name"/></td>
+                            <td><t t-out="dict(ticket._fields['priority'].selection).get(ticket.priority)"/></td>
+                            <td><t t-out="ticket.create_date.strftime('%d %b %Y')"/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -46,7 +46,7 @@
                 <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
                 <li class="breadcrumb-item active">New</li>
             </t>
-            <div t-if="error" class="alert alert-danger" t-esc="error"/>
+            <div t-if="error" class="alert alert-danger" t-out="error"/>
             <form action="/my/tickets/new" method="post" class="o_portal_ticket_form">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <div class="mb-3">
@@ -57,7 +57,7 @@
                     <label class="form-label">Category</label>
                     <select name="category_id" class="form-select">
                         <option value="">-</option>
-                        <option t-foreach="categories" t-as="category" t-att-value="category.id" t-esc="category.name"/>
+                        <option t-foreach="categories" t-as="category" t-att-value="category.id" t-out="category.name"/>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -82,13 +82,13 @@
         <t t-call="portal.portal_layout">
             <t t-call="portal.portal_breadcrumbs">
                 <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
-                <li class="breadcrumb-item active" t-esc="ticket.number"/>
+                <li class="breadcrumb-item active" t-out="ticket.number"/>
             </t>
             <div t-if="success" class="alert alert-success">Done.</div>
-            <h3><t t-esc="ticket.name"/></h3>
+            <h3><t t-out="ticket.name"/></h3>
             <p class="text-muted">
-                <t t-esc="ticket.stage_id.name"/> ·
-                <t t-esc="dict(ticket._fields['priority'].selection).get(ticket.priority)"/>
+                <t t-out="ticket.stage_id.name"/> ·
+                <t t-out="dict(ticket._fields['priority'].selection).get(ticket.priority)"/>
             </p>
             <div t-field="ticket.description"/>
 
@@ -96,7 +96,7 @@
                   t-attf-action="/my/tickets/#{ticket.id}/close" method="post" class="mb-3">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <select name="stage_id" class="form-select d-inline-block w-auto">
-                    <option t-foreach="closing_stages" t-as="stage" t-att-value="stage.id" t-esc="stage.name"/>
+                    <option t-foreach="closing_stages" t-as="stage" t-att-value="stage.id" t-out="stage.name"/>
                 </select>
                 <button type="submit" class="btn btn-outline-secondary">Close Ticket</button>
             </form>
@@ -105,8 +105,8 @@
             <h5>Conversation</h5>
             <div t-foreach="messages" t-as="message" class="mb-3 p-2 border-start border-3">
                 <div class="text-muted small">
-                    <t t-esc="message.author_id.name or message.email_from"/> ·
-                    <t t-esc="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
+                    <t t-out="message.author_id.name or message.email_from"/> ·
+                    <t t-out="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
                 </div>
                 <div t-raw="message.body"/>
             </div>
