@@ -108,7 +108,7 @@
                     <t t-out="message.author_id.name or message.email_from"/> ·
                     <t t-out="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
                 </div>
-                <div t-raw="message.body"/>
+                <div t-out="message.body"/>
             </div>
 
             <form t-if="not ticket.stage_id.closed" t-attf-action="/my/tickets/#{ticket.id}/reply" method="post">
