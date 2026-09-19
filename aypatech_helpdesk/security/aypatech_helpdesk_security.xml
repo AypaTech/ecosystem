@@ -1,10 +1,22 @@
 <odoo>
+    <record model="res.groups.privilege" id="res_groups_privilege_helpdesk">
+        <field name="name">Helpdesk</field>
+        <field name="category_id" ref="base.module_category_services_helpdesk"/>
+    </record>
+
     <record id="group_helpdesk_user" model="res.groups">
         <field name="name">Helpdesk Agent</field>
+        <field name="comment">Agent: can manage tickets in their teams.</field>
+        <field name="sequence">10</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="privilege_id" ref="res_groups_privilege_helpdesk"/>
     </record>
     <record id="group_helpdesk_manager" model="res.groups">
         <field name="name">Helpdesk Manager</field>
+        <field name="comment">Manager: full access to tickets, teams, stages and categories.</field>
+        <field name="sequence">20</field>
         <field name="implied_ids" eval="[(4, ref('group_helpdesk_user'))]"/>
+        <field name="privilege_id" ref="res_groups_privilege_helpdesk"/>
+        <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
     </record>
-
-    </odoo>
+</odoo>

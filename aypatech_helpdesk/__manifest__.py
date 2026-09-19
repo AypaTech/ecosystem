@@ -29,7 +29,6 @@ in-house with no dependency on any third-party helpdesk module:
     'depends': ['base', 'mail', 'portal'],
     'data': [
         'security/aypatech_helpdesk_security.xml',
-        'data/helpdesk_admin_group_data.xml',
         'data/aypatech_helpdesk_data.xml',
         'data/ir_cron.xml',
         'views/aypatech_helpdesk_ticket_views.xml',
