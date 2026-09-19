@@ -103,12 +103,20 @@
 
             <hr/>
             <h5>Conversation</h5>
-            <div t-foreach="messages" t-as="message" class="mb-3 p-2 border-start border-3">
-                <div class="text-muted small">
-                    <t t-out="message.author_id.name or message.email_from"/> ·
-                    <t t-out="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
-                </div>
-                <div t-out="message.body"/>
+            <div class="d-flex flex-column gap-2 mb-3">
+                <t t-foreach="messages" t-as="message">
+                    <t t-set="is_me" t-value="message.author_id.id == request.env.user.partner_id.id"/>
+                    <div t-attf-class="d-flex flex-column #{'align-items-end' if is_me else 'align-items-start'}">
+                        <div t-attf-class="px-3 py-2 rounded-3 #{'text-white' if is_me else ''}"
+                             t-attf-style="max-width:75%;#{'background-color:#1A2B4A;' if is_me else 'background-color:#F0F0F0;'}">
+                            <div t-attf-class="small fw-bold mb-1 #{'text-white-50' if is_me else 'text-muted'}"
+                                 t-out="message.author_id.name or message.email_from"/>
+                            <div t-out="message.body"/>
+                        </div>
+                        <div class="text-muted small mt-1"
+                             t-out="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
+                    </div>
+                </t>
             </div>
 
             <form t-if="not ticket.stage_id.closed" t-attf-action="/my/tickets/#{ticket.id}/reply" method="post">
