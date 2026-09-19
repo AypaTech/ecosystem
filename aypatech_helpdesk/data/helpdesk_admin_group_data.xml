@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The helpdesk security groups (see security/aypatech_helpdesk_security.xml)
+         restrict aypatech.helpdesk.stage/team/category to Helpdesk
+         Agent/Manager only, with no fallback for base.group_user — so a
+         freshly installed instance's Administrator can't even open the
+         Helpdesk app (kanban groups by stage_id, which needs read access
+         to aypatech.helpdesk.stage). Grant the admin user Helpdesk
+         Manager by default, same as other Odoo apps do for their own
+         manager group on install. -->
+    <record id="base.user_admin" model="res.users">
+        <field name="group_ids" eval="[(4, ref('group_helpdesk_manager'))]"/>
+    </record>
+</odoo>
