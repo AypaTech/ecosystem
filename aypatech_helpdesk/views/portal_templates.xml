@@ -117,13 +117,22 @@
                                  t-out="message.author_id.name or message.email_from"/>
                             <div t-out="message.body"/>
                             <div t-if="message.attachment_ids" class="mt-2 d-flex flex-wrap gap-2">
-                                <a t-foreach="message.attachment_ids" t-as="att"
-                                   t-attf-href="/web/content/#{att.id}?download=true" target="_blank"
-                                   t-attf-class="d-flex align-items-center gap-1 px-2 py-1 rounded-2 small text-decoration-none #{'text-white' if is_me else 'text-dark'}"
-                                   t-attf-style="background-color:#{'rgba(255,255,255,.15)' if is_me else 'rgba(0,0,0,.06)'};">
-                                    <i t-attf-class="fa #{'fa-file-pdf-o' if 'pdf' in (att.mimetype or '') else 'fa-file-image-o'}"/>
-                                    <t t-out="att.name"/>
-                                </a>
+                                <t t-foreach="message.attachment_ids" t-as="att">
+                                    <img t-if="(att.mimetype or '').startswith('image/')"
+                                         t-attf-src="/web/image/#{att.id}"
+                                         t-att-data-full="'/web/image/%d' % att.id"
+                                         t-att-data-download="'/web/content/%d?download=true' % att.id"
+                                         t-att-data-name="att.name"
+                                         class="o_hd_chat_thumb rounded-2"
+                                         style="width:96px;height:96px;object-fit:cover;cursor:pointer;"/>
+                                    <a t-else=""
+                                       t-attf-href="/web/content/#{att.id}?download=true" target="_blank"
+                                       t-attf-class="d-flex align-items-center gap-1 px-2 py-1 rounded-2 small text-decoration-none #{'text-white' if is_me else 'text-dark'}"
+                                       t-attf-style="background-color:#{'rgba(255,255,255,.15)' if is_me else 'rgba(0,0,0,.06)'};">
+                                        <i class="fa fa-file-pdf-o"/>
+                                        <t t-out="att.name"/>
+                                    </a>
+                                </t>
                             </div>
                         </div>
                         <div class="text-muted small mt-1"
@@ -144,6 +153,43 @@
                 <button type="submit" class="btn btn-primary">Reply</button>
             </form>
             <p t-else="" class="text-muted">This ticket is closed.</p>
+
+            <!-- Lightbox: click an image bubble to open it full-size, with
+                 a download button and a close button/click-outside-to-close. -->
+            <div id="o_hd_lightbox" style="display:none;position:fixed;inset:0;z-index:1080;
+                 background:rgba(0,0,0,.85);align-items:center;justify-content:center;padding:24px;">
+                <button type="button" id="o_hd_lightbox_close" aria-label="Close"
+                        style="position:absolute;top:16px;right:20px;background:none;border:none;
+                        color:#fff;font-size:32px;line-height:1;cursor:pointer;">&#215;</button>
+                <img id="o_hd_lightbox_img" src="" style="max-width:90%;max-height:80vh;border-radius:6px;"/>
+                <a id="o_hd_lightbox_download" href="#" download=""
+                   class="btn btn-light position-absolute" style="bottom:24px;left:50%;transform:translateX(-50%);">
+                    <i class="fa fa-download me-1"/>Download
+                </a>
+            </div>
+            <script>
+                (function () {
+                    var box = document.getElementById('o_hd_lightbox');
+                    var img = document.getElementById('o_hd_lightbox_img');
+                    var dl = document.getElementById('o_hd_lightbox_download');
+                    if (!box) return;
+                    function open(src, downloadUrl, name) {
+                        img.src = src;
+                        dl.href = downloadUrl;
+                        dl.setAttribute('download', name || '');
+                        box.style.display = 'flex';
+                    }
+                    function close() { box.style.display = 'none'; img.src = ''; }
+                    document.querySelectorAll('.o_hd_chat_thumb').forEach(function (thumb) {
+                        thumb.addEventListener('click', function () {
+                            open(thumb.dataset.full, thumb.dataset.download, thumb.dataset.name);
+                        });
+                    });
+                    document.getElementById('o_hd_lightbox_close').addEventListener('click', close);
+                    box.addEventListener('click', function (ev) { if (ev.target === box) close(); });
+                    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') close(); });
+                })();
+            </script>
         </t>
     </template>
 </odoo>

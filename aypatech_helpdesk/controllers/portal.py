@@ -114,7 +114,7 @@ class AypatechHelpdeskPortal(http.Controller):
         if not body:
             return request.redirect('/my/tickets/%d' % ticket.id)
 
-        attachment_ids = []
+        attachment = None
         upload = request.httprequest.files.get('attachment')
         if upload and upload.filename:
             data = upload.read()
@@ -126,16 +126,27 @@ class AypatechHelpdeskPortal(http.Controller):
                     'res_model': 'aypatech.helpdesk.ticket',
                     'res_id': ticket.id,
                     'mimetype': upload.content_type,
+                    # Portal users can only ever read an attachment via
+                    # /web/content if it's public — ir.attachment's own
+                    # access check rejects them outright otherwise, even
+                    # though they can read the ticket it's attached to.
+                    'public': True,
                 })
-                attachment_ids.append(attachment.id)
 
-        ticket.message_post(
+        # message_post()'s own attachment_ids kwarg silently drops any
+        # attachment not created through the mail composer's own
+        # "pending attachment" flow when the author isn't an internal user
+        # (mail_thread.py's _process_attachments_for_post) — since ours is
+        # created directly against the ticket, it would always get
+        # stripped for a portal reply. Link it ourselves afterwards instead.
+        message = ticket.message_post(
             body=body,
             message_type='comment',
             subtype_xmlid='mail.mt_comment',
             author_id=current_partner.id,
-            attachment_ids=attachment_ids,
         )
+        if attachment:
+            message.sudo().write({'attachment_ids': [(4, attachment.id)]})
         return request.redirect('/my/tickets/%d?success=replied' % ticket.id)
 
     @http.route('/my/tickets/<int:ticket_id>/close', type='http', auth='user', website=True, methods=['POST'])
