@@ -104,27 +104,34 @@
             <hr/>
             <h5>Conversation</h5>
             <style>
-                .o_hd_chat p{margin:0;}
-                .o_hd_chat p + p{margin-top:.4rem;}
+                .o_hd_chat, .o_hd_chat *{box-sizing:border-box;}
+                .o_hd_chat{display:flex;flex-direction:column;row-gap:8px;margin:0 0 1rem;padding:0;}
+                .o_hd_chat .o_hd_row{display:flex;flex-direction:column;margin:0 !important;padding:0 !important;}
+                .o_hd_chat .o_hd_bubble{margin:0 !important;padding:6px 12px;border-radius:14px;
+                    max-width:75%;font-size:13.5px;line-height:1.4;}
+                .o_hd_chat .o_hd_bubble p{margin:0;}
+                .o_hd_chat .o_hd_bubble p + p{margin-top:.3rem;}
+                .o_hd_chat .o_hd_meta{font-size:11px;font-weight:600;opacity:.65;margin:0 0 2px;line-height:1.2;}
+                .o_hd_chat .o_hd_files{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+                .o_hd_chat_thumb{display:block;width:72px;height:72px;object-fit:cover;border-radius:8px;cursor:pointer;}
             </style>
-            <div class="o_hd_chat d-flex flex-column mb-3" style="gap:.6rem;">
+            <div class="o_hd_chat">
                 <t t-foreach="messages" t-as="message">
                     <t t-set="is_me" t-value="message.author_id.id == request.env.user.partner_id.id"/>
-                    <div t-attf-class="d-flex flex-column #{'align-items-end' if is_me else 'align-items-start'}">
-                        <div t-attf-class="px-3 py-2 rounded-3 #{'text-white' if is_me else ''}"
-                             t-attf-style="max-width:75%;#{'background-color:#1A2B4A;' if is_me else 'background-color:#F0F0F0;'}">
-                            <div t-attf-class="small fw-bold mb-1 #{'text-white-50' if is_me else 'text-muted'}"
-                                 t-out="message.author_id.name or message.email_from"/>
+                    <div t-attf-class="o_hd_row #{'align-items-end' if is_me else 'align-items-start'}">
+                        <div t-attf-class="o_hd_bubble #{'text-white' if is_me else ''}"
+                             t-attf-style="#{'background-color:#1A2B4A;' if is_me else 'background-color:#F0F0F0;'}">
+                            <div class="o_hd_meta"
+                                 t-out="'%s · %s' % (message.author_id.name or message.email_from or '', message.date.strftime('%d %b, %H:%M') if message.date else '')"/>
                             <div t-out="message.body"/>
-                            <div t-if="message.attachment_ids" class="mt-2 d-flex flex-wrap gap-2">
+                            <div t-if="message.attachment_ids" class="o_hd_files">
                                 <t t-foreach="message.attachment_ids" t-as="att">
                                     <img t-if="(att.mimetype or '').startswith('image/')"
                                          t-attf-src="/web/image/#{att.id}"
                                          t-att-data-full="'/web/image/%d' % att.id"
                                          t-att-data-download="'/web/content/%d?download=true' % att.id"
                                          t-att-data-name="att.name"
-                                         class="o_hd_chat_thumb rounded-2"
-                                         style="width:96px;height:96px;object-fit:cover;cursor:pointer;"/>
+                                         class="o_hd_chat_thumb"/>
                                     <a t-else=""
                                        t-attf-href="/web/content/#{att.id}?download=true" target="_blank"
                                        t-attf-class="d-flex align-items-center gap-1 px-2 py-1 rounded-2 small text-decoration-none #{'text-white' if is_me else 'text-dark'}"
@@ -135,8 +142,6 @@
                                 </t>
                             </div>
                         </div>
-                        <div class="text-muted small mt-1"
-                             t-out="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
                     </div>
                 </t>
             </div>
