@@ -4,7 +4,7 @@
          in their own <li> content (t-call children are silently dropped) —
          the correct way to add entries is to extend it like this, keyed by
          page_name, same as every core module (sale, project, ...) does. -->
-    <template id="portal_ticket_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+    <template id="portal_ticket_breadcrumbs" inherit_id="portal.portal_breadcrumbs" visibility="public">
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li t-if="page_name in ('tickets_list', 'ticket_new', 'ticket_detail')"
                 class="breadcrumb-item">
