@@ -113,6 +113,17 @@ class AypatechHelpdeskTicket(models.Model):
         from either side.
         """
         message = super().message_post(**kwargs)
+
+        # Portal users can only ever read an attachment via /web/content or
+        # /web/image if it's public — ir.attachment's own access check
+        # rejects them outright otherwise, even when they can read the
+        # ticket it's attached to. This applies regardless of *how* the
+        # message/attachment was created — the backend chatter's own
+        # composer, the portal reply form, automated notes — so it's
+        # handled once here rather than in every calling controller.
+        if message and message.attachment_ids:
+            message.attachment_ids.sudo().write({'public': True})
+
         if self.env.context.get('_system_note'):
             return message
 
