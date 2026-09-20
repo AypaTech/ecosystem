@@ -41,7 +41,7 @@
     </template>
 
     <template id="portal_ticket_new" name="New Ticket">
-        <t t-call="portal.portal_layout">
+        <t t-call="portal.portal_layout" no_breadcrumbs="True">
             <t t-call="portal.portal_breadcrumbs">
                 <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
                 <li class="breadcrumb-item active">New</li>
@@ -79,7 +79,7 @@
     </template>
 
     <template id="portal_ticket_detail" name="Ticket Detail">
-        <t t-call="portal.portal_layout">
+        <t t-call="portal.portal_layout" no_breadcrumbs="True">
             <t t-call="portal.portal_breadcrumbs">
                 <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
                 <li class="breadcrumb-item active" t-out="ticket.number"/>
@@ -105,10 +105,10 @@
             <h5>Conversation</h5>
             <style>
                 .o_hd_chat, .o_hd_chat *{box-sizing:border-box;}
-                .o_hd_chat{display:flex;flex-direction:column;row-gap:8px;margin:0 0 1rem;padding:0;}
+                .o_hd_chat{display:flex;flex-direction:column;row-gap:4px;margin:0 0 1rem;padding:0;}
                 .o_hd_chat .o_hd_row{display:flex;flex-direction:column;margin:0 !important;padding:0 !important;}
-                .o_hd_chat .o_hd_bubble{margin:0 !important;padding:6px 12px;border-radius:14px;
-                    max-width:75%;font-size:13.5px;line-height:1.4;}
+                .o_hd_chat .o_hd_bubble{margin:0 !important;padding:5px 10px;border-radius:12px;
+                    max-width:75%;font-size:13.5px;line-height:1.35;}
                 .o_hd_chat .o_hd_bubble p{margin:0;}
                 .o_hd_chat .o_hd_bubble p + p{margin-top:.3rem;}
                 .o_hd_chat .o_hd_meta{font-size:11px;font-weight:600;opacity:.65;margin:0 0 2px;line-height:1.2;}
