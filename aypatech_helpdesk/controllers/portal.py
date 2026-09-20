@@ -122,7 +122,7 @@ class AypatechHelpdeskPortal(http.Controller):
                     upload.content_type in self._REPLY_ATTACHMENT_ALLOWED_MIMETYPES:
                 attachment = request.env['ir.attachment'].sudo().create({
                     'name': upload.filename,
-                    'datas': base64.b64encode(data).decode('ascii'),
+                    'raw': data,
                     'res_model': 'aypatech.helpdesk.ticket',
                     'res_id': ticket.id,
                     'mimetype': upload.content_type,
