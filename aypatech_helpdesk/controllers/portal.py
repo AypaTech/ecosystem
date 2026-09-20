@@ -1,6 +1,8 @@
 # Copyright 2026 - Aypa Tech - www.aypatech.com
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html)
 
+import base64
+
 from odoo import fields, http
 from odoo.http import request
 
@@ -91,6 +93,9 @@ class AypatechHelpdeskPortal(http.Controller):
             'success': kwargs.get('success'),
         })
 
+    _REPLY_ATTACHMENT_ALLOWED_MIMETYPES = ('image/png', 'image/jpeg', 'application/pdf')
+    _REPLY_ATTACHMENT_MAX_BYTES = 3 * 1024 * 1024  # 3MB
+
     @http.route('/my/tickets/<int:ticket_id>/reply', type='http', auth='user', website=True, methods=['POST'])
     def portal_ticket_reply(self, ticket_id, **post):
         ticket = request.env['aypatech.helpdesk.ticket'].sudo().browse(ticket_id)
@@ -106,13 +111,31 @@ class AypatechHelpdeskPortal(http.Controller):
             return request.redirect('/my/tickets/%d' % ticket.id)
 
         body = (post.get('body') or '').strip()
-        if body:
-            ticket.message_post(
-                body=body,
-                message_type='comment',
-                subtype_xmlid='mail.mt_comment',
-                author_id=current_partner.id,
-            )
+        if not body:
+            return request.redirect('/my/tickets/%d' % ticket.id)
+
+        attachment_ids = []
+        upload = request.httprequest.files.get('attachment')
+        if upload and upload.filename:
+            data = upload.read()
+            if data and len(data) <= self._REPLY_ATTACHMENT_MAX_BYTES and \
+                    upload.content_type in self._REPLY_ATTACHMENT_ALLOWED_MIMETYPES:
+                attachment = request.env['ir.attachment'].sudo().create({
+                    'name': upload.filename,
+                    'datas': base64.b64encode(data).decode('ascii'),
+                    'res_model': 'aypatech.helpdesk.ticket',
+                    'res_id': ticket.id,
+                    'mimetype': upload.content_type,
+                })
+                attachment_ids.append(attachment.id)
+
+        ticket.message_post(
+            body=body,
+            message_type='comment',
+            subtype_xmlid='mail.mt_comment',
+            author_id=current_partner.id,
+            attachment_ids=attachment_ids,
+        )
         return request.redirect('/my/tickets/%d?success=replied' % ticket.id)
 
     @http.route('/my/tickets/<int:ticket_id>/close', type='http', auth='user', website=True, methods=['POST'])

@@ -103,7 +103,11 @@
 
             <hr/>
             <h5>Conversation</h5>
-            <div class="d-flex flex-column gap-2 mb-3">
+            <style>
+                .o_hd_chat p{margin:0;}
+                .o_hd_chat p + p{margin-top:.4rem;}
+            </style>
+            <div class="o_hd_chat d-flex flex-column mb-3" style="gap:.6rem;">
                 <t t-foreach="messages" t-as="message">
                     <t t-set="is_me" t-value="message.author_id.id == request.env.user.partner_id.id"/>
                     <div t-attf-class="d-flex flex-column #{'align-items-end' if is_me else 'align-items-start'}">
@@ -112,6 +116,15 @@
                             <div t-attf-class="small fw-bold mb-1 #{'text-white-50' if is_me else 'text-muted'}"
                                  t-out="message.author_id.name or message.email_from"/>
                             <div t-out="message.body"/>
+                            <div t-if="message.attachment_ids" class="mt-2 d-flex flex-wrap gap-2">
+                                <a t-foreach="message.attachment_ids" t-as="att"
+                                   t-attf-href="/web/content/#{att.id}?download=true" target="_blank"
+                                   t-attf-class="d-flex align-items-center gap-1 px-2 py-1 rounded-2 small text-decoration-none #{'text-white' if is_me else 'text-dark'}"
+                                   t-attf-style="background-color:#{'rgba(255,255,255,.15)' if is_me else 'rgba(0,0,0,.06)'};">
+                                    <i t-attf-class="fa #{'fa-file-pdf-o' if 'pdf' in (att.mimetype or '') else 'fa-file-image-o'}"/>
+                                    <t t-out="att.name"/>
+                                </a>
+                            </div>
                         </div>
                         <div class="text-muted small mt-1"
                              t-out="message.date.strftime('%d %b %Y %H:%M') if message.date else ''"/>
@@ -119,9 +132,15 @@
                 </t>
             </div>
 
-            <form t-if="not ticket.stage_id.closed" t-attf-action="/my/tickets/#{ticket.id}/reply" method="post">
+            <form t-if="not ticket.stage_id.closed" t-attf-action="/my/tickets/#{ticket.id}/reply"
+                  method="post" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <textarea name="body" class="form-control mb-2" rows="3" placeholder="Write a reply..." required="required"/>
+                <div class="mb-2">
+                    <input type="file" name="attachment" class="form-control form-control-sm"
+                           accept="image/png,image/jpeg,application/pdf"/>
+                    <div class="form-text">PNG, JPG or PDF — max 3MB.</div>
+                </div>
                 <button type="submit" class="btn btn-primary">Reply</button>
             </form>
             <p t-else="" class="text-muted">This ticket is closed.</p>
