@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- portal.portal_breadcrumbs doesn't expose a slot for callers to pass
+         in their own <li> content (t-call children are silently dropped) —
+         the correct way to add entries is to extend it like this, keyed by
+         page_name, same as every core module (sale, project, ...) does. -->
+    <template id="portal_ticket_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name in ('tickets_list', 'ticket_new', 'ticket_detail')"
+                class="breadcrumb-item">
+                <a href="/my/tickets">Tickets</a>
+            </li>
+            <li t-if="page_name == 'ticket_new'" class="breadcrumb-item active">New</li>
+            <li t-if="page_name == 'ticket_detail'" class="breadcrumb-item active" t-out="ticket.number"/>
+        </xpath>
+    </template>
+
     <template id="portal_tickets_list" name="My Tickets">
         <t t-call="portal.portal_layout" breadcrumbs_searchbar="True">
-            <t t-call="portal.portal_breadcrumbs">
-                <li class="breadcrumb-item active">Tickets</li>
-            </t>
             <div class="o_portal_my_doc_table">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
@@ -41,11 +53,7 @@
     </template>
 
     <template id="portal_ticket_new" name="New Ticket">
-        <t t-call="portal.portal_layout" no_breadcrumbs="True">
-            <t t-call="portal.portal_breadcrumbs">
-                <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
-                <li class="breadcrumb-item active">New</li>
-            </t>
+        <t t-call="portal.portal_layout">
             <div t-if="error" class="alert alert-danger" t-out="error"/>
             <form action="/my/tickets/new" method="post" class="o_portal_ticket_form">
                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
@@ -79,11 +87,7 @@
     </template>
 
     <template id="portal_ticket_detail" name="Ticket Detail">
-        <t t-call="portal.portal_layout" no_breadcrumbs="True">
-            <t t-call="portal.portal_breadcrumbs">
-                <li class="breadcrumb-item"><a href="/my/tickets">Tickets</a></li>
-                <li class="breadcrumb-item active" t-out="ticket.number"/>
-            </t>
+        <t t-call="portal.portal_layout">
             <div t-if="success" class="alert alert-success">Done.</div>
             <h3><t t-out="ticket.name"/></h3>
             <p class="text-muted">

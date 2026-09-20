@@ -42,6 +42,7 @@ class AypatechHelpdeskPortal(http.Controller):
         return request.render('aypatech_helpdesk.portal_ticket_new', {
             'categories': categories,
             'error': kwargs.get('error'),
+            'page_name': 'ticket_new',
         })
 
     @http.route('/my/tickets/new', type='http', auth='user', website=True, methods=['POST'])
@@ -91,6 +92,7 @@ class AypatechHelpdeskPortal(http.Controller):
             'messages': messages,
             'closing_stages': closing_stages,
             'success': kwargs.get('success'),
+            'page_name': 'ticket_detail',
         })
 
     _REPLY_ATTACHMENT_ALLOWED_MIMETYPES = ('image/png', 'image/jpeg', 'application/pdf')
