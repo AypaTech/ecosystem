@@ -4,16 +4,25 @@
          in their own <li> content (t-call children are silently dropped) —
          the correct way to add entries is to extend it like this, keyed by
          page_name, same as every core module (sale, project, ...) does. -->
-    <template id="portal_ticket_breadcrumbs" inherit_id="portal.portal_breadcrumbs" visibility="public">
-        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
-            <li t-if="page_name in ('tickets_list', 'ticket_new', 'ticket_detail')"
-                class="breadcrumb-item">
-                <a href="/my/tickets">Tickets</a>
-            </li>
-            <li t-if="page_name == 'ticket_new'" class="breadcrumb-item active">New</li>
-            <li t-if="page_name == 'ticket_detail'" class="breadcrumb-item active" t-out="ticket.number"/>
-        </xpath>
-    </template>
+    <record id="portal_ticket_breadcrumbs" model="ir.ui.view">
+        <field name="name">portal_ticket_breadcrumbs</field>
+        <field name="inherit_id" ref="portal.portal_breadcrumbs"/>
+        <!-- website's ir.ui.view.visibility column is required (not null)
+             at the DB level in this Odoo version; the <template> shorthand
+             doesn't accept it as an attribute, hence the long-hand record
+             form here. -->
+        <field name="visibility">public</field>
+        <field name="arch" type="xml">
+            <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+                <li t-if="page_name in ('tickets_list', 'ticket_new', 'ticket_detail')"
+                    class="breadcrumb-item">
+                    <a href="/my/tickets">Tickets</a>
+                </li>
+                <li t-if="page_name == 'ticket_new'" class="breadcrumb-item active">New</li>
+                <li t-if="page_name == 'ticket_detail'" class="breadcrumb-item active" t-out="ticket.number"/>
+            </xpath>
+        </field>
+    </record>
 
     <template id="portal_tickets_list" name="My Tickets">
         <t t-call="portal.portal_layout" breadcrumbs_searchbar="True">
