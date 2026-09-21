@@ -128,11 +128,7 @@ class AypatechHelpdeskPortal(http.Controller):
                     'res_model': 'aypatech.helpdesk.ticket',
                     'res_id': ticket.id,
                     'mimetype': upload.content_type,
-                    # Portal users can only ever read an attachment via
-                    # /web/content if it's public — ir.attachment's own
-                    # access check rejects them outright otherwise, even
-                    # though they can read the ticket it's attached to.
-                    'public': True,
+                    'public': False,
                 })
 
         # message_post()'s own attachment_ids kwarg silently drops any

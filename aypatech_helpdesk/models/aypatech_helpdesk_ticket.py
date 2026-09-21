@@ -114,15 +114,15 @@ class AypatechHelpdeskTicket(models.Model):
         """
         message = super().message_post(**kwargs)
 
-        # Portal users can only ever read an attachment via /web/content or
-        # /web/image if it's public — ir.attachment's own access check
-        # rejects them outright otherwise, even when they can read the
-        # ticket it's attached to. This applies regardless of *how* the
-        # message/attachment was created — the backend chatter's own
-        # composer, the portal reply form, automated notes — so it's
-        # handled once here rather than in every calling controller.
-        if message and message.attachment_ids:
-            message.attachment_ids.sudo().write({'public': True})
+        # NOTE: attachments are intentionally left non-public here.
+        # ir.attachment._can_return_content() lets a portal user read a
+        # non-public attachment via /web/content as long as they have read
+        # access to the record it's linked to (see ticket_rule_portal_own_only
+        # in security/ir.access.csv) — public=True is not required for that.
+        # Forcing public=True instead makes ticket images show up in the
+        # website builder's "Select a media" image library (its domain OR's
+        # in every public attachment regardless of res_model), which is
+        # exactly what we don't want.
 
         if self.env.context.get('_system_note'):
             return message
