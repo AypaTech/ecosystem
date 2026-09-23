@@ -1,8 +1,9 @@
 import { url } from '@web/core/utils/urls';
 import { useService } from '@web/core/utils/hooks';
 import { user } from '@web/core/user';
+import { render } from '@web/owl2/utils';
 
-import { Component, onWillUnmount } from '@odoo/owl';
+import { Component, useListener } from '@odoo/owl';
 
 /**
  * Sidebar listing the installed apps, with an optional company footer image,
@@ -19,16 +20,8 @@ export class AppsBar extends Component {
                 id: user.activeCompany.id,
             });
         }
-        const renderAfterMenuChange = () => {
-            this.render();
-        };
-        this.env.bus.addEventListener('MENUS:APP-CHANGED', renderAfterMenuChange);
-        onWillUnmount(() => {
-            this.env.bus.removeEventListener(
-                'MENUS:APP-CHANGED',
-                renderAfterMenuChange,
-            );
-        });
+        // Owl 3 dropped Component#render(); same pattern as core NavBar.
+        useListener(this.env.bus, 'MENUS:APP-CHANGED', () => render(this));
     }
     _onAppClick(app) {
         return this.appMenuService.selectApp(app);

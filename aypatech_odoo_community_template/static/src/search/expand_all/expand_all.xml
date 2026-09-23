@@ -4,7 +4,7 @@
     <t t-name="aypatech_odoo_community_template.ExpandAll">
         <DropdownItem
             class="'apt_expand_all_menu'"
-            onSelected.bind="onExpandButtonClicked"
+            onSelected="() => this.onExpandButtonClicked()"
         >
             <i class="fa fa-fw fa-expand me-1"/>Expand All
         </DropdownItem>

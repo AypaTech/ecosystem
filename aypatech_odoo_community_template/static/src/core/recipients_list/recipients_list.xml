@@ -11,13 +11,13 @@
                 class="d-flex flex-wrap flex-grow-1 align-items-center gap-1 mx-1 text-truncate small"
                 style="line-height: 1.6;"
             >
-                <span class="text-truncate text-muted" t-out="getRecipientsSummary()"/>
+                <span class="text-truncate text-muted" t-out="this.getRecipientsSummary()"/>
                 <button
-                    t-if="hasMore"
+                    t-if="this.hasMore"
                     class="btn btn-link badge rounded-pill text-muted border-0 p-1"
                     title="Show all recipients"
                     type="button"
-                    t-on-click="onClickMore"
+                    t-on-click="(ev) => this.onClickMore(ev)"
                 >
                     <i class="fa fa-caret-down"/>
                 </button>

@@ -34,8 +34,8 @@
 			            </li>
 			    	</t>
 				</ul>
-				<div t-if="sidebarImageUrl" class="apt_apps_sidebar_logo p-2">
-					<img class="img-fluid mx-auto" t-att-src="sidebarImageUrl" alt="Logo"/>
+				<div t-if="this.sidebarImageUrl" class="apt_apps_sidebar_logo p-2">
+					<img class="img-fluid mx-auto" t-att-src="this.sidebarImageUrl" alt="Logo"/>
 				</div>
 			</div>
 		</div>

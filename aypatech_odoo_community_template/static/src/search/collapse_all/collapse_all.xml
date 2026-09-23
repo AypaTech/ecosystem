@@ -4,7 +4,7 @@
     <t t-name="aypatech_odoo_community_template.CollapseAll">
         <DropdownItem
             class="'apt_collapse_all_menu'"
-            onSelected.bind="onCollapseButtonClicked"
+            onSelected="() => this.onCollapseButtonClicked()"
         >
             <i class="fa fa-fw fa-compress me-1"/>Collapse All
         </DropdownItem>
