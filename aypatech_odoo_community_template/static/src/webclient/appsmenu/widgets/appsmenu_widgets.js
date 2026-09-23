@@ -20,7 +20,6 @@ const TODO_TASK_DOMAIN_BASE = [
 /** Dashboard-style widget row shown above the apps grid in the full-screen apps menu. */
 export class AppsMenuWidgets extends Component {
     static template = 'aypatech_odoo_community_template.AppsMenuWidgets';
-    static props = {};
 
     setup() {
         this.store = useService('mail.store');

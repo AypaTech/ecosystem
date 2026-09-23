@@ -23,7 +23,6 @@ function collectFoldedConfigs(groups) {
 export class ExpandAll extends Component {
     static template = 'aypatech_odoo_community_template.ExpandAll';
     static components = { DropdownItem };
-    static props = {};
 
     /**
      * Unfold every group of the group tree, marking a whole nesting level as

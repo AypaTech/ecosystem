@@ -11,7 +11,6 @@ const cogMenuRegistry = registry.category('cogMenu');
 export class CollapseAll extends Component {
     static template = 'aypatech_odoo_community_template.CollapseAll';
     static components = { DropdownItem };
-    static props = {};
 
     /**
      * Walk the group tree breadth-first, toggling every unfolded group closed,

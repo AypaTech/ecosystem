@@ -1,4 +1,4 @@
-import { Component, markup } from '@odoo/owl';
+import { Component, markup, t, useProps } from '@odoo/owl';
 
 import { _t } from '@web/core/l10n/translation';
 import { escape } from '@web/core/utils/strings';
@@ -14,10 +14,10 @@ import { RecipientsListPopover } from '@aypatech_odoo_community_template/core/re
  */
 export class RecipientsList extends Component {
     static template = 'aypatech_odoo_community_template.BaseRecipientsList';
-    static props = {
-        thread: { type: Object },
-        internalOnly: { type: Boolean, optional: true },
-    };
+    props = useProps({
+        thread: t.object(),
+        internalOnly: t.boolean().optional(),
+    });
     setup() {
         this.recipientsPopover = usePopover(RecipientsListPopover, {
             position: 'bottom-start',

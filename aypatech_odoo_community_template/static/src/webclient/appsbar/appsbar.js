@@ -10,7 +10,6 @@ import { Component, onWillUnmount } from '@odoo/owl';
  */
 export class AppsBar extends Component {
     static template = 'aypatech_odoo_community_template.AppsBar';
-    static props = {};
     setup() {
         this.appMenuService = useService('app_menu');
         if (user.activeCompany.has_appsbar_image) {
