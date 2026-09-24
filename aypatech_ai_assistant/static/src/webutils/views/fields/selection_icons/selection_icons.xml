@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_assistant.webutils_SelectionIconsField" t-inherit="web.SelectionField" t-inherit-mode="primary">
+        <xpath expr="//span[@t-att-raw-value='value']/.." position="replace">
+            <t t-if="this.props.readonly or this.props.noLabel">
+                <div class="text-center">
+                    <span 
+                        t-attf-class="fa fa-{{ this.valueIcon(this.value) }}"
+                        t-att-data-tooltip="this.string"
+                        t-att-raw-value="this.value" 
+                    />
+                </div>
+            </t>
+            <t t-elif="this.props.readonly">
+                <span t-att-raw-value="this.value">
+                    <i t-attf-class="fa fa-{{ this.valueIcon(this.value) }} me-1" />
+                     <span t-esc="this.string" />
+                </span>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

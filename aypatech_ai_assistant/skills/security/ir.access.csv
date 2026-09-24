@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+skills_access_aypatech_ai_skill_admin,aypatech_ai.skill system,aypatech_ai.skill,base.group_system,crud,
+skills_access_aypatech_ai_skill_user,aypatech_ai.skill user (restricted),aypatech_ai.skill,base.group_user,cud,"[('owner_id', '=', user.id)]"
+skills_access_aypatech_ai_skill_user_r,aypatech_ai.skill user (restricted),aypatech_ai.skill,base.group_user,r,"['|', '|', ('owner_id', '=', user.id), ('user_ids', '=', False), ('user_ids', 'in', [user.id])]"

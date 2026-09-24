@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<menuitem
+		id="schedule_menu_aypatech_ai_schedule"
+		name="Schedules"
+		parent="aypatech_ai_assistant.ai_menu_ai_root"
+		action="schedule_action_aypatech_ai_schedule"
+		sequence="30"
+	/>
+
+</odoo>

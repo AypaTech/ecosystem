@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_assistant.webutils_TextIconField">
+        <div 
+            t-if="this.hasValue" 
+            class="text-center" 
+            t-on-click.prevent.stop="this.showTooltip"
+        >
+            <a
+                t-ref="this.iconRef"
+                t-attf-class="fa fa-{{ this.props.icon }}" 
+                t-att-title="this.props.record.fields[this.props.name].string"
+            />
+        </div>
+    </t>    
+    
+    <t t-name="aypatech_ai_assistant.webutils_TextValueTooltip">
+        <div t-out="value"/>
+    </t>
+
+</templates>

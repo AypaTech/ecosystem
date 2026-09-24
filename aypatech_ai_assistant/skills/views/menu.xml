@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<menuitem
+        id="skills_menu_aypatech_ai_skill"
+        name="Skills"
+        parent="aypatech_ai_assistant.ai_menu_ai_root"
+        action="skills_action_aypatech_ai_skill"
+        sequence="35"
+        groups="base.group_user"
+    />
+
+</odoo>

@@ -1,0 +1,16 @@
+id,name,model_id,group_id/id,operation,domain
+mcp_access_aypatech_mcp_connect,aypatech_mcp.connect user,aypatech_mcp.connect,base.group_user,crud,
+mcp_access_aypatech_mcp_generate_key,aypatech_mcp.generate_key user,aypatech_mcp.generate_key,base.group_user,crd,
+mcp_access_aypatech_mcp_key_admin,aypatech_mcp.key system,aypatech_mcp.key,base.group_system,crud,
+mcp_access_aypatech_mcp_key_user,aypatech_mcp.key user (restricted),aypatech_mcp.key,base.group_user,crud,"[('user_id', '=', user.id)]"
+mcp_access_aypatech_mcp_key_show,aypatech_mcp.key.show user,aypatech_mcp.key.show,base.group_user,cr,
+mcp_access_aypatech_mcp_log_admin,aypatech_mcp.log system,aypatech_mcp.log,base.group_system,rud,
+mcp_access_aypatech_mcp_log_user,aypatech_mcp.log user (restricted),aypatech_mcp.log,base.group_user,r,"[('user_id', '=', user.id)]"
+mcp_access_aypatech_mcp_notification_admin,aypatech_mcp.notification system,aypatech_mcp.notification,base.group_system,crud,
+mcp_access_aypatech_mcp_notification_user,aypatech_mcp.notification user (restricted),aypatech_mcp.notification,base.group_user,r,"[('session_id.user_id', '=', user.id)]"
+mcp_access_aypatech_mcp_prompt_admin,aypatech_mcp.prompt system,aypatech_mcp.prompt,base.group_system,crud,
+mcp_access_aypatech_mcp_prompt_user,aypatech_mcp.prompt user,aypatech_mcp.prompt,base.group_user,r,
+mcp_access_aypatech_mcp_session_admin,aypatech_mcp.session system,aypatech_mcp.session,base.group_system,crud,
+mcp_access_aypatech_mcp_session_user,aypatech_mcp.session user (restricted),aypatech_mcp.session,base.group_user,crud,"[('user_id', '=', user.id)]"
+mcp_access_aypatech_mcp_tool_admin,aypatech_mcp.tool system,aypatech_mcp.tool,base.group_system,crud,
+mcp_access_aypatech_mcp_tool_user,aypatech_mcp.tool user,aypatech_mcp.tool,base.group_user,r,

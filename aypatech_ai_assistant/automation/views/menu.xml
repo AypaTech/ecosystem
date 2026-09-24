@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <menuitem
+        id="automation_menu_ai_automation_rules"
+        name="AI Automation Rules"
+        parent="aypatech_ai_assistant.ai_menu_ai_root"
+        action="automation_action_ai_automation_rules"
+        sequence="40"
+        groups="base.group_system"
+    />
+
+    <menuitem
+        id="automation_menu_ai_scheduled_actions"
+        name="AI Scheduled Actions"
+        parent="aypatech_ai_assistant.ai_menu_ai_root"
+        action="automation_action_ai_scheduled_actions"
+        sequence="45"
+        groups="base.group_system"
+    />
+
+</odoo>

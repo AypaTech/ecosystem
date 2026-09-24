@@ -1,0 +1,21 @@
+id,name,model_id,group_id/id,operation,domain
+ai_access_ai_agent_admin,aypatech_ai.agent system,aypatech_ai.agent,base.group_system,crud,
+ai_access_ai_agent_user,aypatech_ai.agent user,aypatech_ai.agent,base.group_user,r,
+ai_access_ai_agent_suggestion_admin,aypatech_ai.agent.suggestion system,aypatech_ai.agent.suggestion,base.group_system,crud,
+ai_access_ai_agent_suggestion_user,aypatech_ai.agent.suggestion user,aypatech_ai.agent.suggestion,base.group_user,r,
+ai_access_aypatech_ai_approval_system,aypatech_ai.approval system,aypatech_ai.approval,base.group_system,r,
+ai_access_ai_approval_user,aypatech_ai.approval user (restricted),aypatech_ai.approval,base.group_user,r,"[('user_id', '=', user.id)]"
+ai_access_ai_model_admin,aypatech_ai.model system,aypatech_ai.model,base.group_system,ru,
+ai_access_ai_model_user,aypatech_ai.model user,aypatech_ai.model,base.group_user,r,
+ai_access_ai_provider_admin,aypatech_ai.provider system,aypatech_ai.provider,base.group_system,ru,
+ai_access_ai_provider_user,aypatech_ai.provider user,aypatech_ai.provider,base.group_user,r,
+ai_access_aypatech_ai_session_system,aypatech_ai.session system,aypatech_ai.session,base.group_system,crud,
+ai_access_ai_session_user,aypatech_ai.session user (restricted),aypatech_ai.session,base.group_user,cud,"[('user_id', '=', user.id)]"
+ai_access_ai_session_user_r,aypatech_ai.session user (restricted),aypatech_ai.session,base.group_user,r,"['|', ('share_user_ids', 'in', user.id), ('user_id', '=', user.id)]"
+ai_access_aypatech_ai_session_event_system,aypatech_ai.session.event system,aypatech_ai.session.event,base.group_system,crud,
+ai_access_ai_session_event_user,aypatech_ai.session.event user (restricted),aypatech_ai.session.event,base.group_user,crud,"[('session_id.user_id', '=', user.id)]"
+ai_access_aypatech_ai_session_pending_system,aypatech_ai.session.pending system,aypatech_ai.session.pending,base.group_system,crud,
+ai_access_ai_session_pending_user,aypatech_ai.session.pending user (restricted),aypatech_ai.session.pending,base.group_user,crud,"[('session_id.user_id', '=', user.id)]"
+ai_access_aypatech_ai_space_system,aypatech_ai.space system,aypatech_ai.space,base.group_system,crud,
+ai_access_ai_space_user,aypatech_ai.space user (restricted),aypatech_ai.space,base.group_user,cud,"[('user_id', '=', user.id)]"
+ai_access_ai_space_user_r,aypatech_ai.space user (restricted),aypatech_ai.space,base.group_user,r,"['|', ('user_id', '=', user.id), ('user_id', '=', False)]"

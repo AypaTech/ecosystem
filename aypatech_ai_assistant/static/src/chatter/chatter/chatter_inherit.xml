@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_assistant.chatter_AISessionBoxList" t-inherit="mail.Chatter" t-inherit-mode="extension">
+        <xpath expr="//FileUploader[1]" position="before">
+            <button
+                t-if="this.aiSessions.total"
+                class="o-mail-Chatter-aiSessions btn btn-link text-action px-1 d-flex align-items-center"
+                t-att-class="{ 'active': this.aiSessions.open }"
+                aria-label="AI Sessions"
+                title="AI Sessions"
+                t-on-click="this.toggleAISessions"
+            >
+                <span class="ayp_icon_ai o-mail-Chatter-aiSessionsIcon me-1"/>
+                <sup t-esc="this.aiSessions.total"/>
+            </button>
+        </xpath>
+        <xpath expr="//SearchMessageResult" position="before">
+            <AISessionBox
+                t-if="this.state.thread and this.state.thread.model and this.state.thread.id"
+                threadModel="this.state.thread.model"
+                threadId="this.state.thread.id"
+                open="this.aiSessions.open"
+                onLoaded="(total) => this.aiSessions.total = total"
+            />
+        </xpath>
+    </t>
+
+</templates>
