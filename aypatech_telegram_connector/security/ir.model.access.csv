@@ -1,0 +1,23 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_telegram_bot_user,telegram.bot user,model_telegram_bot,group_telegram_user,1,0,0,0
+access_telegram_bot_manager,telegram.bot manager,model_telegram_bot,group_telegram_manager,1,1,1,1
+access_telegram_contact_user,telegram.contact user,model_telegram_contact,group_telegram_user,1,1,0,0
+access_telegram_contact_manager,telegram.contact manager,model_telegram_contact,group_telegram_manager,1,1,1,1
+access_telegram_chat_user,telegram.chat user,model_telegram_chat,group_telegram_user,1,0,0,0
+access_telegram_chat_manager,telegram.chat manager,model_telegram_chat,group_telegram_manager,1,1,1,1
+access_telegram_conversation_user,telegram.conversation user,model_telegram_conversation,group_telegram_user,1,1,0,0
+access_telegram_conversation_manager,telegram.conversation manager,model_telegram_conversation,group_telegram_manager,1,1,1,1
+access_telegram_message_user,telegram.message user,model_telegram_message,group_telegram_user,1,0,0,0
+access_telegram_message_manager,telegram.message manager,model_telegram_message,group_telegram_manager,1,1,0,1
+access_telegram_delivery_user,telegram.delivery user,model_telegram_delivery,group_telegram_user,1,0,0,0
+access_telegram_delivery_manager,telegram.delivery manager,model_telegram_delivery,group_telegram_manager,1,1,0,1
+access_telegram_update_manager,telegram.update manager,model_telegram_update,group_telegram_manager,1,1,0,1
+access_telegram_team_user,telegram.team user,model_telegram_team,group_telegram_user,1,0,0,0
+access_telegram_team_manager,telegram.team manager,model_telegram_team,group_telegram_manager,1,1,1,1
+access_telegram_route_user,telegram.route user,model_telegram_route,group_telegram_user,1,0,0,0
+access_telegram_route_manager,telegram.route manager,model_telegram_route,group_telegram_manager,1,1,1,1
+access_telegram_tag_user,telegram.tag user,model_telegram_tag,group_telegram_user,1,1,1,0
+access_telegram_tag_manager,telegram.tag manager,model_telegram_tag,group_telegram_manager,1,1,1,1
+access_telegram_log_manager,telegram.log manager,model_telegram_log,group_telegram_manager,1,0,0,1
+access_telegram_setup_wizard_system,telegram.setup.wizard system,model_telegram_setup_wizard,base.group_system,1,1,1,1
+access_telegram_forget_identity_manager,telegram.forget.identity manager,model_telegram_forget_identity,group_telegram_manager,1,1,1,1

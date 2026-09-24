@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+from odoo.tests import tagged
+
+from odoo.addons.aypatech_telegram_connector.tests.common import TelegramCase
+
+
+@tagged("post_install", "-at_install", "telegram")
+class TestTelegramAypatechHelpdesk(TelegramCase):
+
+    def test_ticket_from_conversation_and_reply_forwarding(self):
+        self.receive(self.make_update(1, "My device is broken"))
+        conv = self.conversation_for()
+        conv.action_create_aypatech_ticket()
+        ticket = conv.aypatech_ticket_id
+        self.assertTrue(ticket)
+        self.assertEqual(ticket.partner_id, conv.partner_id)
+        self.assertIn("device is broken", str(ticket.description))
+        self.assertTrue(ticket.telegram_forward_replies)
+
+        with self.assertQueued(1):
+            ticket.message_post(
+                body="We are on it", author_id=self.agent.partner_id.id,
+                message_type="comment", subtype_xmlid="mail.mt_comment")
+        with self.assertQueued(0):
+            ticket.message_post(body="internal", message_type="comment", subtype_xmlid="mail.mt_note")
+        self.deliver()
+        self.assertEqual(self.api.sent("send_message")[-1][1][1], "We are on it")

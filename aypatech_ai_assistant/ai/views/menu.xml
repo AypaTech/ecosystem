@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+	<menuitem
+		id="ai_menu_ai_root"
+		name="AypaTech AI"
+		sequence="100"
+		web_icon="aypatech_ai_assistant,static/description/icon.png"
+		groups="base.group_user"
+	>
+		<menuitem
+			id="ai_menu_ai_chat"
+			name="Chat"
+			action="ai_action_ai_chat"
+			sequence="10"
+		/>
+
+		<menuitem
+			id="ai_menu_ai_agent"
+			name="Agents"
+			action="ai_action_ai_agent"
+			sequence="20"
+		/>
+
+		<menuitem
+			id="ai_menu_ai_report"
+			name="Reports"
+			sequence="50"
+			groups="base.group_system"
+		>
+			<menuitem
+				id="ai_menu_ai_session"
+				name="Sessions"
+				action="ai_action_ai_session"
+				sequence="10"
+			/>
+			<menuitem
+				id="ai_menu_ai_log"
+				name="Tool Logs"
+				action="aypatech_ai_assistant.mcp_action_mcp_log"
+				sequence="20"
+			/>
+			<menuitem
+				id="ai_menu_ai_approval"
+				name="Approval Log"
+				action="ai_action_ai_approval"
+				sequence="30"
+			/>
+		</menuitem>
+
+		<menuitem
+			id="ai_menu_ai_mcp"
+			name="MCP"
+			sequence="80"
+			groups="base.group_system"
+		>
+			<menuitem
+				id="ai_menu_ai_tools"
+				name="Custom Tools"
+				action="aypatech_ai_assistant.mcp_action_mcp_tool"
+				sequence="10"
+			/>
+			<menuitem
+				id="ai_menu_ai_playground"
+				name="Playground"
+				action="aypatech_ai_assistant.mcp_action_mcp_playground"
+				sequence="20"
+			/>
+		</menuitem>
+
+		<menuitem
+			id="ai_menu_ai_config"
+			name="Configuration"
+			sequence="90"
+			groups="base.group_system"
+		>
+			<menuitem
+				id="ai_menu_ai_provider"
+				name="Providers"
+				action="ai_action_aypatech_ai_provider"
+				sequence="10"
+			/>
+			<menuitem
+				id="ai_menu_ai_model"
+				name="Models"
+				action="ai_action_aypatech_ai_model"
+				sequence="20"
+			/>
+			<menuitem
+				id="ai_menu_ai_space"
+				name="Spaces"
+				action="ai_action_ai_space"
+				sequence="30"
+			/>
+		</menuitem>
+
+		<menuitem
+			id="ai_menu_ai_settings"
+			name="Settings"
+			action="ai_action_aypatech_ai_config_settings"
+			sequence="100"
+			groups="base.group_system"
+		/>
+	</menuitem>
+
+</odoo>

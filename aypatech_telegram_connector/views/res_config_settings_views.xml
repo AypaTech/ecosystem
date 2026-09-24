@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_res_config_settings_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.telegram</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="60"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Telegram" string="Telegram" name="aypatech_telegram_connector"
+                     groups="aypatech_telegram_connector.group_telegram_manager">
+                    <block title="Conversations" name="telegram_conversations">
+                        <setting id="telegram_closed_behavior" string="Message on a closed conversation"
+                                 help="What happens when a customer writes after the conversation was closed. Resolved conversations always reopen.">
+                            <field name="telegram_closed_behavior" widget="radio"/>
+                        </setting>
+                        <setting id="telegram_remove_previous_assignee"
+                                 help="On reassignment, remove the previous agent from the Discuss chat.">
+                            <field name="telegram_remove_previous_assignee"/>
+                        </setting>
+                        <setting id="telegram_auto_resolve_days" string="Auto-resolve"
+                                 help="Resolve conversations without customer activity after this many days (0 = never).">
+                            <field name="telegram_auto_resolve_days"/>
+                        </setting>
+                    </block>
+                    <block title="Delivery" name="telegram_delivery">
+                        <setting id="telegram_max_attempts" string="Retries"
+                                 help="Attempts before a message is marked as failed (backoff: 30s, 2m, 10m, 30m, 2h).">
+                            <field name="telegram_max_attempts"/>
+                        </setting>
+                    </block>
+                    <block title="Privacy" name="telegram_privacy">
+                        <setting id="telegram_payload_retention_days" string="Raw update retention"
+                                 help="Days after which the raw Telegram payload of processed updates is deleted.">
+                            <field name="telegram_payload_retention_days"/>
+                        </setting>
+                        <setting id="telegram_log_retention_days" string="Log retention"
+                                 help="Days after which Telegram logs are deleted.">
+                            <field name="telegram_log_retention_days"/>
+                        </setting>
+                        <setting id="telegram_contact_phone_to_partner"
+                                 help="When a customer shares their phone number, write it on their contact (privacy sensitive).">
+                            <field name="telegram_contact_phone_to_partner"/>
+                        </setting>
+                        <setting id="telegram_forget_mode" string="Forget identity"
+                                 help="Default behaviour of 'Forget Telegram identity'.">
+                            <field name="telegram_forget_keeps_history" widget="radio"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_telegram_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'aypatech_telegram_connector', 'bin_size': False}</field>
+    </record>
+</odoo>

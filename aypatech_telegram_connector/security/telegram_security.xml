@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_groups_privilege_telegram" model="res.groups.privilege">
+        <field name="name">Telegram</field>
+        <field name="sequence">40</field>
+        <field name="category_id" ref="base.module_category_productivity"/>
+    </record>
+
+    <record id="group_telegram_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="privilege_id" ref="res_groups_privilege_telegram"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
+        <field name="comment">Reads and answers the Telegram conversations of their teams or assigned to them.</field>
+    </record>
+
+    <record id="group_telegram_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="res_groups_privilege_telegram"/>
+        <field name="implied_ids" eval="[Command.link(ref('group_telegram_user'))]"/>
+        <field name="user_ids" eval="[Command.link(ref('base.user_root')), Command.link(ref('base.user_admin'))]"/>
+        <field name="comment">Manages bots, teams, routes, deliveries, logs and sees all conversations of their companies.</field>
+    </record>
+
+    <data noupdate="1">
+        <!-- ============ multi-company (global rules) ============ -->
+        <record id="rule_telegram_bot_company" model="ir.rule">
+            <field name="name">Telegram bot: multi-company</field>
+            <field name="model_id" ref="model_telegram_bot"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_team_company" model="ir.rule">
+            <field name="name">Telegram team: multi-company</field>
+            <field name="model_id" ref="model_telegram_team"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_conversation_company" model="ir.rule">
+            <field name="name">Telegram conversation: multi-company</field>
+            <field name="model_id" ref="model_telegram_conversation"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_contact_company" model="ir.rule">
+            <field name="name">Telegram contact: multi-company</field>
+            <field name="model_id" ref="model_telegram_contact"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_chat_company" model="ir.rule">
+            <field name="name">Telegram chat: multi-company</field>
+            <field name="model_id" ref="model_telegram_chat"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_message_company" model="ir.rule">
+            <field name="name">Telegram message: multi-company</field>
+            <field name="model_id" ref="model_telegram_message"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_delivery_company" model="ir.rule">
+            <field name="name">Telegram delivery: multi-company</field>
+            <field name="model_id" ref="model_telegram_delivery"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_update_company" model="ir.rule">
+            <field name="name">Telegram update: multi-company</field>
+            <field name="model_id" ref="model_telegram_update"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_route_company" model="ir.rule">
+            <field name="name">Telegram route: multi-company</field>
+            <field name="model_id" ref="model_telegram_route"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="rule_telegram_log_company" model="ir.rule">
+            <field name="name">Telegram log: multi-company</field>
+            <field name="model_id" ref="model_telegram_log"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- ============ team visibility (SPEC §14) ============ -->
+        <record id="rule_telegram_conversation_user" model="ir.rule">
+            <field name="name">Telegram conversation: own team or assigned</field>
+            <field name="model_id" ref="model_telegram_conversation"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_user'))]"/>
+            <field name="domain_force">['|', '|', ('user_id', '=', user.id), ('team_id.member_ids', 'in', user.id), ('team_id', '=', False)]</field>
+        </record>
+        <record id="rule_telegram_conversation_manager" model="ir.rule">
+            <field name="name">Telegram conversation: managers see all</field>
+            <field name="model_id" ref="model_telegram_conversation"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="rule_telegram_message_user" model="ir.rule">
+            <field name="name">Telegram message: visible conversations</field>
+            <field name="model_id" ref="model_telegram_message"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_user'))]"/>
+            <field name="domain_force">['|', '|', ('conversation_id.user_id', '=', user.id), ('conversation_id.team_id.member_ids', 'in', user.id), ('conversation_id.team_id', '=', False)]</field>
+        </record>
+        <record id="rule_telegram_message_manager" model="ir.rule">
+            <field name="name">Telegram message: managers see all</field>
+            <field name="model_id" ref="model_telegram_message"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="rule_telegram_delivery_user" model="ir.rule">
+            <field name="name">Telegram delivery: visible conversations</field>
+            <field name="model_id" ref="model_telegram_delivery"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_user'))]"/>
+            <field name="domain_force">['|', '|', ('conversation_id.user_id', '=', user.id), ('conversation_id.team_id.member_ids', 'in', user.id), ('conversation_id.team_id', '=', False)]</field>
+        </record>
+        <record id="rule_telegram_delivery_manager" model="ir.rule">
+            <field name="name">Telegram delivery: managers see all</field>
+            <field name="model_id" ref="model_telegram_delivery"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <!-- ============ Discuss channels of type telegram ============ -->
+        <record id="rule_discuss_channel_telegram_user" model="ir.rule">
+            <field name="name">discuss.channel: Telegram users read/answer channels of visible conversations</field>
+            <field name="model_id" ref="mail.model_discuss_channel"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_user'))]"/>
+            <field name="domain_force">[
+                ('channel_type', '=', 'telegram'),
+                ('telegram_conversation_id.company_id', 'in', company_ids),
+                '|', '|',
+                    ('telegram_conversation_id.user_id', '=', user.id),
+                    ('telegram_conversation_id.team_id.member_ids', 'in', user.id),
+                    ('telegram_conversation_id.team_id', '=', False),
+            ]</field>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="rule_discuss_channel_telegram_manager" model="ir.rule">
+            <field name="name">discuss.channel: Telegram managers read all Telegram channels</field>
+            <field name="model_id" ref="mail.model_discuss_channel"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_manager'))]"/>
+            <field name="domain_force">[('channel_type', '=', 'telegram'), ('telegram_conversation_id.company_id', 'in', company_ids)]</field>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="rule_discuss_channel_member_telegram_user" model="ir.rule">
+            <field name="name">discuss.channel.member: Telegram users read members of visible Telegram channels</field>
+            <field name="model_id" ref="mail.model_discuss_channel_member"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_user'))]"/>
+            <field name="domain_force">[
+                ('channel_id.channel_type', '=', 'telegram'),
+                ('channel_id.telegram_conversation_id.company_id', 'in', company_ids),
+                '|', '|',
+                    ('channel_id.telegram_conversation_id.user_id', '=', user.id),
+                    ('channel_id.telegram_conversation_id.team_id.member_ids', 'in', user.id),
+                    ('channel_id.telegram_conversation_id.team_id', '=', False),
+            ]</field>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="rule_discuss_channel_member_telegram_manager" model="ir.rule">
+            <field name="name">discuss.channel.member: Telegram managers read members of Telegram channels</field>
+            <field name="model_id" ref="mail.model_discuss_channel_member"/>
+            <field name="groups" eval="[Command.link(ref('group_telegram_manager'))]"/>
+            <field name="domain_force">[('channel_id.channel_type', '=', 'telegram'), ('channel_id.telegram_conversation_id.company_id', 'in', company_ids)]</field>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+    </data>
+</odoo>

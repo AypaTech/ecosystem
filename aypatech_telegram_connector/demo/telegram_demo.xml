@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="demo_tag_sales" model="telegram.tag">
+        <field name="name">Sales</field>
+        <field name="color">10</field>
+    </record>
+    <record id="demo_tag_support" model="telegram.tag">
+        <field name="name">Support</field>
+        <field name="color">4</field>
+    </record>
+    <record id="demo_tag_urgent" model="telegram.tag">
+        <field name="name">Urgent</field>
+        <field name="color">1</field>
+    </record>
+
+    <record id="demo_team_support" model="telegram.team">
+        <field name="name">Customer Support</field>
+        <field name="assignment_method">round_robin</field>
+        <field name="member_ids" eval="[Command.link(ref('base.user_admin')), Command.link(ref('base.user_demo'))]"/>
+    </record>
+
+    <!-- Draft bot without token: paste a real token and press Connect, or use the Setup Wizard -->
+    <record id="demo_bot" model="telegram.bot">
+        <field name="name">Demo Support Bot</field>
+        <field name="connection_mode">polling</field>
+        <field name="team_id" ref="demo_team_support"/>
+        <field name="welcome_message">Hello! 👋 Thanks for contacting us. An agent will answer you here shortly.</field>
+        <field name="privacy_notice">Your messages and your Telegram name are stored in our customer service system to answer your requests.</field>
+    </record>
+
+    <record id="demo_route_price" model="telegram.route">
+        <field name="bot_id" ref="demo_bot"/>
+        <field name="name">Price questions → Sales tag</field>
+        <field name="sequence">10</field>
+        <field name="condition_type">keyword</field>
+        <field name="condition_value">price,quote,buy</field>
+        <field name="team_id" ref="demo_team_support"/>
+        <field name="tag_ids" eval="[Command.link(ref('demo_tag_sales'))]"/>
+    </record>
+
+    <record id="base.user_demo" model="res.users">
+        <field name="group_ids" eval="[Command.link(ref('group_telegram_user'))]"/>
+    </record>
+</odoo>

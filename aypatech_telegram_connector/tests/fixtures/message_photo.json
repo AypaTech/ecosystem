@@ -1,0 +1,8 @@
+{
+    "photo": [
+        {"file_id": "AgACAgQAAxkBAAIBsmall", "file_unique_id": "AQADsmall", "file_size": 1200, "width": 90, "height": 67},
+        {"file_id": "AgACAgQAAxkBAAIBbig", "file_unique_id": "AQADbig", "file_size": 45000, "width": 1280, "height": 960}
+    ],
+    "caption": "My <order> photo",
+    "caption_entities": [{"offset": 0, "length": 2, "type": "bold"}]
+}
