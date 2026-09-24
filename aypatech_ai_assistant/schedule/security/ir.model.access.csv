@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+schedule_access_ai_schedule_user,aypatech_ai.schedule.user,model_aypatech_ai_schedule,base.group_user,1,1,1,1
+schedule_access_ai_schedule_admin,aypatech_ai.schedule.admin,model_aypatech_ai_schedule,base.group_system,1,1,1,1

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_ai_assistant.chatter_ComposerWriteButton">
+        <button
+            t-if="canWriteWithAi"
+            class="btn border-0 rounded-circle p-0 o-aypatech-ai-write"
+            t-att-title="aypatechAiWriteTitle"
+            t-att-aria-label="aypatechAiWriteTitle"
+            t-on-click="onClickWriteWithAi"
+        >
+            <i class="fa fa-fw fa-lg ayp_icon_ai"/>
+        </button>
+    </t>
+
+    <t t-inherit="mail.Composer.actions" t-inherit-mode="extension">
+        <xpath expr="//t[@t-call='mail.Composer.attachFiles']" position="after">
+            <t t-call="aypatech_ai_assistant.chatter_ComposerWriteButton"/>
+        </xpath>
+    </t>
+
+    <t t-inherit="mail.Composer.extraActions" t-inherit-mode="extension">
+        <xpath expr="//t[@t-call='mail.Composer.attachFiles']" position="after">
+            <t t-call="aypatech_ai_assistant.chatter_ComposerWriteButton"/>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odoo_db_pass_2026}
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+
+  odoo:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - db
+    expose:
+      - "8069"
+    command:
+      - "--db_host=db"
+      - "--db_port=5432"
+      - "--db_user=odoo"
+      - "--db_password=${POSTGRES_PASSWORD:-odoo_db_pass_2026}"
+      - "--database=${ODOO_DB_NAME:-aypatech}"
+      - "--db-filter=^${ODOO_DB_NAME:-aypatech}$$"
+      - "--addons-path=/opt/odoo/odoo-server/addons,/opt/odoo/custom-addons"
+      - "--without-demo=all"
+      - "--http-interface=0.0.0.0"
+    volumes:
+      - odoo-filestore:/root/.local/share/Odoo
+    networks:
+      - default
+      - coolify
+
+networks:
+  coolify:
+    external: true
+
+volumes:
+  odoo-db-data:
+  odoo-filestore:

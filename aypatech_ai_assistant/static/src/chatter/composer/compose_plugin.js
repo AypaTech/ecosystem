@@ -1,0 +1,116 @@
+import { _t } from '@web/core/l10n/translation';
+import { patch } from '@web/core/utils/patch';
+
+import { withSequence } from '@html_editor/utils/resource';
+
+import { Plugin } from '@html_editor/plugin';
+import { HtmlComposerMessageField } from '@mail/views/web/fields/html_composer_message_field/html_composer_message_field';
+
+import { makeEditorAdapter } from '@aypatech_ai_assistant/chatter/composer/adapters';
+import { ComposePanel } from '@aypatech_ai_assistant/chatter/composer/compose_panel';
+
+// Fired on an editable to open the helper over it, so a button outside the
+// editor — the one in the full composer's footer — opens the same panel the
+// toolbar does, with the same cursor and the same selection.
+export const OPEN_EVENT = 'aypatech-ai-compose-open';
+
+/**
+ * Offer the writing helper inside every rich-text editor Odoo mounts.
+ *
+ * The helper carries its own toolbar group rather than joining an existing
+ * one: the group the editor used to keep its AI commands in is being removed
+ * upstream, and a button that lands in whichever group happens to exist would
+ * move around under us.
+ */
+export class ComposeAIPlugin extends Plugin {
+    static id = 'aypatechAiCompose';
+    static dependencies = ['overlay', 'selection', 'dom', 'history'];
+
+    resources = {
+        user_commands: [
+            {
+                id: 'aypatechAiWrite',
+                title: _t('Write with AI'),
+                description: _t('Rewrite the selection, or write from the record'),
+                icon: 'ayp_icon_ai',
+                run: () => this.openPanel(),
+            },
+        ],
+        toolbar_groups: [withSequence(55, { id: 'aypatech_ai' })],
+        toolbar_items: [
+            {
+                id: 'aypatechAiWrite',
+                groupId: 'aypatech_ai',
+                commandId: 'aypatechAiWrite',
+                description: _t('Write with AI'),
+            },
+        ],
+        powerbox_categories: [withSequence(55, { id: 'aypatech_ai', name: _t('AI') })],
+        powerbox_items: [
+            {
+                categoryId: 'aypatech_ai',
+                commandId: 'aypatechAiWrite',
+            },
+        ],
+    };
+
+    setup() {
+        this.panel = this.dependencies.overlay.createOverlay(ComposePanel, {
+            positionOptions: { position: 'bottom-start' },
+            // Like the popover twin in the chatter: a draft the user is
+            // reading is thrown away by the stray click that puts the cursor
+            // back in the message. Escape and Discard close it.
+            closeOnPointerdown: false,
+        });
+        this.addDomListener(this.editable, OPEN_EVENT, () => this.openPanel());
+    }
+    /**
+     * Open the helper over the editable, bound to what is selected right now.
+     */
+    openPanel() {
+        this.panel.open({
+            props: {
+                adapter: makeEditorAdapter(this, this.recordOfEditable()),
+                close: () => this.panel.close(),
+            },
+        });
+    }
+    /**
+     * Return the record this editable writes about, when it has one.
+     *
+     * The thread wins where there is one: in the full composer the editable
+     * belongs to the `mail.compose.message` wizard, and asking the field which
+     * record it edits answers with that wizard rather than with the customer
+     * the mail is going to. A composer opened on nothing has no record to
+     * name either — the wizard is not one, and handing it over would tell the
+     * agent it is writing about a mail it is writing.
+     *
+     * @returns {{resModel: string|false, resId: number|false}} the record
+     */
+    recordOfEditable() {
+        const thread = this.config.thread;
+        if (thread?.model && thread?.id) {
+            return { resModel: thread.model, resId: thread.id };
+        }
+        const config = this.config.getRecordInfo?.() || {};
+        if (!config.resModel || config.resModel === 'mail.compose.message') {
+            return { resModel: false, resId: false };
+        }
+        return { resModel: config.resModel, resId: config.resId || false };
+    }
+}
+
+// On this version the chatter and Discuss composers are plain textareas, so the
+// full composer is the only rich-text editor mail mounts. It is an html field
+// and takes the editor's own plugins, and it gets the helper here rather than
+// through MAIN_PLUGINS, which every html field in Odoo would inherit — a long
+// mail is exactly what somebody opens it to write.
+patch(HtmlComposerMessageField.prototype, {
+    getConfig() {
+        const config = super.getConfig(...arguments);
+        if (!config.Plugins.includes(ComposeAIPlugin)) {
+            config.Plugins = [...config.Plugins, ComposeAIPlugin];
+        }
+        return config;
+    },
+});
