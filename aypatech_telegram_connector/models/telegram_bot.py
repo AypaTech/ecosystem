@@ -62,9 +62,9 @@ class TelegramBot(models.Model):
     token = fields.Char(groups="base.group_system", copy=False)
     token_masked = fields.Char("Token", compute="_compute_token_masked", compute_sudo=True)
     webhook_key = fields.Char(
-        groups="base.group_system", copy=False, default=_generate_webhook_key, index=True,
+        groups="base.group_system", copy=False, default=lambda self: _generate_webhook_key(), index=True,
     )
-    webhook_secret = fields.Char(groups="base.group_system", copy=False, default=_generate_webhook_secret)
+    webhook_secret = fields.Char(groups="base.group_system", copy=False, default=lambda self: _generate_webhook_secret())
     webhook_url = fields.Char(compute="_compute_webhook_url", compute_sudo=True, groups="base.group_system")
     # --- identity ---
     bot_telegram_id = fields.Char("Telegram Bot ID", readonly=True, copy=False, index=True)
