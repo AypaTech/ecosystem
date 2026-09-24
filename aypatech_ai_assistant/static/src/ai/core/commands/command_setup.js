@@ -1,7 +1,8 @@
 import { _t } from '@web/core/l10n/translation';
 import { registry } from '@web/core/registry';
 
-registry.category('command_setup').add('#', {
+// '#' belongs to Discuss channels in 18
+registry.category('command_setup').add('!', {
     debounceDelay: 200,
     name: _t('AI'),
     placeholder: _t('Search AI chats and agents…'),
@@ -10,4 +11,4 @@ registry.category('command_setup').add('#', {
 
 registry
     .category('command_categories')
-    .add('aypatech_ai', { namespace: '#', name: _t('AypaTech AI') }, { sequence: 60 });
+    .add('aypatech_ai', { namespace: '!', name: _t('AypaTech AI') }, { sequence: 60 });

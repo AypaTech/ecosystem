@@ -15,7 +15,7 @@ async function openChat(env, sessionId) {
 }
 
 providerRegistry.add('aypatech_ai_sessions', {
-    namespace: '#',
+    namespace: '!',
     async provide(env, options) {
         const needle = (options.searchValue || '').trim();
         const domain = [['user_id', '=', user.userId]];
