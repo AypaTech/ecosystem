@@ -2,7 +2,7 @@
 """
 Thin wrapper around the Mailcow REST API (https://mailcow.docs.apiary.io).
 
-Golden rule (spec section 19): Pargar/Aypatech Mail NEVER talks to
+Golden rule: Aypatech Mail NEVER talks to
 Mailcow's own PostgreSQL/MySQL database directly. Every administrative
 operation (domain/mailbox/alias/quota) goes through this one class, and
 every mailbox-content operation (read/send) goes through imap_service.py

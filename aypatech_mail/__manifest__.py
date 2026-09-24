@@ -24,8 +24,6 @@ A real email client inside Odoo, using Mailcow as the mail infrastructure:
   Sales, Helpdesk, Project, Purchase, ...) through simple relations,
   never hard-coded per-module logic.
 
-This module is the neutral engine; see pargar_mail for the Persian UI and
-Pargar "simple mode" integration built on top of it.
     """,
     "author": "Aypa Tech",
     "license": "LGPL-3",

@@ -25,5 +25,7 @@ calculate prices, and manage dropshipping orders.
     ],
     "installable": True,
     "application": True,
+    "author": "Aypa Tech",
+    "website": "https://www.aypatech.com",
     "license": "LGPL-3",
 }

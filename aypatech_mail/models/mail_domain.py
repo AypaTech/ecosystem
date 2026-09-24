@@ -3,7 +3,7 @@ from odoo import api, fields, models
 
 
 class AypatechMailDomain(models.Model):
-    """Administrative mirror of a Mailcow domain. Pargar never talks to
+    """Administrative mirror of a Mailcow domain. Odoo never talks to
     Mailcow's database; this record is created/kept in sync purely through
     Mailcow API calls (see services/mailcow_client.py).
     """
