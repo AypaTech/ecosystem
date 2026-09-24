@@ -1,0 +1,37 @@
+# Local development only (Odoo 19 Community + PostgreSQL).
+#   docker compose up -d
+#   docker compose run --rm odoo odoo -d test_tg -i aypatech_telegram_connector \
+#       --test-enable --stop-after-init --test-tags /aypatech_telegram_connector
+# For live webhook tests expose port 8069 with cloudflared/ngrok and set web.base.url.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - tg-db-data:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:19.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: odoo
+    command: >
+      odoo --dev=xml,reload
+      --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+    volumes:
+      - ./:/mnt/extra-addons/aypatech_telegram_connector
+      - ../aypatech_telegram_connector_crm:/mnt/extra-addons/aypatech_telegram_connector_crm
+      - ../aypatech_telegram_connector_sale:/mnt/extra-addons/aypatech_telegram_connector_sale
+      - tg-odoo-data:/var/lib/odoo
+
+volumes:
+  tg-db-data:
+  tg-odoo-data:

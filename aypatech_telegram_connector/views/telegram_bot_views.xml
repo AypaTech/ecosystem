@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_bot_list" model="ir.ui.view">
+        <field name="name">telegram.bot.list</field>
+        <field name="model">telegram.bot</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'error'" decoration-muted="state == 'disabled'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="username"/>
+                <field name="connection_mode"/>
+                <field name="team_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="last_check" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'connected'" decoration-danger="state == 'error'"
+                       decoration-info="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_telegram_bot_form" model="ir.ui.view">
+        <field name="name">telegram.bot.form</field>
+        <field name="model">telegram.bot</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_setup_wizard" type="object" string="Setup Wizard"
+                            class="btn-primary" groups="base.group_system" invisible="state == 'connected'"/>
+                    <button name="action_connect" type="object" string="Connect" groups="base.group_system"
+                            invisible="state == 'connected'"/>
+                    <button name="action_test_connection" type="object" string="Test"
+                            groups="aypatech_telegram_connector.group_telegram_manager"/>
+                    <button name="action_health_check" type="object" string="Health Check"
+                            groups="aypatech_telegram_connector.group_telegram_manager"/>
+                    <button name="action_disconnect" type="object" string="Disconnect" groups="base.group_system"
+                            invisible="state not in ('connected', 'error')"
+                            confirm="Telegram will stop sending updates to Odoo. Continue?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,connected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_conversations" type="object" class="oe_stat_button" icon="fa-comments">
+                            <field name="open_conversation_count" widget="statinfo" string="Open"/>
+                        </button>
+                        <button name="action_open_failed_deliveries" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
+                            <field name="failed_delivery_count" widget="statinfo" string="Failed (24h)"/>
+                        </button>
+                        <button name="action_open_logs" type="object" class="oe_stat_button" icon="fa-list"
+                                groups="aypatech_telegram_connector.group_telegram_manager">
+                            <span class="o_stat_text">Logs</span>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Acme Support"/></h1>
+                        <h3 invisible="not username">@<field name="username" class="oe_inline"/></h3>
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="not last_error">
+                        <field name="last_error"/>
+                    </div>
+                    <group>
+                        <group string="Connection">
+                            <field name="active" invisible="1"/>
+                            <field name="token" password="True" groups="base.group_system"
+                                   placeholder="123456789:AA..."/>
+                            <field name="token_masked" readonly="1"/>
+                            <field name="connection_mode" widget="radio"/>
+                            <field name="webhook_url" groups="base.group_system" invisible="connection_mode != 'webhook'"
+                                   widget="CopyClipboardChar"/>
+                            <field name="bot_telegram_id"/>
+                            <field name="last_check"/>
+                            <field name="last_update_received"/>
+                            <field name="pending_update_count" invisible="connection_mode != 'webhook'"/>
+                        </group>
+                        <group string="Routing">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="team_id"/>
+                            <field name="default_user_id" widget="many2one_avatar_user"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Customer messages" name="messages">
+                            <group>
+                                <field name="welcome_message" placeholder="Sent when the customer presses Start (/start)."/>
+                                <field name="privacy_notice" placeholder="Explain what data you store."/>
+                            </group>
+                        </page>
+                        <page string="Routes" name="routes">
+                            <field name="route_ids" context="{'default_bot_id': id}">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="condition_type"/>
+                                    <field name="condition_value"/>
+                                    <field name="team_id"/>
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Options" name="options">
+                            <group>
+                                <group string="Media">
+                                    <field name="store_media"/>
+                                    <field name="max_media_size_mb" invisible="not store_media"/>
+                                </group>
+                                <group string="Identity">
+                                    <field name="auto_link_partner"/>
+                                </group>
+                            </group>
+                            <group string="Security" groups="base.group_system">
+                                <button name="action_regenerate_webhook_secret" type="object" string="Regenerate webhook secret"
+                                        class="btn-secondary" confirm="The webhook URL and secret will change and the webhook will be registered again. Continue?"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_telegram_bot_search" model="ir.ui.view">
+        <field name="name">telegram.bot.search</field>
+        <field name="model">telegram.bot</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="username"/>
+                <filter name="filter_error" string="In error" domain="[('state', '=', 'error')]"/>
+                <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_telegram_bot" model="ir.actions.act_window">
+        <field name="name">Bots</field>
+        <field name="res_model">telegram.bot</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[Command.clear(),
+            Command.create({'view_mode': 'list', 'view_id': ref('view_telegram_bot_list')}),
+            Command.create({'view_mode': 'form', 'view_id': ref('view_telegram_bot_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Connect your first Telegram bot</p>
+            <p>Create a bot with @BotFather in Telegram, then use the Setup Wizard.</p>
+        </field>
+    </record>
+</odoo>

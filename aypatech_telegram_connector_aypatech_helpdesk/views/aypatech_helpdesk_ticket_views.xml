@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_aypatech_helpdesk_ticket_form" model="ir.ui.view">
+        <field name="name">aypatech.helpdesk.ticket.form.telegram</field>
+        <field name="model">aypatech.helpdesk.ticket</field>
+        <field name="inherit_id" ref="aypatech_helpdesk.ticket_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_telegram_conversations" type="object" class="oe_stat_button"
+                        icon="fa-telegram" groups="aypatech_telegram_connector.group_telegram_user"
+                        invisible="not telegram_conversation_count">
+                    <field name="telegram_conversation_count" widget="statinfo" string="Telegram"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="telegram_forward_replies" invisible="not telegram_conversation_ids"/>
+                <field name="telegram_conversation_ids" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

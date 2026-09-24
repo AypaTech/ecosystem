@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_cron_telegram_process_updates" model="ir.cron">
+        <field name="name">Telegram: process inbound updates</field>
+        <field name="model_id" ref="model_telegram_update"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_process()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="ir_cron_telegram_delivery" model="ir.cron">
+        <field name="name">Telegram: deliver outbound messages</field>
+        <field name="model_id" ref="model_telegram_delivery"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_deliver()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="ir_cron_telegram_polling" model="ir.cron">
+        <field name="name">Telegram: polling (bots in polling mode)</field>
+        <field name="model_id" ref="model_telegram_update"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_poll()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="priority">5</field>
+    </record>
+
+    <record id="ir_cron_telegram_watchdog" model="ir.cron">
+        <field name="name">Telegram: stuck delivery watchdog</field>
+        <field name="model_id" ref="model_telegram_delivery"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_watchdog()</field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+    </record>
+
+    <record id="ir_cron_telegram_health" model="ir.cron">
+        <field name="name">Telegram: health check</field>
+        <field name="model_id" ref="model_telegram_bot"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_health_check()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+    </record>
+
+    <record id="ir_cron_telegram_cleanup" model="ir.cron">
+        <field name="name">Telegram: retention cleanup</field>
+        <field name="model_id" ref="model_telegram_bot"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_cleanup()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+
+    <record id="ir_cron_telegram_inactive" model="ir.cron">
+        <field name="name">Telegram: auto-resolve inactive conversations</field>
+        <field name="model_id" ref="model_telegram_conversation"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_auto_resolve()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

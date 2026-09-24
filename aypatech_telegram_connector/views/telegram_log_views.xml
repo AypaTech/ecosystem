@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_log_list" model="ir.ui.view">
+        <field name="name">telegram.log.list</field>
+        <field name="model">telegram.log</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" decoration-danger="level == 'error'" decoration-warning="level == 'warning'">
+                <field name="create_date"/>
+                <field name="bot_id"/>
+                <field name="level"/>
+                <field name="category"/>
+                <field name="message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_telegram_log_search" model="ir.ui.view">
+        <field name="name">telegram.log.search</field>
+        <field name="model">telegram.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="message"/>
+                <field name="bot_id"/>
+                <filter name="filter_error" string="Errors" domain="[('level', '=', 'error')]"/>
+                <filter name="filter_warning" string="Warnings" domain="[('level', '=', 'warning')]"/>
+                <separator/>
+                <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                <filter name="group_bot" string="Bot" context="{'group_by': 'bot_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_telegram_log" model="ir.actions.act_window">
+        <field name="name">Logs</field>
+        <field name="res_model">telegram.log</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>
