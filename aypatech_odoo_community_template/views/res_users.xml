@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="view_res_users_form" model="ir.ui.view">
+        <field name="name">res.users.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+             <xpath expr="//group[@name='other_preferences']" position="inside">
+                <field name="sidebar_type" readonly="0"/>
+                <field name="chatter_position" readonly="0"/>
+                <field name="dialog_size" readonly="0"/>
+                <field name="appsbar_theme" invisible="1"/>
+            </xpath>
+            <xpath expr="//group[@name='other_preferences']" position="after">
+                <div colspan="2" class="mt-2 mb-3">
+                <span class="fw-bold d-block mb-2">Sidebar Color Theme</span>
+                <div class="apt_theme_preset_gallery apt_theme_preset_gallery_compact d-flex flex-wrap gap-1">
+                    <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'company_default'}" class="apt_theme_preset_card btn-link p-0">
+                        <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'company_default'"><i class="fa fa-check-circle"/></span>
+                        <div class="apt_theme_preset_swatch">
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#495057;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#868e96;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#adb5bd;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#ced4da;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#e9ecef;"/>
+                        </div>
+                        <span class="apt_theme_preset_label">Company Default</span>
+                    </button>
+                    <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'odoo_classic'}" class="apt_theme_preset_card btn-link p-0">
+                        <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'odoo_classic'"><i class="fa fa-check-circle"/></span>
+                        <div class="apt_theme_preset_swatch">
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#243742;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#5D8DA8;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#28A745;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#FFAC00;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#DC3545;"/>
+                        </div>
+                        <span class="apt_theme_preset_label">Odoo Classic</span>
+                    </button>
+                    <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'ocean_blue'}" class="apt_theme_preset_card btn-link p-0">
+                        <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'ocean_blue'"><i class="fa fa-check-circle"/></span>
+                        <div class="apt_theme_preset_swatch">
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#0B3D5C;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#1E88C7;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#1FA37B;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#F2A93C;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#E24C4C;"/>
+                        </div>
+                        <span class="apt_theme_preset_label">Ocean Blue</span>
+                    </button>
+                    <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'forest_green'}" class="apt_theme_preset_card btn-link p-0">
+                        <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'forest_green'"><i class="fa fa-check-circle"/></span>
+                        <div class="apt_theme_preset_swatch">
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#1F3D2B;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#3E8E5C;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#4CAF50;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#D99A2B;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#C0392B;"/>
+                        </div>
+                        <span class="apt_theme_preset_label">Forest Green</span>
+                    </button>
+                    <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'sunset_orange'}" class="apt_theme_preset_card btn-link p-0">
+                        <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'sunset_orange'"><i class="fa fa-check-circle"/></span>
+                        <div class="apt_theme_preset_swatch">
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#4A2A1F;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#E0703A;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#4C9A6A;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#F2A33C;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#D9483A;"/>
+                        </div>
+                        <span class="apt_theme_preset_label">Sunset Orange</span>
+                    </button>
+                    <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'slate_gray'}" class="apt_theme_preset_card btn-link p-0">
+                        <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'slate_gray'"><i class="fa fa-check-circle"/></span>
+                        <div class="apt_theme_preset_swatch">
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#1E2328;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#5C6773;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#4C9A6A;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#D9A441;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#C0524A;"/>
+                        </div>
+                        <span class="apt_theme_preset_label">Slate Gray</span>
+                    </button>
+                    <button type="object" name="action_set_appsbar_theme" context="{'theme_key': 'royal_purple'}" class="apt_theme_preset_card btn-link p-0">
+                        <span class="apt_theme_preset_active_badge" invisible="appsbar_theme != 'royal_purple'"><i class="fa fa-check-circle"/></span>
+                        <div class="apt_theme_preset_swatch">
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#2E1F45;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#7C4DBF;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#4C9A6A;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#D9A441;"/>
+                            <span class="apt_theme_preset_swatch_dot" style="background-color:#C0524A;"/>
+                        </div>
+                        <span class="apt_theme_preset_label">Royal Purple</span>
+                    </button>
+                </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

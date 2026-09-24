@@ -1,0 +1,31 @@
+// Colors
+
+$apt_color_brand: #243742;
+$apt_color_primary: #5D8DA8;
+
+$apt_color_success: #1DC959;
+$apt_color_info: #6AB5FB;
+$apt_color_warning: #FBB56A;
+$apt_color_danger: #FF5757;
+
+// Override
+
+$o-community-color: $apt-color-brand;
+$o-enterprise-color: $apt-color-brand;
+$o-enterprise-action-color: $apt-color-primary;
+
+$o-brand-odoo: $apt-color-brand;
+$o-brand-primary: $apt-color-primary;
+
+$o-success: $apt-color-success;
+$o-info: $apt-color-info;
+$o-warning: $apt-color-warning;
+$o-danger: $apt-color-danger;
+
+$o-theme-text-colors: (
+    "primary": $apt-color-brand,
+    "success": $o-success,
+    "info": $o-info,
+    "warning": $o-warning,
+    "danger": $o-danger,
+);

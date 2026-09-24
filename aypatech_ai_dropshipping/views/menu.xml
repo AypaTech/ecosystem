@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="menu_dropshipping_root"
+              name="AI Dropshipping"
+              sequence="50"/>
+
+    <menuitem id="menu_dropshipping_import_jobs"
+              name="Import Jobs"
+              parent="menu_dropshipping_root"
+              action="action_dropshipping_import_job"
+              sequence="10"/>
+
+</odoo>

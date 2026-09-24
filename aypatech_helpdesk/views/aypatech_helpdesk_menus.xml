@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_root"
+              name="Helpdesk"
+              web_icon="aypatech_helpdesk,static/description/icon.png"
+              sequence="60"/>
+
+    <menuitem id="menu_tickets" name="Tickets" parent="menu_root"
+              action="ticket_action" sequence="10"/>
+
+    <menuitem id="menu_config" name="Configuration" parent="menu_root"
+              groups="group_helpdesk_manager" sequence="90"/>
+    <menuitem id="menu_teams" name="Teams" parent="menu_config"
+              action="team_action" sequence="10"/>
+    <menuitem id="menu_stages" name="Stages" parent="menu_config"
+              action="stage_action" sequence="20"/>
+    <menuitem id="menu_categories" name="Categories" parent="menu_config"
+              action="category_action" sequence="30"/>
+</odoo>

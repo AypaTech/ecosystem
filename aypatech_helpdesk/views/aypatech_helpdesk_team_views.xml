@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="team_view_form" model="ir.ui.view">
+        <field name="name">aypatech.helpdesk.team.view.form</field>
+        <field name="model">aypatech.helpdesk.team</field>
+        <field name="arch" type="xml">
+            <form string="Helpdesk Team">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_tickets" icon="fa-ticket">
+                            <field name="ticket_count" string="Tickets" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="member_ids" widget="many2many_tags"/>
+                        </group>
+                        <group name="right">
+                            <field name="auto_close_after_days"/>
+                            <field name="escalation_threshold"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="team_view_list" model="ir.ui.view">
+        <field name="name">aypatech.helpdesk.team.view.list</field>
+        <field name="model">aypatech.helpdesk.team</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="ticket_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="team_action" model="ir.actions.act_window">
+        <field name="name">Teams</field>
+        <field name="res_model">aypatech.helpdesk.team</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
