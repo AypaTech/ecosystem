@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="aypatech_odoo_community_template.AppsMenuWidgets">
+        <div class="apt_appsmenu_widgets">
+            <div class="apt_appsmenu_widget apt_appsmenu_widget_date" t-on-click="() => this.onClickDate()">
+                <div class="apt_appsmenu_widget_date_box">
+                    <span class="apt_appsmenu_widget_date_weekday"><t t-out="this.weekdayLabel"/></span>
+                    <span class="apt_appsmenu_widget_date_day"><t t-out="this.dayNumber"/></span>
+                    <span class="apt_appsmenu_widget_date_month"><t t-out="this.monthLabel"/></span>
+                </div>
+                <span class="apt_appsmenu_widget_label">Today</span>
+            </div>
+            <div class="apt_appsmenu_widget apt_appsmenu_widget_todo" t-on-click="() => this.onClickTodoApp()">
+                <div class="apt_appsmenu_widget_todo_header">
+                    <i class="fa fa-clock-o"/>
+                    <span class="apt_appsmenu_widget_label">Due Today</span>
+                    <span class="apt_appsmenu_widget_todo_count"><t t-out="state.todosToday.length"/></span>
+                </div>
+                <div class="apt_appsmenu_widget_todo_list">
+                    <div
+                        t-if="!state.todosToday.length"
+                        class="apt_appsmenu_widget_todo_empty"
+                    >
+                        Nothing due today
+                    </div>
+                    <t t-foreach="state.todosToday.slice(0, 3)" t-as="task" t-key="task.id">
+                        <div
+                            class="apt_appsmenu_widget_todo_item"
+                            t-on-click.stop="() => this.onClickTodoItem(task.id)"
+                        >
+                            <t t-out="task.name"/>
+                        </div>
+                    </t>
+                    <div t-if="state.todosToday.length > 3" class="apt_appsmenu_widget_todo_more">
+                        +<t t-out="state.todosToday.length - 3"/> more
+                    </div>
+                </div>
+            </div>
+            <div class="apt_appsmenu_widget" t-on-click="() => this.onClickMessages()">
+                <div class="apt_appsmenu_widget_icon">
+                    <i class="fa fa-envelope"/>
+                </div>
+                <span class="apt_appsmenu_widget_value"><t t-out="unreadCount"/></span>
+                <span class="apt_appsmenu_widget_label">Unread</span>
+            </div>
+            <div
+                t-if="state.ticketsCount !== false"
+                class="apt_appsmenu_widget"
+                t-on-click="() => this.onClickTickets()"
+            >
+                <div class="apt_appsmenu_widget_icon">
+                    <i class="fa fa-life-ring"/>
+                </div>
+                <span class="apt_appsmenu_widget_value"><t t-out="state.ticketsCount ?? '…'"/></span>
+                <span class="apt_appsmenu_widget_label">My Tickets</span>
+            </div>
+        </div>
+    </t>
+
+</templates>

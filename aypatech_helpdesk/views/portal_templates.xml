@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_tickets_list" name="My Tickets">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_breadcrumbs">
+                <li class="breadcrumb-item active">Tickets</li>
+            </t>
+            <div class="o_portal_my_doc_table">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <a t-attf-class="btn btn-sm #{'btn-primary' if status == 'open' else 'btn-outline-primary'} me-1"
+                           href="/my/tickets?status=open">Open (<t t-out="open_count"/>)</a>
+                        <a t-attf-class="btn btn-sm #{'btn-primary' if status == 'closed' else 'btn-outline-primary'}"
+                           href="/my/tickets?status=closed">Closed (<t t-out="closed_count"/>)</a>
+                    </div>
+                    <a class="btn btn-primary" href="/my/tickets/new">New Ticket</a>
+                </div>
+                <table class="table table-hover o_portal_my_doc_table" t-if="tickets">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Subject</th>
+                            <th>Stage</th>
+                            <th>Priority</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="tickets" t-as="ticket">
+                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-out="ticket.number"/></a></td>
+                            <td><a t-attf-href="/my/tickets/#{ticket.id}"><t t-out="ticket.name"/></a></td>
+                            <td><t t-out="ticket.stage_id.name"/></td>
+                            <td><t t-out="dict(ticket._fields['priority'].selection).get(ticket.priority)"/></td>
+                            <td><t t-out="ticket.create_date.strftime('%d %b %Y')"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="not tickets" class="text-muted">No tickets here yet.</p>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_ticket_new" name="New Ticket">
+        <t t-call="portal.portal_layout">
+            <div t-if="error" class="alert alert-danger" t-out="error"/>
+            <form action="/my/tickets/new" method="post" class="o_portal_ticket_form">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <div class="mb-3">
+                    <label class="form-label">Subject</label>
+                    <input type="text" name="subject" class="form-control" required="required"/>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select name="category_id" class="form-select">
+                        <option value="">-</option>
+                        <option t-foreach="categories" t-as="category" t-att-value="category.id" t-out="category.name"/>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Priority</label>
+                    <select name="priority" class="form-select">
+                        <option value="0">Low</option>
+                        <option value="1">Medium</option>
+                        <option value="2">High</option>
+                        <option value="3">Urgent</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="5"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Ticket</button>
+            </form>
+        </t>
+    </template>
+
+    <template id="portal_ticket_detail" name="Ticket Detail">
+        <t t-call="portal.portal_layout">
+            <div t-if="success" class="alert alert-success">Done.</div>
+            <h3><t t-out="ticket.name"/></h3>
+            <p class="text-muted">
+                <t t-out="ticket.stage_id.name"/> ·
+                <t t-out="dict(ticket._fields['priority'].selection).get(ticket.priority)"/>
+            </p>
+            <div t-field="ticket.description"/>
+
+            <form t-if="closing_stages and not ticket.stage_id.closed"
+                  t-attf-action="/my/tickets/#{ticket.id}/close" method="post" class="mb-3">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <select name="stage_id" class="form-select d-inline-block w-auto">
+                    <option t-foreach="closing_stages" t-as="stage" t-att-value="stage.id" t-out="stage.name"/>
+                </select>
+                <button type="submit" class="btn btn-outline-secondary">Close Ticket</button>
+            </form>
+
+            <hr/>
+            <h5>Conversation</h5>
+            <style>
+                .o_hd_chat, .o_hd_chat *{box-sizing:border-box;}
+                .o_hd_chat{display:flex;flex-direction:column;row-gap:4px;margin:0 0 1rem;padding:0;}
+                .o_hd_chat .o_hd_row{display:flex;flex-direction:column;margin:0 !important;padding:0 !important;}
+                .o_hd_chat .o_hd_bubble{margin:0 !important;padding:5px 10px;border-radius:12px;
+                    max-width:75%;font-size:13.5px;line-height:1.35;}
+                .o_hd_chat .o_hd_bubble p{margin:0;}
+                .o_hd_chat .o_hd_bubble p + p{margin-top:.3rem;}
+                .o_hd_chat .o_hd_meta{font-size:11px;font-weight:600;opacity:.65;margin:0 0 2px;line-height:1.2;}
+                .o_hd_chat .o_hd_files{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+                .o_hd_chat_thumb{display:block;width:72px;height:72px;object-fit:cover;border-radius:8px;cursor:pointer;}
+            </style>
+            <div class="o_hd_chat">
+                <t t-foreach="messages" t-as="message">
+                    <t t-set="is_me" t-value="message.author_id.id == request.env.user.partner_id.id"/>
+                    <div t-attf-class="o_hd_row #{'align-items-end' if is_me else 'align-items-start'}">
+                        <div t-attf-class="o_hd_bubble #{'text-white' if is_me else ''}"
+                             t-attf-style="#{'background-color:#1A2B4A;' if is_me else 'background-color:#F0F0F0;'}">
+                            <div class="o_hd_meta"
+                                 t-out="'%s · %s' % (message.author_id.name or message.email_from or '', message.date.strftime('%d %b, %H:%M') if message.date else '')"/>
+                            <div t-out="message.body"/>
+                            <div t-if="message.attachment_ids" class="o_hd_files">
+                                <t t-foreach="message.attachment_ids" t-as="att">
+                                    <img t-if="(att.mimetype or '').startswith('image/')"
+                                         t-attf-src="/web/image/#{att.id}"
+                                         t-att-data-full="'/web/image/%d' % att.id"
+                                         t-att-data-download="'/web/content/%d?download=true' % att.id"
+                                         t-att-data-name="att.name"
+                                         class="o_hd_chat_thumb"/>
+                                    <a t-else=""
+                                       t-attf-href="/web/content/#{att.id}?download=true" target="_blank"
+                                       t-attf-class="d-flex align-items-center gap-1 px-2 py-1 rounded-2 small text-decoration-none #{'text-white' if is_me else 'text-dark'}"
+                                       t-attf-style="background-color:#{'rgba(255,255,255,.15)' if is_me else 'rgba(0,0,0,.06)'};">
+                                        <i class="fa fa-file-pdf-o"/>
+                                        <t t-out="att.name"/>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <form t-if="not ticket.stage_id.closed" t-attf-action="/my/tickets/#{ticket.id}/reply"
+                  method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <textarea name="body" class="form-control mb-2" rows="3" placeholder="Write a reply..." required="required"/>
+                <div class="mb-2">
+                    <input type="file" name="attachment" class="form-control form-control-sm"
+                           accept="image/png,image/jpeg,application/pdf"/>
+                    <div class="form-text">PNG, JPG or PDF — max 3MB.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Reply</button>
+            </form>
+            <p t-else="" class="text-muted">This ticket is closed.</p>
+
+            <!-- Lightbox: click an image bubble to open it full-size, with
+                 a download button and a close button/click-outside-to-close. -->
+            <div id="o_hd_lightbox" style="display:none;position:fixed;inset:0;z-index:1080;
+                 background:rgba(0,0,0,.85);align-items:center;justify-content:center;padding:24px;">
+                <button type="button" id="o_hd_lightbox_close" aria-label="Close"
+                        style="position:absolute;top:16px;right:20px;background:none;border:none;
+                        color:#fff;font-size:32px;line-height:1;cursor:pointer;">&#215;</button>
+                <img id="o_hd_lightbox_img" src="" style="max-width:90%;max-height:80vh;border-radius:6px;"/>
+                <a id="o_hd_lightbox_download" href="#" download=""
+                   class="btn btn-light position-absolute" style="bottom:24px;left:50%;transform:translateX(-50%);">
+                    <i class="fa fa-download me-1"/>Download
+                </a>
+            </div>
+            <script>
+                (function () {
+                    var box = document.getElementById('o_hd_lightbox');
+                    var img = document.getElementById('o_hd_lightbox_img');
+                    var dl = document.getElementById('o_hd_lightbox_download');
+                    if (!box) return;
+                    function open(src, downloadUrl, name) {
+                        img.src = src;
+                        dl.href = downloadUrl;
+                        dl.setAttribute('download', name || '');
+                        box.style.display = 'flex';
+                    }
+                    function close() { box.style.display = 'none'; img.src = ''; }
+                    document.querySelectorAll('.o_hd_chat_thumb').forEach(function (thumb) {
+                        thumb.addEventListener('click', function () {
+                            open(thumb.dataset.full, thumb.dataset.download, thumb.dataset.name);
+                        });
+                    });
+                    document.getElementById('o_hd_lightbox_close').addEventListener('click', close);
+                    box.addEventListener('click', function (ev) { if (ev.target === box) close(); });
+                    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') close(); });
+                })();
+            </script>
+        </t>
+    </template>
+</odoo>

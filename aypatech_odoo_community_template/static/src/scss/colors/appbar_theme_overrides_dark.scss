@@ -1,0 +1,48 @@
+// Per-user personal AppsBar color theme overrides (dark mode).
+//
+// Kept in sync by hand with the dark `theme_dark` values in
+// ResConfigSettingsColorPresets.THEME_PRESETS (models/res_config_settings.py).
+// A user with no personal preference gets the "company_default" class, which
+// matches no rule here, so the company-wide AppsBar colors apply unchanged.
+
+.apt_appsbar_theme_odoo_classic {
+    --apt-appsmenu-color: #F8F9FA;
+    --apt-appbar-color: #E4E4E4;
+    --apt-appbar-active: #5D8DA8;
+    --apt-appbar-background: #3C3E4B;
+}
+
+.apt_appsbar_theme_ocean_blue {
+    --apt-appsmenu-color: #F5FAFD;
+    --apt-appbar-color: #D7ECF7;
+    --apt-appbar-active: #4FB0E8;
+    --apt-appbar-background: #13324A;
+}
+
+.apt_appsbar_theme_forest_green {
+    --apt-appsmenu-color: #F3F8F4;
+    --apt-appbar-color: #DCEBDF;
+    --apt-appbar-active: #63B37F;
+    --apt-appbar-background: #22392A;
+}
+
+.apt_appsbar_theme_sunset_orange {
+    --apt-appsmenu-color: #FBF1EA;
+    --apt-appbar-color: #F5DED0;
+    --apt-appbar-active: #F08F5C;
+    --apt-appbar-background: #3D2419;
+}
+
+.apt_appsbar_theme_slate_gray {
+    --apt-appsmenu-color: #F5F6F7;
+    --apt-appbar-color: #E2E5E8;
+    --apt-appbar-active: #8A97A3;
+    --apt-appbar-background: #22262B;
+}
+
+.apt_appsbar_theme_royal_purple {
+    --apt-appsmenu-color: #F6F2FA;
+    --apt-appbar-color: #E7DFF2;
+    --apt-appbar-active: #A47CDB;
+    --apt-appbar-background: #2A1F42;
+}

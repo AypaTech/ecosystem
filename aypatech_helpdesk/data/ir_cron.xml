@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cron_auto_close_stale_tickets" model="ir.cron">
+        <field name="name">Aypatech Helpdesk: Auto-close stale tickets</field>
+        <field name="model_id" ref="model_aypatech_helpdesk_ticket"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_auto_close_stale_tickets()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+
+    <record id="cron_update_urgency_scores" model="ir.cron">
+        <field name="name">Aypatech Helpdesk: Update urgency scores</field>
+        <field name="model_id" ref="model_aypatech_helpdesk_ticket"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_update_urgency_scores()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+</odoo>

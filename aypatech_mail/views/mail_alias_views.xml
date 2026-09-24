@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_mail_alias_list" model="ir.ui.view">
+            <field name="name">aypatech.mail.alias.list</field>
+            <field name="model">aypatech.mail.alias</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="alias"/>
+                    <field name="target"/>
+                    <field name="domain_id"/>
+                    <field name="active" widget="boolean_toggle"/>
+                    <button name="action_create_in_mailcow" type="object" string="Push to Mailcow" invisible="mailcow_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_mail_alias" model="ir.actions.act_window">
+            <field name="name">Mail Aliases</field>
+            <field name="res_model">aypatech.mail.alias</field>
+            <field name="view_mode">list</field>
+        </record>
+
+    </data>
+</odoo>
