@@ -14,3 +14,7 @@ from . import discuss_channel
 from . import mail_message
 from . import res_partner
 from . import res_config_settings
+from . import telegram_crm
+from . import telegram_sale
+from . import telegram_helpdesk
+from . import crm_lead

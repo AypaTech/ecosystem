@@ -83,6 +83,8 @@ class TelegramUpdate(models.Model):
         processed = 0
         last_id = 0  # never retry a failed update within the same run
         while True:
+            # the raw select below must see states written earlier in this transaction
+            self.flush_model(["state"])
             self.env.cr.execute(
                 """
                 SELECT id FROM telegram_update

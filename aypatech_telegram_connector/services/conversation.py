@@ -86,7 +86,7 @@ class TelegramConversationService:
         users = conv.team_id.member_ids
         if not users:
             group = self.env.ref("aypatech_telegram_connector.group_telegram_manager", raise_if_not_found=False)
-            users = group.sudo().all_user_ids if group else self.env["res.users"]
+            users = group.sudo().users if group else self.env["res.users"]
         users = users.filtered(
             lambda u: u.active and not u.share and conv.company_id in u.company_ids and u.id != self.env.ref("base.user_root").id
         )

@@ -1,7 +1,7 @@
 # CLAUDE.md — Telegram Discuss for Odoo
 
 ## What we are building
-A commercial Odoo app (`telegram_discuss` + bridge modules) that connects Telegram bots to Odoo Discuss. The full specification is in `SPEC.md`. Read it before any work and re-read the relevant section before each phase.
+A commercial Odoo app (`telegram_discuss`, one module; the former CRM/Sales/Helpdesk bridges are merged in, see `docs/DECISIONS.md`) that connects Telegram bots to Odoo Discuss. The full specification is in `SPEC.md`. Read it before any work and re-read the relevant section before each phase.
 
 ## Environment
 - Target: Odoo **18.0** Community first (branch `18.0`). Port to 19.0 only in Phase 8.

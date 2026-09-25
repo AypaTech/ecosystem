@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Telegram Discuss Connector",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Productivity/Discuss",
     "summary": "Chat with your customers on Telegram from Odoo Discuss: webhook or polling, multi-bot, media, routing, delivery queue",
     "description": """
 Connect one or more Telegram bots to Odoo Discuss. Customers write to your bot,
 agents answer from Discuss. Webhook or polling, durable outbound queue with
 retries, team routing, tags, logs and a setup wizard.
+
+Built-in CRM and Sales actions (create a lead, see the customer's orders, new
+quotation). Tickets work with the Enterprise Helpdesk or AypaTech Helpdesk,
+whichever is installed; without a helpdesk the module installs fine.
     """,
     "author": "Aypa Tech",
     "website": "https://aypatech.com",
     "license": "OPL-1",
-    "depends": ["mail", "base_setup"],
+    "depends": ["mail", "base_setup", "crm", "sale"],
     "external_dependencies": {
         "python": ["requests"],
     },
@@ -23,6 +27,8 @@ retries, team routing, tags, logs and a setup wizard.
         "data/ir_cron.xml",
         "views/telegram_bot_views.xml",
         "views/telegram_conversation_views.xml",
+        "views/telegram_conversation_apps_views.xml",
+        "views/crm_lead_views.xml",
         "views/telegram_contact_views.xml",
         "views/telegram_chat_views.xml",
         "views/telegram_message_views.xml",

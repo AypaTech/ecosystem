@@ -239,7 +239,7 @@ class TelegramBot(models.Model):
         """SPEC §12: auth errors notify managers through an activity."""
         group = self.env.ref("aypatech_telegram_connector.group_telegram_manager", raise_if_not_found=False)
         root = self.env.ref("base.user_root")
-        users = group.sudo().all_user_ids.filtered(
+        users = group.sudo().users.filtered(
             lambda u: u.active and not u.share and u != root
         ).sorted("id") if group else self.env["res.users"]
         activity_type = self.env.ref("mail.mail_activity_data_warning", raise_if_not_found=False) \
