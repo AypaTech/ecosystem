@@ -51,14 +51,16 @@ class TelegramDeliveryService:
     # ------------------------------------------------------------------
 
     def _claim(self, limit):
+        # the raw select joins bots too (auth_failed/active may have changed this round)
         self.env["telegram.delivery"].flush_model()
+        self.env["telegram.bot"].flush_model(["active", "auth_failed"])
         self.env.cr.execute(
             """
             SELECT d.id
               FROM telegram_delivery d
               JOIN telegram_bot b ON b.id = d.bot_id
              WHERE d.state IN ('queued', 'failed_retryable')
-               AND (d.next_retry_at IS NULL OR d.next_retry_at <= (now() at time zone 'UTC'))
+               AND (d.next_retry_at IS NULL OR d.next_retry_at <= %s)
                AND b.active IS TRUE
                AND b.auth_failed IS NOT TRUE
                AND NOT EXISTS (
@@ -70,7 +72,8 @@ class TelegramDeliveryService:
              LIMIT %s
                FOR UPDATE OF d SKIP LOCKED
             """,
-            (limit,),
+            # same clock as the one that wrote next_retry_at (SQL now() is frozen per transaction)
+            (fields.Datetime.now(), limit),
         )
         return self.env["telegram.delivery"].sudo().browse([r[0] for r in self.env.cr.fetchall()])
 

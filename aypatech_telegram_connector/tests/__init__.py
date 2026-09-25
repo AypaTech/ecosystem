@@ -9,3 +9,6 @@ from . import test_conversation_state
 from . import test_polling
 from . import test_security
 from . import test_privacy
+from . import test_crm
+from . import test_sale
+from . import test_helpdesk

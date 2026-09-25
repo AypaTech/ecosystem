@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- CRM, Sales and (optional) Helpdesk actions on the conversation -->
+    <record id="view_telegram_conversation_form_apps" model="ir.ui.view">
+        <field name="name">telegram.conversation.form.apps</field>
+        <field name="model">telegram.conversation</field>
+        <field name="inherit_id" ref="aypatech_telegram_connector.view_telegram_conversation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_assign_to_me']" position="after">
+                <button name="action_create_lead" type="object" string="Create Lead"
+                        groups="sales_team.group_sale_salesman" invisible="lead_id"/>
+                <button name="action_new_quotation" type="object" string="New Quotation"
+                        groups="sales_team.group_sale_salesman"/>
+                <button name="action_create_ticket" type="object" string="Create Ticket"
+                        invisible="ticket_ref or not can_create_ticket"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_lead" type="object" class="oe_stat_button" icon="fa-star"
+                        groups="sales_team.group_sale_salesman" invisible="not lead_id">
+                    <span class="o_stat_text">Lead</span>
+                </button>
+                <button name="action_open_sale_orders" type="object" class="oe_stat_button" icon="fa-dollar"
+                        groups="sales_team.group_sale_salesman" invisible="not sale_order_count">
+                    <field name="sale_order_count" widget="statinfo" string="Orders"/>
+                </button>
+                <button name="action_open_ticket" type="object" class="oe_stat_button" icon="fa-life-ring"
+                        invisible="not ticket_ref">
+                    <span class="o_stat_text">Ticket</span>
+                </button>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <field name="helpdesk_model" invisible="1"/>
+                <field name="can_create_ticket" invisible="1"/>
+                <div class="alert alert-info d-flex align-items-center justify-content-between" role="status"
+                     groups="base.group_system" invisible="helpdesk_model">
+                    <span>Install a helpdesk app to turn Telegram conversations into tickets.
+                        AypaTech Helpdesk is recommended on Odoo Community.</span>
+                    <button name="action_install_helpdesk" type="object" string="Install Helpdesk"
+                            class="btn-link"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="lead_id" groups="sales_team.group_sale_salesman"/>
+                <field name="ticket_ref" invisible="not helpdesk_model and not ticket_ref"
+                       options="{'no_create': True}"/>
+                <field name="ticket_forward_replies" invisible="not ticket_ref"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

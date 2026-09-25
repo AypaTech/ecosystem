@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.1.1.0 — 2026-09-25
+
+- The CRM, Sales and Helpdesk bridge modules are merged into this module. CRM and Sales are
+  now dependencies; Helpdesk stays optional (Enterprise `helpdesk` or `aypatech_helpdesk`,
+  linked through the `ticket_ref` reference field).
+- Ticket reply forwarding is switched per conversation (`ticket_forward_replies`).
+
 ## 19.0.1.0.0 — 2026-09-22 (development, not yet installed)
 
 Phases 0–6 of SPEC §20 written in one pass on request of the owner. **Nothing has been installed or
