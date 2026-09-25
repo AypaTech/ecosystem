@@ -1,0 +1,10 @@
+{
+    "update_id": 900000050,
+    "my_chat_member": {
+        "chat": {"id": 111111, "first_name": "Ali", "type": "private"},
+        "from": {"id": 111111, "is_bot": false, "first_name": "Ali"},
+        "date": 1758528100,
+        "old_chat_member": {"user": {"id": 987654321, "is_bot": true, "first_name": "Acme"}, "status": "member"},
+        "new_chat_member": {"user": {"id": 987654321, "is_bot": true, "first_name": "Acme"}, "status": "kicked", "until_date": 0}
+    }
+}

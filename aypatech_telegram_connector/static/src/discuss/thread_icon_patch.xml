@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mail.ThreadIcon" t-inherit-mode="extension">
+        <xpath expr="//t[@name='extra']" position="after">
+            <div t-if="this.channel?.channel_type === 'telegram'" class="oi o-telegram-icon" data-icon="send"
+                 t-att="attr" title="Telegram"/>
+        </xpath>
+    </t>
+</templates>

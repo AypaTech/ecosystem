@@ -1,0 +1,23 @@
+{
+    "update_id": 900000001,
+    "message": {
+        "message_id": 1,
+        "from": {
+            "id": 111111,
+            "is_bot": false,
+            "first_name": "Ali",
+            "last_name": "Rezaei",
+            "username": "alirezaei",
+            "language_code": "fa"
+        },
+        "chat": {
+            "id": 111111,
+            "first_name": "Ali",
+            "last_name": "Rezaei",
+            "username": "alirezaei",
+            "type": "private"
+        },
+        "date": 1758528000,
+        "text": "Hello"
+    }
+}

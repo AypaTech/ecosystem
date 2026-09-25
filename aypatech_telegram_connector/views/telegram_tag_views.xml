@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_tag_list" model="ir.ui.view">
+        <field name="name">telegram.tag.list</field>
+        <field name="model">telegram.tag</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_telegram_tag" model="ir.actions.act_window">
+        <field name="name">Tags</field>
+        <field name="res_model">telegram.tag</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

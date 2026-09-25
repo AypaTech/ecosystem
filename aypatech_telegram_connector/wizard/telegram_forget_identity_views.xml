@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_forget_identity_form" model="ir.ui.view">
+        <field name="name">telegram.forget.identity.form</field>
+        <field name="model">telegram.forget.identity</field>
+        <field name="arch" type="xml">
+            <form string="Forget Telegram identity">
+                <p>
+                    The link between these Telegram accounts and Odoo is deleted: contacts, chats and the
+                    Telegram ids. Their conversations are closed and can no longer receive messages.
+                </p>
+                <group>
+                    <field name="contact_ids" widget="many2many_tags"/>
+                    <field name="mode" widget="radio"/>
+                </group>
+                <p class="text-muted" invisible="mode != 'anonymize'">
+                    Customer messages and files are removed and the auto-created contact is renamed. Agent messages are kept.
+                </p>
+                <footer>
+                    <button name="action_forget" type="object" string="Forget" class="btn-danger"
+                            confirm="This cannot be undone. Continue?"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_telegram_forget_identity" model="ir.actions.act_window">
+        <field name="name">Forget Telegram identity</field>
+        <field name="res_model">telegram.forget.identity</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_telegram_contact"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="group_ids" eval="[Command.link(ref('group_telegram_manager'))]"/>
+    </record>
+</odoo>

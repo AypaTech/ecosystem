@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_delivery_list" model="ir.ui.view">
+        <field name="name">telegram.delivery.list</field>
+        <field name="model">telegram.delivery</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" decoration-danger="state == 'failed_permanent'" decoration-warning="state == 'failed_retryable'">
+                <header>
+                    <button name="action_retry" type="object" string="Retry"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            groups="aypatech_telegram_connector.group_telegram_manager"/>
+                </header>
+                <field name="create_date"/>
+                <field name="conversation_id"/>
+                <field name="body_preview"/>
+                <field name="attempt"/>
+                <field name="next_retry_at" optional="show"/>
+                <field name="error_class" optional="show"/>
+                <field name="error_message" optional="show"/>
+                <field name="bot_id" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'sent'" decoration-danger="state == 'failed_permanent'"
+                       decoration-warning="state == 'failed_retryable'"/>
+                <button name="action_retry" type="object" string="Retry" icon="refresh"
+                        invisible="state not in ('failed_permanent', 'failed_retryable', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_telegram_delivery_form" model="ir.ui.view">
+        <field name="name">telegram.delivery.form</field>
+        <field name="model">telegram.delivery</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <header>
+                    <button name="action_retry" type="object" string="Retry" class="btn-primary"
+                            invisible="state not in ('failed_permanent', 'failed_retryable', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="queued,sending,sent"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="message_id"/>
+                            <field name="conversation_id"/>
+                            <field name="bot_id"/>
+                            <field name="body_preview"/>
+                        </group>
+                        <group>
+                            <field name="attempt"/>
+                            <field name="parts_sent"/>
+                            <field name="next_retry_at"/>
+                            <field name="sending_started_at"/>
+                            <field name="error_class"/>
+                            <field name="response_summary"/>
+                        </group>
+                    </group>
+                    <field name="error_message" invisible="not error_message"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_telegram_delivery_search" model="ir.ui.view">
+        <field name="name">telegram.delivery.search</field>
+        <field name="model">telegram.delivery</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="conversation_id"/>
+                <field name="bot_id"/>
+                <filter name="filter_queued" string="Queued"
+                        domain="[('state', 'in', ('queued', 'sending', 'failed_retryable'))]"/>
+                <filter name="filter_failed" string="Failed" domain="[('state', '=', 'failed_permanent')]"/>
+                <filter name="filter_sent" string="Sent" domain="[('state', '=', 'sent')]"/>
+                <filter name="group_error" string="Error class" context="{'group_by': 'error_class'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_telegram_delivery" model="ir.actions.act_window">
+        <field name="name">Queued Deliveries</field>
+        <field name="res_model">telegram.delivery</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_queued': 1}</field>
+    </record>
+
+    <record id="action_telegram_delivery_failed" model="ir.actions.act_window">
+        <field name="name">Failed Deliveries</field>
+        <field name="res_model">telegram.delivery</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_failed': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No failed delivery</p>
+            <p>Messages that Telegram refused appear here with a Retry button.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mail.Message" t-inherit-mode="extension">
+        <xpath expr="//div[@name='header']" position="inside">
+            <t t-set="tgState" t-value="this.message.telegram_delivery_state"/>
+            <span t-if="tgState === 'failed'" class="o-telegram-DeliveryState text-danger ms-1"
+                  t-att-title="this.message.telegram_delivery_error or 'Not delivered to Telegram'">
+                <i class="oi" data-icon="error" role="img" aria-label="Not delivered"/>
+            </span>
+            <span t-elif="tgState === 'queued' or tgState === 'sending'" class="o-telegram-DeliveryState text-muted ms-1"
+                  title="Sending to Telegram…">
+                <i class="oi" data-icon="schedule" role="img" aria-label="Sending"/>
+            </span>
+            <span t-elif="tgState === 'sent'" class="o-telegram-DeliveryState text-success opacity-75 ms-1"
+                  title="Delivered to Telegram">
+                <i class="oi" data-icon="check" role="img" aria-label="Delivered"/>
+            </span>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_setup_wizard_form" model="ir.ui.view">
+        <field name="name">telegram.setup.wizard.form</field>
+        <field name="model">telegram.setup.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Connect a Telegram bot">
+                <field name="step" widget="statusbar" invisible="1"/>
+                <field name="bot_id" invisible="1"/>
+                <field name="public_https" invisible="1"/>
+                <field name="test_received" invisible="1"/>
+
+                <!-- 1. BotFather -->
+                <div invisible="step != 'intro'">
+                    <h3>1. Create your bot in Telegram</h3>
+                    <ol>
+                        <li>Open <a href="https://t.me/BotFather" target="_blank">@BotFather</a> in Telegram.</li>
+                        <li>Send <code>/newbot</code>, choose a name and a username ending with <code>bot</code>.</li>
+                        <li>BotFather answers with a token like <code>123456789:AAH...</code>. Keep it secret.</li>
+                    </ol>
+                    <p class="text-muted">Already have a bot? Send <code>/mybots</code> to BotFather → your bot → API Token.</p>
+                </div>
+
+                <!-- 2. Token -->
+                <div invisible="step != 'token'">
+                    <h3>2. Paste the token</h3>
+                    <group>
+                        <field name="token" password="True" placeholder="123456789:AAH..."/>
+                    </group>
+                    <p class="text-muted">Odoo checks the token with Telegram when you press Next.</p>
+                </div>
+
+                <!-- 3/4. Company + mode -->
+                <div invisible="step != 'mode'">
+                    <div class="alert alert-success" role="status">
+                        Token valid: <strong>@<field name="bot_username" class="oe_inline"/></strong>
+                    </div>
+                    <h3>3. Company and connection mode</h3>
+                    <group>
+                        <field name="bot_name"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="base_url" readonly="1"/>
+                        <field name="connection_mode" widget="radio"/>
+                    </group>
+                    <div class="alert alert-info" role="status" invisible="not public_https">
+                        This database has a public HTTPS address: <strong>Webhook</strong> is recommended (messages arrive instantly).
+                    </div>
+                    <div class="alert alert-warning" role="status" invisible="public_https">
+                        This database is not reachable from the internet over HTTPS, so Telegram cannot call it.
+                        Use <strong>Polling</strong>: Odoo asks Telegram for new messages about every minute
+                        (Odoo scheduled actions cannot run more often).
+                    </div>
+                </div>
+
+                <!-- 5. Team -->
+                <div invisible="step != 'team'">
+                    <h3>4. Who answers?</h3>
+                    <group>
+                        <field name="team_id"/>
+                        <field name="default_user_id" widget="many2one_avatar_user"/>
+                    </group>
+                    <p class="text-muted">Both are optional. Routes can be added later on the bot.</p>
+                </div>
+
+                <!-- 6. Messages -->
+                <div invisible="step != 'messages'">
+                    <h3>5. Welcome message and privacy notice</h3>
+                    <p class="text-muted">Sent automatically when a customer presses Start.</p>
+                    <group>
+                        <field name="welcome_message"/>
+                        <field name="privacy_notice"/>
+                    </group>
+                    <p>Pressing <strong>Connect</strong> registers the bot with Telegram.</p>
+                </div>
+
+                <!-- 8. Live test -->
+                <div invisible="step != 'test'">
+                    <h3>6. Live test</h3>
+                    <p>Open Telegram and send <code>/start</code> to <strong>@<field name="bot_username" class="oe_inline"/></strong>, then press <em>Check</em>.</p>
+                    <div class="alert alert-success" role="status" invisible="not test_received">
+                        <i class="oi me-1" data-icon="check_circle"/> Message received! Your bot is connected.
+                    </div>
+                    <div class="alert alert-secondary" role="status" invisible="test_received">
+                        Waiting for your message…
+                    </div>
+                </div>
+
+                <!-- 9. Done -->
+                <div invisible="step != 'done'">
+                    <h3>All set 🎉</h3>
+                    <p>New customer messages appear in Discuss under <strong>Telegram</strong> and in Telegram → Conversations.</p>
+                </div>
+
+                <footer>
+                    <button name="action_back" type="object" string="Back" invisible="step in ('intro', 'test', 'done')"/>
+                    <button name="action_next" type="object" string="Next" class="btn-primary"
+                            invisible="step in ('messages', 'test', 'done')"/>
+                    <button name="action_next" type="object" string="Connect" class="btn-primary"
+                            invisible="step != 'messages'"/>
+                    <button name="action_check_test" type="object" string="Check" class="btn-primary"
+                            invisible="step != 'test' or test_received"/>
+                    <button name="action_next" type="object" string="Next"
+                            invisible="step != 'test'" class="btn-primary"/>
+                    <button name="action_open_dashboard" type="object" string="Open dashboard" class="btn-primary"
+                            invisible="step != 'done'"/>
+                    <button special="cancel" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_telegram_setup_wizard" model="ir.actions.act_window">
+        <field name="name">Connect a Telegram bot</field>
+        <field name="res_model">telegram.setup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,37 @@
+id,name,model_id,group_id/id,operation,domain
+access_telegram_bot_user,telegram.bot user,telegram.bot,group_telegram_user,r,
+access_telegram_bot_manager,telegram.bot manager,telegram.bot,group_telegram_manager,crud,
+access_telegram_contact_user,telegram.contact user,telegram.contact,group_telegram_user,ru,
+access_telegram_contact_manager,telegram.contact manager,telegram.contact,group_telegram_manager,crud,
+access_telegram_chat_user,telegram.chat user,telegram.chat,group_telegram_user,r,
+access_telegram_chat_manager,telegram.chat manager,telegram.chat,group_telegram_manager,crud,
+access_telegram_conversation_user,telegram.conversation: own team or assigned,telegram.conversation,group_telegram_user,ru,"['|', '|', ('user_id', '=', user.id), ('team_id.member_ids', 'in', user.id), ('team_id', '=', False)]"
+access_telegram_conversation_manager,telegram.conversation manager,telegram.conversation,group_telegram_manager,crud,
+access_telegram_message_user,telegram.message: visible conversations,telegram.message,group_telegram_user,r,"['|', '|', ('conversation_id.user_id', '=', user.id), ('conversation_id.team_id.member_ids', 'in', user.id), ('conversation_id.team_id', '=', False)]"
+access_telegram_message_manager,telegram.message manager,telegram.message,group_telegram_manager,rud,
+access_telegram_delivery_user,telegram.delivery: visible conversations,telegram.delivery,group_telegram_user,r,"['|', '|', ('conversation_id.user_id', '=', user.id), ('conversation_id.team_id.member_ids', 'in', user.id), ('conversation_id.team_id', '=', False)]"
+access_telegram_delivery_manager,telegram.delivery manager,telegram.delivery,group_telegram_manager,rud,
+access_telegram_update_manager,telegram.update manager,telegram.update,group_telegram_manager,rud,
+access_telegram_team_user,telegram.team user,telegram.team,group_telegram_user,r,
+access_telegram_team_manager,telegram.team manager,telegram.team,group_telegram_manager,crud,
+access_telegram_route_user,telegram.route user,telegram.route,group_telegram_user,r,
+access_telegram_route_manager,telegram.route manager,telegram.route,group_telegram_manager,crud,
+access_telegram_tag_user,telegram.tag user,telegram.tag,group_telegram_user,cru,
+access_telegram_tag_manager,telegram.tag manager,telegram.tag,group_telegram_manager,crud,
+access_telegram_log_manager,telegram.log manager,telegram.log,group_telegram_manager,rd,
+access_telegram_setup_wizard_system,telegram.setup.wizard system,telegram.setup.wizard,base.group_system,crud,
+access_telegram_forget_identity_manager,telegram.forget.identity manager,telegram.forget.identity,group_telegram_manager,crud,
+rule_discuss_channel_telegram_user,discuss.channel: Telegram users read/answer channels of visible conversations,discuss.channel,group_telegram_user,ru,"[('channel_type', '=', 'telegram'), ('telegram_conversation_id.company_id', 'in', company_ids), '|', '|', ('telegram_conversation_id.user_id', '=', user.id), ('telegram_conversation_id.team_id.member_ids', 'in', user.id), ('telegram_conversation_id.team_id', '=', False)]"
+rule_discuss_channel_telegram_manager,discuss.channel: Telegram managers read all Telegram channels,discuss.channel,group_telegram_manager,ru,"[('channel_type', '=', 'telegram'), ('telegram_conversation_id.company_id', 'in', company_ids)]"
+rule_discuss_channel_member_telegram_user,discuss.channel.member: Telegram users read members of visible Telegram channels,discuss.channel.member,group_telegram_user,cr,"[('channel_id.channel_type', '=', 'telegram'), ('channel_id.telegram_conversation_id.company_id', 'in', company_ids), '|', '|', ('channel_id.telegram_conversation_id.user_id', '=', user.id), ('channel_id.telegram_conversation_id.team_id.member_ids', 'in', user.id), ('channel_id.telegram_conversation_id.team_id', '=', False)]"
+rule_discuss_channel_member_telegram_manager,discuss.channel.member: Telegram managers read members of Telegram channels,discuss.channel.member,group_telegram_manager,cr,"[('channel_id.channel_type', '=', 'telegram'), ('channel_id.telegram_conversation_id.company_id', 'in', company_ids)]"
+rule_telegram_bot_company,Telegram bot: multi-company,telegram.bot,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_team_company,Telegram team: multi-company,telegram.team,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_conversation_company,Telegram conversation: multi-company,telegram.conversation,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_contact_company,Telegram contact: multi-company,telegram.contact,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_chat_company,Telegram chat: multi-company,telegram.chat,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_message_company,Telegram message: multi-company,telegram.message,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_delivery_company,Telegram delivery: multi-company,telegram.delivery,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_update_company,Telegram update: multi-company,telegram.update,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_route_company,Telegram route: multi-company,telegram.route,,crud,"[('company_id', 'in', company_ids)]"
+rule_telegram_log_company,Telegram log: multi-company,telegram.log,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"

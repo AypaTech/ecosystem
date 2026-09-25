@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- SPEC §17: dashboard = kanban on bots with live counters -->
+    <record id="view_telegram_bot_kanban_dashboard" model="ir.ui.view">
+        <field name="name">telegram.bot.kanban.dashboard</field>
+        <field name="model">telegram.bot</field>
+        <field name="arch" type="xml">
+            <kanban create="0" class="o_kanban_dashboard" highlight_color="color">
+                <field name="state"/>
+                <field name="last_error"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div>
+                                <field name="name" class="fw-bold fs-5"/>
+                                <div class="text-muted" t-if="record.username.raw_value">@<field name="username"/></div>
+                            </div>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'connected'" decoration-danger="state == 'error'"
+                                   decoration-info="state == 'draft'"/>
+                        </div>
+                        <div class="row g-2 text-center">
+                            <div class="col-3">
+                                <a name="action_open_conversations" type="object">
+                                    <div class="fs-4"><field name="open_conversation_count"/></div>
+                                    <small>Open</small>
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <a name="action_open_conversations" type="object" context="{'search_default_filter_unassigned': 1}">
+                                    <div class="fs-4"><field name="unassigned_conversation_count"/></div>
+                                    <small>Unassigned</small>
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <a name="action_open_failed_deliveries" type="object">
+                                    <div class="fs-4 text-danger"><field name="failed_delivery_count"/></div>
+                                    <small>Failed 24h</small>
+                                </a>
+                            </div>
+                            <div class="col-3">
+                                <div class="fs-4"><field name="messages_today_count"/></div>
+                                <small>Messages today</small>
+                            </div>
+                        </div>
+                        <div class="mt-2 small text-danger text-truncate" t-if="record.last_error.raw_value">
+                            <i class="oi me-1" data-icon="error"/><field name="last_error"/>
+                        </div>
+                        <footer class="mt-2">
+                            <field name="connection_mode" class="text-muted small"/>
+                            <field name="last_update_received" widget="remaining_days" class="ms-auto small"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_telegram_dashboard" model="ir.actions.act_window">
+        <field name="name">Telegram Dashboard</field>
+        <field name="res_model">telegram.bot</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_ids" eval="[Command.clear(),
+            Command.create({'view_mode': 'kanban', 'view_id': ref('view_telegram_bot_kanban_dashboard')}),
+            Command.create({'view_mode': 'form', 'view_id': ref('view_telegram_bot_form')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Telegram bot yet</p>
+            <p>Open Configuration → Setup Wizard to connect a bot in five minutes.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="config_telegram_closed_behavior" model="ir.config_parameter">
+        <field name="key">telegram.closed_behavior</field>
+        <field name="value">new_conversation</field>
+    </record>
+    <record id="config_telegram_payload_retention_days" model="ir.config_parameter">
+        <field name="key">telegram.payload_retention_days</field>
+        <field name="value">7</field>
+    </record>
+    <record id="config_telegram_log_retention_days" model="ir.config_parameter">
+        <field name="key">telegram.log_retention_days</field>
+        <field name="value">30</field>
+    </record>
+    <record id="config_telegram_max_attempts" model="ir.config_parameter">
+        <field name="key">telegram.max_attempts</field>
+        <field name="value">5</field>
+    </record>
+    <record id="config_telegram_forget_mode" model="ir.config_parameter">
+        <field name="key">telegram.forget_mode</field>
+        <field name="value">anonymize</field>
+    </record>
+</odoo>
